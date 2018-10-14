@@ -1,0 +1,140 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      <span ion-text>Restaurant</span>
+    </ion-title>
+
+    <ion-buttons end>
+      <button ion-button (click)="favorite(restaurant)">
+        <ion-icon name="heart"></ion-icon>
+      </button>
+      <button ion-button (click)="share(restaurant)">
+          <ion-icon name="share"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="lightest-bg">
+  <ion-card *ngIf="restaurant.id" class="full-width" no-margin>
+  	<div class="card-img-wrap">
+      <span ion-text class="card-img-status fw700 text-white" [ngClass]="{'closed': restaurant.label === 'closed', 'open': restaurant.label === 'open'}">
+        {{ restaurant.label }}
+      </span>
+		  <ion-slides class="to-top primary-bg" pager>
+		    <ion-slide *ngFor="let image of restaurant.images">
+		      <img src="{{ image }}" alt="">
+		    </ion-slide>
+		  </ion-slides>
+		</div>
+    <!-- <img src="{{restaurant.picture}}"> -->
+    <ion-card-content>
+      <h1 ion-text color="dark" class="card-title fw700" text-center>
+      	{{restaurant.title}}
+     	</h1>
+      <p ion-text color="primary" text-center>1 mile<sup>sq</sup> • 30 - 60min • {{restaurant.price}}</p>
+      <div text-center>
+		<ion-badge color="secondary">{{restaurant.tags}}</ion-badge>
+      	<ion-badge color="dark" class="text-11x">
+					<ion-icon name="star"></ion-icon>
+        	{{ restaurant.rating | number:'1.1' }}
+        </ion-badge>
+			</div>
+    </ion-card-content>
+
+	<ion-grid no-padding fixed>
+		<ion-row no-padding>
+			<ion-col>
+			  <ion-segment [(ngModel)]="restaurantopts" padding-horizontal>
+			    <ion-segment-button value="menu">
+			      Menu
+			    </ion-segment-button>
+			    <ion-segment-button value="reviews">
+			      Reviews
+			    </ion-segment-button>
+			    <ion-segment-button value="info">
+			      Information
+			    </ion-segment-button>
+			  </ion-segment>
+
+				<div [ngSwitch]="restaurantopts" padding>
+					<div *ngSwitchCase="'menu'">
+
+						<ion-list>
+						  <ion-item no-padding *ngFor="let dish of dishes" tapplable (click)="openDishDetail(dish)">
+						    <ion-thumbnail item-start>
+						      <img src="{{dish.picture}}">
+						    </ion-thumbnail>
+			          <h2 ion-text color="dark" class="fw500">{{dish.name}}</h2>
+			          <p ion-text color="primary" class="text-11x">{{ dish.ingredients }}</p>
+						    <button ion-button clear class="green-bg text-white" item-end>{{ dish.price | currency }}</button>
+						  </ion-item>
+						</ion-list>
+
+						<br><br><br><br>
+
+					</div>
+					<div *ngSwitchCase="'reviews'" class="tab-reviews">
+
+					  <!--list of reviews-->
+					  <ion-list class="list-full-border">
+					    <ion-item *ngFor="let review of restaurant.reviews" margin-bottom text-wrap>
+
+				        <h2 class="fw700">
+					      	<ion-badge color="secondary" class="text-1x">
+										<ion-icon name="star"></ion-icon>
+					        	{{ review.rating | number:'1.1' }}
+					        </ion-badge>
+				        {{ review.title }}</h2>
+
+					      <p ion-text>
+					        {{ review.content }}
+					      </p>
+					      <span ion-text class="author text-11x">{{ review.username }} from {{ review.from }}</span>
+
+					    </ion-item>
+					  </ion-list>
+					  <br><br>
+
+					</div>
+					<div *ngSwitchCase="'info'">
+					  <!-- Show map here -->
+					  <div id="map-detail" margin-bottom>
+							<agm-map [latitude]="restaurant.lat" [longitude]="restaurant.long" [zoom]="12">
+								<agm-marker [latitude]="restaurant.lat" [longitude]="restaurant.long">
+								</agm-marker>
+							</agm-map>
+						</div>
+						<p ion-text text-center color="dark" class="fw700">{{restaurant.address}}, {{restaurant.city}} {{restaurant.state}}</p>
+						<hr margin-bottom>
+
+						<h2>
+							<span ion-text class="fw700">About</span>
+						</h2>
+						<p ion-text margin-bottom>{{ restaurant.description }}</p>
+
+						<h2>
+							<span ion-text class="fw700">Hours</span>
+						</h2>
+						<p ion-text margin-bottom>Open 11AM • Closes 11PM</p>
+
+						<h2>
+							<span ion-text class="fw700">Phone</span>
+						</h2>
+						<p ion-text margin-bottom>+1 (212) 999 0001</p>
+
+						<br><br>
+					</div>
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+  </ion-card>
+
+  <ion-fab bottom right>
+    <button ion-fab round icon-only color="dark" (click)="openCart()">
+      <ion-icon name="cart" class="text-white"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

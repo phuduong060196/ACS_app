@@ -1,0 +1,78 @@
+{
+    "name": "foodIonic",
+    "version": "1.1.4",
+    "author": "João Firmino <firminoata@gmail.com>",
+    "homepage": "https://market.ionicframework.com/themes/foodionic",
+    "private": true,
+    "scripts": {
+        "clean": "ionic-app-scripts clean",
+        "build": "ionic-app-scripts build --prod",
+        "build:pwa": "npm run mv-files-to-pwa && ionic-app-scripts build --prod && html-minifier www/index.html --html5 --remove-comments --collapse-whitespace --conservative-collapse --remove-attribute-quotes --collapse-inline-tag-whitespace --minify-js=true --trim-custom-fragments --remove-tag-whitespace -o www/index.html && npm run copy-redirects && npm run mv-files-to-platform",
+        "lint": "ionic-app-scripts lint",
+        "ionic:build": "ionic-app-scripts build --prod",
+        "ionic:serve": "ionic-app-scripts serve",
+        "serve:pwa": "node app.js",
+        "mv-files-to-pwa": "cp sass.js plat/sass.js && rm sass.js && cp pwa/sass.js sass.js && cp src/index.html plat/index.html && rm src/index.html && cp pwa/index.html src/index.html && cp src/app/app.component.ts plat/app.component.ts && rm src/app/app.component.ts && cp pwa/app.component.ts src/app/app.component.ts && cp src/app/app.module.ts plat/app.module.ts && rm src/app/app.module.ts && cp pwa/app.module.ts src/app/app.module.ts",
+        "mv-files-to-platform": "rm sass.js && cp plat/sass.js sass.js && rm src/index.html && cp plat/index.html src/index.html && rm src/app/app.component.ts && cp plat/app.component.ts src/app/app.component.ts && rm src/app/app.module.ts && cp plat/app.module.ts src/app/app.module.ts && rm plat/sass.js && rm plat/index.html && rm plat/app.component.ts && rm plat/app.module.ts",
+        "copy-redirects": "cp _headers _redirects www/"
+    },
+    "dependencies": {
+        "@agm/core": "1.0.0-beta.3",
+        "@angular/common": "5.2.7",
+        "@angular/compiler": "5.2.7",
+        "@angular/compiler-cli": "5.2.7",
+        "@angular/core": "5.2.7",
+        "@angular/forms": "5.2.7",
+        "@angular/http": "5.2.7",
+        "@angular/platform-browser": "5.2.7",
+        "@angular/platform-browser-dynamic": "5.2.7",
+        "@ionic-native/core": "4.15.0",
+        "@ionic-native/device": "4.15.0",
+        "@ionic-native/keyboard": "4.15.0",
+        "@ionic-native/pro": "4.15.0",
+        "@ionic-native/splash-screen": "4.15.0",
+        "@ionic-native/status-bar": "4.15.0",
+        "@ionic/pro": "1.0.20",
+        "@ionic/storage": "2.2.0",
+        "cordova-android": "^7.1.1",
+        "cordova-ios": "^4.5.5",
+        "cordova-plugin-console": "^1.1.0",
+        "cordova-plugin-device": "^1.1.6",
+        "cordova-plugin-splashscreen": "^4.0.3",
+        "cordova-plugin-statusbar": "^2.2.3",
+        "cordova-plugin-whitelist": "^1.3.2",
+        "cordova-sqlite-storage": "^2.1.4",
+        "ionic-angular": "3.9.2",
+        "ionic-plugin-keyboard": "^2.2.1",
+        "ionicons": "^4.4.4",
+        "rxjs": "5.5.11",
+        "sw-toolbox": "^3.6.0",
+        "zone.js": "0.8.18"
+    },
+    "devDependencies": {
+        "@ionic/app-scripts": "3.2.0",
+        "@ionic/lab": "1.0.9",
+        "html-minifier": "^3.5.5",
+        "purify-css": "^1.2.5",
+        "typescript": "2.4.2"
+    },
+    "description": "foodIonic: Ionic 3 Restaurant and Food Order Theme",
+    "cordova": {
+        "plugins": {
+            "cordova-plugin-console": {},
+            "cordova-plugin-device": {},
+            "cordova-plugin-statusbar": {},
+            "cordova-plugin-whitelist": {},
+            "ionic-plugin-keyboard": {},
+            "cordova-plugin-splashscreen": {},
+            "cordova-sqlite-storage": {}
+        },
+        "platforms": [
+            "android",
+            "ios"
+        ]
+    },
+    "config": {
+        "ionic_sass": "./sass.js"
+    }
+}

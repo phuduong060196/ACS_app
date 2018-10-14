@@ -1,0 +1,37 @@
+page-walkthrough {
+
+  .toolbar-background {
+    background: color($colors, primary) !important;
+    border-color: transparent;
+  }
+
+  .slide-zoom {
+    height: 95vh;
+  }
+
+  .slide-title {
+    margin-top: 0;
+  }
+
+  .slide-image {
+    // max-height: 50%;
+    max-width: 128px;
+    margin: 0 0 18px;
+  }
+
+  b {
+    font-weight: 500;
+  }
+
+  p {
+    padding: 0 40px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #60646B;
+
+    b {
+      color: #000000;
+    }
+  }
+
+}

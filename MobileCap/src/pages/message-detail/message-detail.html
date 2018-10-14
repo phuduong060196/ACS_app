@@ -1,0 +1,31 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>
+            <span ion-text>Message</span>
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+	<ion-grid no-padding fixed>
+		<ion-row no-padding>
+			<ion-col>
+				<div class="message-header profiles-bg" padding>
+					<h5 ion-text color="light" class="fw700">{{message.title}}</h5>
+					<p ion-text no-margin color="light">{{message.date | date: 'MM/dd/yyyy'}} ∙ by {{message.senderName}}</p>
+				</div>
+
+				<div padding-horizontal>
+					<p>
+						{{message.message}}
+					</p>
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+</ion-content>

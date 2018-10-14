@@ -1,0 +1,16 @@
+{
+  "name": "foodIonic",
+  "short_name": "foodIonic",
+	"start_url": "./?utm_source=web_app_manifest",
+	"orientation": "portrait",
+	"display": "fullscreen",
+	"icons": [
+		{
+			"src": "assets/img/logo.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		}
+	],
+  "background_color": "#cd1e37",
+  "theme_color": "#cd1e37"
+}

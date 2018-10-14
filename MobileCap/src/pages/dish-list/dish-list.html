@@ -1,0 +1,33 @@
+<ion-header>
+	<ion-navbar color="primary">
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>
+			<span ion-text>Dish list</span>
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content class="lightest-bg">
+
+	<ion-grid no-padding fixed>
+		<ion-row no-padding>
+			<ion-col>
+				<ion-list>
+
+					<ion-item *ngFor="let dish of dishes" tapplable (click)="openDishDetail(dish)">
+					<ion-thumbnail item-start>
+						<img src="{{dish.picture}}">
+					</ion-thumbnail>
+					<h2 ion-text color="dark" class="fw500">{{dish.name}}</h2>
+					<p ion-text color="primary" class="text-11x">{{ dish.ingredients }}</p>
+					<button ion-button clear class="green-bg text-white" item-end>{{ dish.price | currency }}</button>
+					</ion-item>
+
+				</ion-list>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+</ion-content>

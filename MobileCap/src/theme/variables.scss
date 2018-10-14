@@ -1,0 +1,99 @@
+// Ionic Variables and Theming. For more info, please see:
+// http://ionicframework.com/docs/v2/theming/
+$font-path: "../assets/fonts";
+@import "ionic.globals";
+
+// Grid breakpoints
+// --------------------------------------------------
+$grid-max-widths: (
+ lg: 992px
+);
+
+// Named Color Variables
+// --------------------------------------------------
+// Named colors makes it easy to reuse colors on various components.
+// It's highly recommended to change the default colors
+// to match your app's branding. Ionic uses a Sass map of
+// colors so you can add, rename and remove colors as needed.
+// The "primary" color is the only required color in the map.
+
+$colors: (
+  primary:    #cd1e37,
+  secondary:  #ff9e21,
+  danger:     #dc3545,
+  light:      #ffd1d7,
+  dark:       #96071a
+);
+
+// Shared Variables
+// --------------------------------------------------
+// To customize the look and feel of this app, you can override
+// the Sass variables found in Ionic's source scss files.
+// To view all the possible Ionic variables, see:
+// http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
+
+$text-color: color($colors, primary); // rgba(205, 30, 55, 1)
+
+$background-color: #fff;
+
+$toolbar-background: #fff;
+
+// App iOS Variables
+// --------------------------------------------------
+// iOS only Sass variables can go here
+
+// $toolbar-ios-background: color($colors, primary);
+$toolbar-ios-border-color: rgba(color($colors, primary), .4);
+
+$searchbar-ios-min-height: 52px;
+$searchbar-ios-input-height: 3.5rem;
+$searchbar-ios-background-color: #fff;
+$searchbar-ios-input-background-color: #eff2f5;
+$searchbar-ios-toolbar-input-background: $searchbar-ios-input-background-color;
+$searchbar-ios-border-color: #eff2f5;
+
+$list-ios-border-color: rgba(color($colors, primary), .2);
+
+$card-ios-box-shadow-color: rgba(color($colors, primary), .3);
+
+// App Material Design Variables
+// --------------------------------------------------
+// Material Design only Sass variables can go here
+
+$toolbar-border-color: rgba(color($colors, primary), .2);
+$searchbar-md-input-background-color: $searchbar-ios-input-background-color;
+$searchbar-md-input-border-radius: 5px;
+
+$list-md-border-color: rgba(color($colors, primary), .2);
+// $toolbar-md-background: color($colors, primary)
+
+$card-md-box-shadow: 0 2px 2px 0 rgba(color($colors, primary), .14), 0 3px 1px -2px rgba(color($colors, primary), .2), 0 1px 5px 0 rgba(color($colors, primary), .12);
+
+$toolbar-md-text-color: color($colors, dark);
+
+// App Windows Variables
+// --------------------------------------------------
+// Windows only Sass variables can go here
+
+
+// App Theme
+// --------------------------------------------------
+// Ionic apps can have different themes applied, which can
+// then be future customized. This import comes last
+// so that the above variables are used and Ionic's
+// default are overridden.
+
+@import "ionic.theme.default";
+
+// Ionicons
+// --------------------------------------------------
+// The premium icon font for Ionic. For more info, please see:
+// http://ionicframework.com/docs/v2/ionicons/
+@import "ionic.ionicons";
+
+
+// Fonts
+// --------------------------------------------------
+
+// @import "roboto";
+// @import "noto-sans";

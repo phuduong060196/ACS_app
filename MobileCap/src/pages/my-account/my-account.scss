@@ -1,0 +1,55 @@
+// Profile
+.profile {
+  .card {
+    width: auto;
+    border-radius: 0;
+    margin: 0;
+		.item {
+			padding-left: 0;
+			&.item-block {
+				.item-inner {
+				  border-style: solid;
+				  border-width: 1px;
+				  border-color: transparent;
+				  border-bottom-color: rgba(color($colors, primary), .2);
+				}
+			}
+		}
+  }
+
+  ion-card {
+
+    margin-top: 100px;
+    overflow: visible;
+
+    ion-card-content {
+      padding: 32px;
+      background-color: map-get($colors, primary);
+      color: #fff;
+      text-align: center;
+      // padding-bottom: 28px;
+
+      img {
+        height: 128px;
+        width: 128px;
+        border-radius: 50%;
+        border: solid 4px #fff;
+        display: inline;
+        box-shadow: 0 0 28px rgba(255,255,255, .65);
+      }
+
+      h2 {
+        font-size: 2.5rem;
+        margin-top: .5rem;
+        color: #fff;
+      }
+
+      h3 {
+        font-size: 1.8rem;
+        color: #fff;
+      }
+
+    }
+
+  }
+}

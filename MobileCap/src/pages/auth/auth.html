@@ -1,0 +1,134 @@
+<!-- -->
+<ion-content padding class="profiles-bg">
+	<div class="auth-content">
+
+		<!-- Logo -->
+		<div padding-horizontal text-center>
+			<div class="logo">
+				<img src="assets/img/foodIonic-ico.png">
+			</div>
+			<h2 ion-text class="text-secondary" no-margin>
+				<strong>Food</strong>Ionic
+			</h2>
+		</div>
+
+		<div padding-vertical>
+		  <ion-segment [(ngModel)]="auth" color="light">
+		    <ion-segment-button value="login">
+		      Login
+		    </ion-segment-button>
+		    <ion-segment-button value="register">
+		      Register
+		    </ion-segment-button>
+		  </ion-segment>
+		</div>
+
+		<div [ngSwitch]="auth">
+			<!-- Login form -->
+			<div id="loginForm" *ngSwitchCase="'login'">
+				<form [formGroup]="onLoginForm" class="list-form">
+					<ion-item>
+						<ion-label floating>
+							<ion-icon name="mail" item-start class="text-white"></ion-icon>
+							Email
+						</ion-label>
+						<ion-input type="email" formControlName="email"></ion-input>
+					</ion-item>
+					<p ion-text color="danger" class="text-12x has-error" *ngIf="onLoginForm.get('email').touched && onLoginForm.get('email').hasError('required')">This field is required</p>
+
+					<ion-item>
+						<ion-label floating>
+							<ion-icon name="lock" item-start class="text-white"></ion-icon>
+							Password
+						</ion-label>
+						<ion-input type="password" formControlName="password"></ion-input>
+					</ion-item>
+					<p ion-text color="danger" class="text-12x has-error" *ngIf="onLoginForm.get('password').touched && onLoginForm.get('password').hasError('required')">This field is required</p>
+				</form>
+
+				<p text-right ion-text color="light" tappable (click)="forgotPass()"><strong>Forgot Password?</strong></p>
+
+				<div>
+					<button ion-button icon-start block color="secondary" (click)="login()" [disabled]="!onLoginForm.valid">
+						<ion-icon name="log-in"></ion-icon>
+						SIGN IN
+					</button>
+
+					<p text-center ion-text color="light">Or Sign in with:</p>
+
+					<ion-grid class="btn-group" fixed>
+						<ion-row>
+							<button ion-button icon-only block class="btn-facebook col col-4 col-md-3 col-lg-2">
+								<ion-icon name="logo-facebook"></ion-icon>
+							</button>
+							<button ion-button icon-only block class="btn-twitter col col-4 col-md-3 col-lg-2">
+								<ion-icon name="logo-twitter"></ion-icon>
+							</button>
+							<button ion-button icon-only block class="btn-gplus col col-4 col-md-3 col-lg-2">
+								<ion-icon name="logo-googleplus"></ion-icon>
+							</button>
+						</ion-row>
+					</ion-grid>
+
+				</div>
+			</div>
+
+			<div id="registerForm" *ngSwitchCase="'register'">
+		    <!-- Register form -->
+		    <form [formGroup]="onRegisterForm" class="list-form">
+		      <ion-item>
+		        <ion-label floating>
+		          <ion-icon name="person" item-start class="text-white"></ion-icon>
+		          Full Name
+		        </ion-label>
+		        <ion-input type="text" formControlName="fullName"></ion-input>
+		      </ion-item>
+		      <p ion-text color="danger" class="text-12x has-error" *ngIf="onRegisterForm.get('fullName').touched && onRegisterForm.get('fullName').hasError('required')">This field is required</p>
+
+		      <ion-item>
+		        <ion-label floating>
+		          <ion-icon name="mail" item-start class="text-white"></ion-icon>
+		          Email
+		        </ion-label>
+		        <ion-input type="email" formControlName="email"></ion-input>
+		      </ion-item>
+		      <p ion-text color="danger" class="text-12x has-error" *ngIf="onRegisterForm.get('email').touched && onRegisterForm.get('email').hasError('required')">This field is required</p>
+
+		      <ion-item>
+		        <ion-label floating>
+		          <ion-icon name="lock" item-start class="text-white"></ion-icon>
+		          Password
+		        </ion-label>
+		        <ion-input type="password" formControlName="password"></ion-input>
+		      </ion-item>
+		      <p ion-text color="danger" class="text-12x has-error" *ngIf="onRegisterForm.get('password').touched && onRegisterForm.get('password').hasError('required')">This field is required</p>
+		    </form>
+
+		    <div margin-top>
+		      <button ion-button block color="secondary" (click)="login()" [disabled]="!onRegisterForm.valid">
+		        SIGN UP
+		      </button>
+
+		      <p text-center ion-text color="light">Or Sign Up with:</p>
+
+		      <ion-grid class="btn-group" fixed>
+		        <ion-row>
+		          <button ion-button icon-only block class="btn-facebook col col-4 col-md-3 col-lg-2">
+		            <ion-icon name="logo-facebook"></ion-icon>
+		          </button>
+		          <button ion-button icon-only block class="btn-twitter col col-4 col-md-3 col-lg-2">
+		            <ion-icon name="logo-twitter"></ion-icon>
+		          </button>
+		          <button ion-button icon-only block class="btn-gplus col col-4 col-md-3 col-lg-2">
+		            <ion-icon name="logo-googleplus"></ion-icon>
+		          </button>
+		        </ion-row>
+		      </ion-grid>
+		    </div>
+		  </div>
+
+		</div>
+
+
+	</div>
+</ion-content>

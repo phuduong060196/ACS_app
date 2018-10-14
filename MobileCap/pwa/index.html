@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <title>foodIonic</title>
+  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#cd1e37">
+
+  <style type="text/css">body{background-color:#cd1e37;}.inisvg{width:100px;height:100px;position:absolute;top:50%;left:50%;margin-left:-50px;margin-top:-50px}</style>
+
+  <script id="loadcss">
+    /* Service Worker */
+    if ('serviceWorker' in navigator) {navigator.serviceWorker.register('service-worker.js').then(() => console.log('service worker installed')).catch(err => console.log('Error', err));}
+    /* loadCSS. [c]2017 Filament Group, Inc. MIT License */
+    (function(a){"use strict";var b=function(c,d,e){function f(o){return h.body?o():void setTimeout(function(){f(o)})}function g(){j.addEventListener&&j.removeEventListener("load",g),j.media=e||"all"}var k,h=a.document,j=h.createElement("link");if(d)k=d;else{var l=(h.body||h.getElementsByTagName("head")[0]).childNodes;k=l[l.length-1]}var m=h.styleSheets;j.rel="stylesheet",j.href=c,j.media="only x",f(function(){k.parentNode.insertBefore(j,d?k:k.nextSibling)});var n=function(o){for(var p=j.href,q=m.length;q--;)if(m[q].href===p)return o();setTimeout(function(){n(o)})};return j.addEventListener&&j.addEventListener("load",g),j.onloadcssdefined=n,n(g),j};"undefined"==typeof exports?a.loadCSS=b:exports.loadCSS=b})("undefined"==typeof global?this:global);
+    function onloadCSS(a,b){function c(){!d&&b&&(d=!0,b.call(a))}var d;a.addEventListener&&a.addEventListener("load",c),a.attachEvent&&a.attachEvent("onload",c),"isApplicationInstalled"in navigator&&"onloadcssdefined"in a&&a.onloadcssdefined(c)}
+    // load a CSS file just before the script element containing this code
+    var stylesheet = loadCSS( "build/main.css" );
+    onloadCSS(stylesheet);
+  </script>
+
+</head>
+<body>
+	<noscript>
+	  <h1>You don’t have javascript enabled.</h1>
+	  <p>Please enable it to get the full experience.</p>
+	</noscript>
+  <!-- Ionic's root component and where the app will load -->
+  <ion-app>
+  	<svg class="inisvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" style="fill:none;opacity:0.5;stroke-width:4;stroke:#fff"/><circle cx="8" cy="54" r="8" style="fill:#fff;stroke-width:6;stroke:transparent"><animateTransform attributeName="transform" dur="1s" type="rotate" from="0 50 48" to="360 50 52" repeatCount="indefinite"/></circle></svg>
+  </ion-app>
+
+	<script src="build/polyfills.js" defer></script>
+	<script src="build/vendor.js" defer></script>
+	<script src="build/main.js" defer></script>
+
+</body>
+</html>

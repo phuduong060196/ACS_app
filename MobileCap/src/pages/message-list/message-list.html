@@ -1,0 +1,42 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>
+        	<span ion-text>Messages</span>
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="lightest-bg">
+
+	<ion-grid no-padding fixed>
+		<ion-row no-padding>
+			<ion-col>
+				<ion-card *ngIf="!messages.length" class="primary-bg" margin-top>
+					<ion-card-content>
+						<p text-center class="text-white">You have no messages yet.</p>
+					</ion-card-content>
+				</ion-card>
+
+				<ion-list>
+					<ion-item-sliding *ngFor="let message of messages">
+						<button ion-item (click)="itemTapped(message)" [ngClass]="{'light-bg': !message.read}">
+							<h2 [ngClass]="{'fw700': !message.read}">
+								<ion-icon name="mail" color="primary" *ngIf="!message.read"></ion-icon>
+								<ion-icon name="mail-open" color="primary" *ngIf="message.read"></ion-icon>
+								{{message.title}}
+							</h2>
+							<p>{{message.senderName}} ∙ {{message.date | date: 'MM/dd/yyyy'}}</p>
+						</button>
+						<ion-item-options>
+							<button ion-button color="danger" (click)="deleteItem(message)">Delete</button>
+						</ion-item-options>
+					</ion-item-sliding>
+				</ion-list>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+</ion-content>
