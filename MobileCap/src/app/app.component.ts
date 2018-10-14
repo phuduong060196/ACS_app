@@ -1,7 +1,7 @@
-import {Component, ViewChild} from '@angular/core';
-import {Nav, Platform} from 'ionic-angular';
-import {StatusBar} from '@ionic-native/status-bar';
-import {SplashScreen} from '@ionic-native/splash-screen';
+import { Component, ViewChild } from '@angular/core';
+import { Nav, Platform } from 'ionic-angular';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
 export interface MenuItem {
     title: string;
@@ -15,10 +15,10 @@ export interface MenuItem {
 export class foodIonicApp {
     @ViewChild(Nav) nav: Nav;
 
-  	tabsPlacement: string = 'bottom';
-  	tabsLayout: string = 'icon-top';
+    tabsPlacement: string = 'bottom';
+    tabsLayout: string = 'icon-top';
 
-    rootPage: any = 'page-walkthrough';
+    rootPage: any = 'page-auth';
     showMenu: boolean = true;
 
     homeItem: any;
@@ -26,6 +26,8 @@ export class foodIonicApp {
     initialItem: any;
 
     messagesItem: any;
+
+    cartItem: any;
 
     settingsItem: any;
 
@@ -41,36 +43,37 @@ export class foodIonicApp {
         this.initializeApp();
 
         this.homeItem = { component: 'page-home' };
-        this.messagesItem = { component: 'page-message-list'};
+        this.messagesItem = { component: 'page-message-list' };
+        this.cartItem = { component: 'page-cart' };
 
 
         this.appMenuItems = [
-            {title: 'Restaurants', component: 'page-restaurant-list', icon: 'home'},
-            {title: 'Dish List', component: 'page-dish-list', icon: 'pizza'},
-            {title: 'Nearby', component: 'page-nearby', icon: 'compass'},
-            {title: 'By Category', component: 'page-category', icon: 'albums'},
-            {title: 'Latest Orders', component: 'page-orders', icon: 'list-box'},
-            {title: 'Cart', component: 'page-cart', icon: 'cart'},
-			{title: 'Favorite Restaurants', component: 'page-favorite-list', icon: 'heart'},
-			{title: 'Favorite Dishes', component: 'page-favorite-dish', icon: 'heart'}
+            { title: 'Restaurants', component: 'page-restaurant-list', icon: 'home' },
+            { title: 'Dish List', component: 'page-dish-list', icon: 'pizza' },
+            { title: 'Nearby', component: 'page-nearby', icon: 'compass' },
+            { title: 'By Category', component: 'page-category', icon: 'albums' },
+            { title: 'Latest Orders', component: 'page-orders', icon: 'list-box' },
+            { title: 'Cart', component: 'page-cart', icon: 'cart' },
+            { title: 'Favorite Restaurants', component: 'page-favorite-list', icon: 'heart' },
+            { title: 'Favorite Dishes', component: 'page-favorite-dish', icon: 'heart' }
         ];
 
         this.yourRestaurantMenuItems = [
-            {title: 'Register Restaurant', component: 'page-your-restaurant', icon: 'clipboard'}
+            { title: 'Register Restaurant', component: 'page-your-restaurant', icon: 'clipboard' }
         ];
 
 
         this.accountMenuItems = [
-            {title: 'Login', component: 'page-auth', icon: 'log-in'},
-            {title: 'My Account', component: 'page-my-account', icon: 'contact'},
-            {title: 'Logout', component: 'page-auth', icon: 'log-out'},
+            { title: 'Login', component: 'page-auth', icon: 'log-in' },
+            { title: 'My Account', component: 'page-my-account', icon: 'contact' },
+            { title: 'Logout', component: 'page-auth', icon: 'log-out' },
         ];
 
         this.helpMenuItems = [
-            {title: 'About', component: 'page-about', icon: 'information-circle'},
-            {title: 'Support', component: 'page-support', icon: 'call'},
-            {title: 'App Settings', component: 'page-settings', icon: 'cog'},
-            {title: 'Walkthrough', component: 'page-walkthrough', icon: 'photos'}
+            { title: 'About', component: 'page-about', icon: 'information-circle' },
+            { title: 'Support', component: 'page-support', icon: 'call' },
+            { title: 'App Settings', component: 'page-settings', icon: 'cog' },
+            { title: 'Walkthrough', component: 'page-walkthrough', icon: 'photos' }
         ];
 
     }
@@ -81,10 +84,10 @@ export class foodIonicApp {
             this.splashScreen.hide();
         });
 
-	    if (!this.platform.is('mobile')) {
-	      this.tabsPlacement = 'top';
-	      this.tabsLayout = 'icon-left';
-	    }
+        if (!this.platform.is('mobile')) {
+            this.tabsPlacement = 'top';
+            this.tabsLayout = 'icon-left';
+        }
     }
 
     openPage(page) {

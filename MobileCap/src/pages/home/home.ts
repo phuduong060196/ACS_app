@@ -18,7 +18,7 @@ export class HomePage {
 
   restaurants: Array<any>;
   searchKey: string = "";
-  yourLocation: string = "463 Beacon Street Guest House";
+  yourLocation: string = "123 Cộng Hòa, F12, Q. Tân Bình, Tp. HCM";
 
   constructor(public navCtrl: NavController, public menuCtrl: MenuController, public popoverCtrl: PopoverController, public locationCtrl: AlertController, public modalCtrl: ModalController, public toastCtrl: ToastController, public service: RestaurantService) {
 		this.menuCtrl.swipeEnable(true, 'authenticated');
@@ -85,29 +85,28 @@ export class HomePage {
 
   alertLocation() {
     let changeLocation = this.locationCtrl.create({
-      title: 'Change Location',
-      message: "Type your Address to change restaurant list in that area.",
+      title: 'Đổi địa điểm',
       inputs: [
         {
           name: 'location',
-          placeholder: 'Enter your new Location',
+          placeholder: 'Nhập địa điểm',
           type: 'text'
         },
       ],
       buttons: [
         {
-          text: 'Cancel',
+          text: 'Hủy',
           handler: data => {
             console.log('Cancel clicked');
           }
         },
         {
-          text: 'Change',
+          text: 'Xác nhận',
           handler: data => {
             console.log('Change clicked', data);
             this.yourLocation = data.location;
             let toast = this.toastCtrl.create({
-              message: 'Location was change successfully',
+              message: 'Đổi thành công',
               duration: 3000,
               position: 'top',
               closeButtonText: 'OK',

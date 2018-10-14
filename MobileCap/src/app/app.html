@@ -1,88 +1,85 @@
 <ion-split-pane when="lg">
-
 	<ion-menu side="left" id="authenticated" [content]="content" class="menu-bg">
+		<ion-header>
+			<ion-toolbar class="user-profile">
+				<div class="user-profile">
+					<ion-list no-margin>
+						<ion-item>
+							<ion-avatar item-left>
+								<img src="assets/img/avatar.jpeg">
+							</ion-avatar>
+							<h2 ion-text class="text-white fw700 text-15x">
+								customer001
+							</h2>
+							<button ion-button icon-left round color="primary" menuClose (click)="openPage(accountMenuItems[1])">
+								<ion-icon [name]="accountMenuItems[1].icon"></ion-icon>
+								{{accountMenuItems[1].title}}
+							</button>
 
-	  <ion-header>
-	    <ion-toolbar class="user-profile">
+						</ion-item>
+					</ion-list>
+				</div>
 
-	      <div class="user-profile">
-	        <ion-list no-margin>
-	          <ion-item>
+			</ion-toolbar>
+		</ion-header>
 
-	            <ion-avatar item-left>
-	              <img src="assets/img/avatar.jpeg">
-	            </ion-avatar>
+		<ion-content color="dark" class="profile-bg">
+			<button ion-button icon-left full color="secondary" no-margin menuClose (click)="openPage(accountMenuItems[2])">
+				<ion-icon [name]="accountMenuItems[2].icon"></ion-icon>
+				{{accountMenuItems[2].title}}
+			</button>
 
-	            <h2 ion-text class="text-white fw700 text-15x">
-	              João Firmino
-	            </h2>
-	            <p ion-text color="light">São Paulo, Brazil</p>
+			<ion-list class="user-list">
+				<button menuClose ion-item (click)="openPage(homeItem)">
+					<ion-icon item-left name="browsers"></ion-icon>
+					Trang chủ
+				</button>
 
-					    <button ion-button icon-left round color="primary" menuClose (click)="openPage(accountMenuItems[1])">
-					      <ion-icon [name]="accountMenuItems[1].icon"></ion-icon>
-					      {{accountMenuItems[1].title}}
-					    </button>
-
-	          </ion-item>
-	        </ion-list>
-	      </div>
-
-	    </ion-toolbar>
-	  </ion-header>
-
-	  <ion-content color="dark" class="profile-bg">
-	    <button ion-button icon-left full color="secondary" no-margin menuClose (click)="openPage(accountMenuItems[2])">
-	      <ion-icon [name]="accountMenuItems[2].icon"></ion-icon>
-	      {{accountMenuItems[2].title}}
-	    </button>
-
-	    <ion-list class="user-list">
-	      <button menuClose ion-item (click)="openPage(homeItem)">
-	        <ion-icon item-left name="browsers"></ion-icon>
-	        Home
-	      </button>
-
-	      <button menuClose ion-item (click)="openPage(messagesItem)">
-	        <ion-icon item-left name="mail"></ion-icon>
-	        Messages
-	        <ion-badge color="dark">
-	          2
-	        </ion-badge>
-	      </button>
-	    </ion-list>
+				<button menuClose ion-item (click)="openPage(messagesItem)">
+					<ion-icon item-left name="mail"></ion-icon>
+					Thông báo
+					<ion-badge color="dark">
+						2
+					</ion-badge>
+				</button>
+				<button menuClose ion-item (click)="openPage(cartItem)">
+					<ion-icon item-left name="cart"></ion-icon>
+					Lịch sử
+				</button>
+			</ion-list>
 
 
-	    <ion-list class="user-list">
-	      <ion-list-header no-margin>
-	        <span ion-text color="light" class="fw500">Menu</span>
-	      </ion-list-header>
-	      <button menuClose ion-item *ngFor="let menuItem of appMenuItems" (click)="openPage(menuItem)">
-	        <ion-icon item-left [name]="menuItem.icon"></ion-icon>
-	        {{menuItem.title}}
-	      </button>
-	    </ion-list>
+			<ion-list class="user-list">
+				<ion-list-header no-margin>
+					<span ion-text color="light" class="fw500">Menu</span>
+				</ion-list-header>
+				<button menuClose ion-item *ngFor="let menuItem of appMenuItems" (click)="openPage(menuItem)">
+					<ion-icon item-left [name]="menuItem.icon"></ion-icon>
+					{{menuItem.title}}
+				</button>
+			</ion-list>
 
-	    <ion-list class="user-list">
-	      <ion-list-header no-margin>
-	        <span ion-text color="light" class="fw500">Your Restaurant</span>
-	      </ion-list-header>
-	      <button menuClose ion-item *ngFor="let menuItem of yourRestaurantMenuItems" (click)="openPage(menuItem)">
-	        <ion-icon item-left [name]="menuItem.icon"></ion-icon>
-	        {{menuItem.title}}
-	      </button>
-	    </ion-list>
+			<ion-list class="user-list">
+				<ion-list-header no-margin>
+					<span ion-text color="light" class="fw500">Your Restaurant</span>
+				</ion-list-header>
+				<button menuClose ion-item *ngFor="let menuItem of yourRestaurantMenuItems" (click)="openPage(menuItem)">
+					<ion-icon item-left [name]="menuItem.icon"></ion-icon>
+					{{menuItem.title}}
+				</button>
+			</ion-list>
 
-	    <ion-list class="user-list">
-	      <ion-list-header no-margin>
-	        <span ion-text color="light" class="fw500">Help & Settings</span>
-	      </ion-list-header>
-	      <button menuClose ion-item *ngFor="let menuItem of helpMenuItems" (click)="openPage(menuItem)">
-	        <ion-icon item-left [name]="menuItem.icon"></ion-icon>
-	        {{menuItem.title}}
-	      </button>
-	    </ion-list>
+			<ion-list class="user-list">
+				<ion-list-header no-margin>
+					<span ion-text color="light" class="fw500">Help & Settings</span>
+				</ion-list-header>
+				<button menuClose ion-item *ngFor="let menuItem of helpMenuItems" (click)="openPage(menuItem)">
+					<ion-icon item-left [name]="menuItem.icon"></ion-icon>
+					{{menuItem.title}}
+				</button>
+			</ion-list>
 
-	  </ion-content>
+		</ion-content>
 
 	</ion-menu>
 

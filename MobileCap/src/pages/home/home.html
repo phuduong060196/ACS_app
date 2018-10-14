@@ -1,92 +1,86 @@
 <ion-header>
-  <ion-navbar color="primary">
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>
-      <span ion-text class="fw700">ACS</span><span ion-text class="fw300"> app</span>
-    </ion-title>
-    <ion-buttons end>
-      <button ion-button (click)="presentNotifications($event)">
-        <ion-icon name="notifications"></ion-icon>
-      </button>
-      <button ion-button (click)="openCart()">
-        <ion-icon name="cart"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-navbar>
+	<ion-navbar color="primary">
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>
+			<span ion-text class="fw700">ACS</span><span ion-text class="fw300"> app</span>
+		</ion-title>
+		<ion-buttons end>
+			<button ion-button (click)="presentNotifications($event)">
+				<ion-icon name="notifications"></ion-icon>
+			</button>
+			<button ion-button (click)="openCart()">
+				<ion-icon name="cart"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-navbar>
 
-  <ion-toolbar color="primary">
-    <ion-searchbar [(ngModel)]="searchKey" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)"></ion-searchbar>
-    <ion-buttons end>
-      <button ion-button (click)="openRestaurantFilterPage()">
-        <ion-icon name="options"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-toolbar>
+	<ion-toolbar color="primary">
+		<ion-searchbar [(ngModel)]="searchKey" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)"></ion-searchbar>
+		<ion-buttons end>
+			<button ion-button (click)="openRestaurantFilterPage()">
+				<ion-icon name="options"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-toolbar>
 </ion-header>
 
 <ion-content>
-
 	<ion-grid no-padding fixed>
 		<ion-row no-padding>
 			<ion-col>
-
 				<ion-card no-margin margin-bottom>
-			    <ion-item class="lightest-bg">
-			      <h3 ion-text no-margin color="dark" class="fw500 no-margin">Restaurants near you:</h3>
-			      <span ion-text class="text-11x no-margin" color="primary">{{yourLocation}}</span>
-			      <button ion-button outline round item-end icon-right color="primary" (click)="alertLocation()">
-			      	Change Location
-			      	<ion-icon name="locate"></ion-icon>
-			      </button>
-			    </ion-item>
+					<ion-item class="lightest-bg">
+						<h3 ion-text no-margin color="dark" class="fw500 no-margin">Địa điểm hiện tại:</h3>
+						<span ion-text class="text-11x no-margin" color="primary">{{yourLocation}}</span>
+						<button ion-button outline round item-end icon-right color="primary" (click)="alertLocation()">
+							Đổi địa điểm
+							<ion-icon name="locate"></ion-icon>
+						</button>
+					</ion-item>
 				</ion-card>
-
 			</ion-col>
 		</ion-row>
-
 		<ion-list ion-row padding-horizontal>
-		  <button ion-item ion-col *ngFor="let restaurant of restaurants" (click)="openRestaurantDetail(restaurant)" col-12 col-md-6>
-		    <ion-thumbnail item-start>
-		        <img src="{{restaurant.thumbnail}}">
-		    </ion-thumbnail>
-		    <h3 ion-text color="dark" class="fw500">{{restaurant.title}}</h3>
-		    <p ion-text class="text-12x"><span ion-text color="secondary" class="fw700">{{restaurant.tags}}</span> ∙ <span ion-text color="primary">{{ restaurant.price }}</span></p>
-		    <p ion-text class="text-12x">1 mile<sup>sq</sup> ∙ 30 - 60min</p>
+			<button ion-item ion-col *ngFor="let restaurant of restaurants" (click)="openRestaurantDetail(restaurant)" col-12
+			 col-md-6>
+				<ion-thumbnail item-start>
+					<img src="{{restaurant.thumbnail}}">
+				</ion-thumbnail>
+				<h3 ion-text color="dark" class="fw500">{{restaurant.title}}</h3>
+				<p ion-text class="text-12x"><span ion-text color="secondary" class="fw700">{{restaurant.tags}}</span> ∙ <span
+					 ion-text color="primary">{{ restaurant.price }}</span></p>
+				<p ion-text class="text-12x">1 mile<sup>sq</sup> ∙ 30 - 60min</p>
 				<ion-badge class="white-bg text-secondary" item-end>
 					<ion-icon name="star"></ion-icon>
 					{{ restaurant.rating | number:'1.1' }}
 				</ion-badge>
-		  </button>
+			</button>
 		</ion-list>
-
-	  <ion-row padding>
-	    <button ion-button round block color="secondary" (click)="openRestaurantListPage()">
-	      See more
-	    </button>
-	  </ion-row>
-
-	</ion-grid>
-
-</ion-content>
-
-<ion-footer class="no-padding dark-bg">
-	<ion-grid no-padding fixed>
-		<ion-row no-padding>
-			<button ion-button icon-left block color="primary" (click)="openNearbyPage()" class="col col-4">
-        	<ion-icon name="compass" class="text-18x"></ion-icon>
-        	<span ion-text class="text-12x">Nearby</span>
-			</button>
-			<button ion-button icon-left block color="primary" (click)="openCategoryPage()" class="col col-4">
-          <ion-icon name="albums" class="text-18x"></ion-icon>
-          <span ion-text class="text-12x">By Category</span>
-			</button>
-			<button ion-button icon-left block color="primary" (click)="openOrders()" class="col col-4">
-        	<ion-icon name="list-box" class="text-18x"></ion-icon>
-        	<span ion-text class="text-12x">Orders</span>
+		<ion-row padding>
+			<button ion-button round block color="secondary" (click)="openRestaurantListPage()">
+				See more
 			</button>
 		</ion-row>
 	</ion-grid>
+</ion-content>
 
-</ion-footer>
+<!-- <ion-footer class="no-padding dark-bg">
+	<ion-grid no-padding fixed>
+		<ion-row no-padding>
+			<button ion-button icon-left block color="primary" (click)="openNearbyPage()" class="col col-4">
+				<ion-icon name="compass" class="text-18x"></ion-icon>
+				<span ion-text class="text-12x">Nearby</span>
+			</button>
+			<button ion-button icon-left block color="primary" (click)="openCategoryPage()" class="col col-4">
+				<ion-icon name="albums" class="text-18x"></ion-icon>
+				<span ion-text class="text-12x">By Category</span>
+			</button>
+			<button ion-button icon-left block color="primary" (click)="openOrders()" class="col col-4">
+				<ion-icon name="list-box" class="text-18x"></ion-icon>
+				<span ion-text class="text-12x">Orders</span>
+			</button>
+		</ion-row>
+	</ion-grid>
+</ion-footer> -->
