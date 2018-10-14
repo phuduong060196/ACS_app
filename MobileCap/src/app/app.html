@@ -15,28 +15,23 @@
 								<ion-icon [name]="accountMenuItems[1].icon"></ion-icon>
 								{{accountMenuItems[1].title}}
 							</button>
-
 						</ion-item>
 					</ion-list>
 				</div>
-
 			</ion-toolbar>
 		</ion-header>
-
 		<ion-content color="dark" class="profile-bg">
 			<button ion-button icon-left full color="secondary" no-margin menuClose (click)="openPage(accountMenuItems[2])">
 				<ion-icon [name]="accountMenuItems[2].icon"></ion-icon>
 				{{accountMenuItems[2].title}}
 			</button>
-
 			<ion-list class="user-list">
 				<button menuClose ion-item (click)="openPage(homeItem)">
-					<ion-icon item-left name="browsers"></ion-icon>
+					<ion-icon item-left name="home"></ion-icon>
 					Trang chủ
 				</button>
-
 				<button menuClose ion-item (click)="openPage(messagesItem)">
-					<ion-icon item-left name="mail"></ion-icon>
+					<ion-icon item-left name="notifications"></ion-icon>
 					Thông báo
 					<ion-badge color="dark">
 						2
@@ -47,42 +42,7 @@
 					Lịch sử
 				</button>
 			</ion-list>
-
-
-			<ion-list class="user-list">
-				<ion-list-header no-margin>
-					<span ion-text color="light" class="fw500">Menu</span>
-				</ion-list-header>
-				<button menuClose ion-item *ngFor="let menuItem of appMenuItems" (click)="openPage(menuItem)">
-					<ion-icon item-left [name]="menuItem.icon"></ion-icon>
-					{{menuItem.title}}
-				</button>
-			</ion-list>
-
-			<ion-list class="user-list">
-				<ion-list-header no-margin>
-					<span ion-text color="light" class="fw500">Your Restaurant</span>
-				</ion-list-header>
-				<button menuClose ion-item *ngFor="let menuItem of yourRestaurantMenuItems" (click)="openPage(menuItem)">
-					<ion-icon item-left [name]="menuItem.icon"></ion-icon>
-					{{menuItem.title}}
-				</button>
-			</ion-list>
-
-			<ion-list class="user-list">
-				<ion-list-header no-margin>
-					<span ion-text color="light" class="fw500">Help & Settings</span>
-				</ion-list-header>
-				<button menuClose ion-item *ngFor="let menuItem of helpMenuItems" (click)="openPage(menuItem)">
-					<ion-icon item-left [name]="menuItem.icon"></ion-icon>
-					{{menuItem.title}}
-				</button>
-			</ion-list>
-
 		</ion-content>
-
 	</ion-menu>
-
 	<ion-nav [root]="rootPage" main #content swipeBackEnabled="false"></ion-nav>
-
 </ion-split-pane>

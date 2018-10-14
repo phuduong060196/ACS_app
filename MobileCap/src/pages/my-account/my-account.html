@@ -1,118 +1,55 @@
 <ion-header>
-    <ion-navbar color="primary">
-        <button ion-button menuToggle>
-            <ion-icon name="menu"></ion-icon>
-        </button>
-        <ion-title>
-            <span ion-text>My Account</span>
-        </ion-title>
-    </ion-navbar>
+	<ion-navbar color="primary">
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>
+			<span ion-text>Thông tin tài khoản</span>
+		</ion-title>
+	</ion-navbar>
 </ion-header>
-
 <ion-content class="profile light-bg">
-
-    <ion-card>
-      <ion-card-content class="profiles-bg">
-				<ion-grid no-padding fixed>
-					<ion-row no-padding>
-						<ion-col>
-							<img src="assets/img/avatar.jpeg">
-							<h2 class="fw500">João Firmino</h2>
-							<h3 ion-text color="light">Customer</h3>
-							<button ion-button icon-start block outline margin-top color="light">
-								<ion-icon name="photos"></ion-icon>
-								Edit / Insert Avatar
-							</button>
-						</ion-col>
-					</ion-row>
-				</ion-grid>
-      </ion-card-content>
-
+	<ion-card>
+		<ion-card-content class="profiles-bg">
 			<ion-grid no-padding fixed>
 				<ion-row no-padding>
 					<ion-col>
-						<div padding>
-							<ion-list>
-
-								<ion-item>
-									<ion-label color="dark" stacked>Full Name:</ion-label>
-									<ion-input type="text" placeholder="Ex..: Joe Doe" value="João Firmino"></ion-input>
-								</ion-item>
-
-								<ion-item>
-									<ion-label color="dark" stacked>Email:</ion-label>
-									<ion-input type="email" placeholder="Ex.: joe@doe.com" value="firminoata@gmail.com"></ion-input>
-								</ion-item>
-
-								<ion-item>
-									<ion-label color="dark" stacked>Address:</ion-label>
-									<ion-input type="text" placeholder="Ex.: Abey Road 5"></ion-input>
-								</ion-item>
-
-								<ion-item>
-									<ion-label color="dark">City</ion-label>
-									<ion-select>
-										<ion-option value="nes">New York</ion-option>
-										<ion-option value="n64">Los Angeles</ion-option>
-										<ion-option value="ps">London</ion-option>
-										<ion-option value="genesis">Paris</ion-option>
-										<ion-option value="saturn">São Paulo</ion-option>
-										<ion-option value="snes">Tokyo</ion-option>
-										<ion-option value="snes">New Delhi</ion-option>
-									</ion-select>
-								</ion-item>
-
-								<ion-item>
-									<ion-label color="dark">State</ion-label>
-									<ion-select>
-										<ion-option value="nes">NY</ion-option>
-										<ion-option value="n64">CA</ion-option>
-										<ion-option value="ps">Greater London</ion-option>
-										<ion-option value="genesis">Paris</ion-option>
-										<ion-option value="saturn">SP</ion-option>
-										<ion-option value="snes">Kantō</ion-option>
-										<ion-option value="snes">Delhi</ion-option>
-									</ion-select>
-								</ion-item>
-
-								<ion-list radio-group margin-top margin-bottom>
-									<ion-list-header no-margin no-padding>
-										<span ion-text color="dark" class="fw500">User Type</span>
-									</ion-list-header>
-
-									<ion-item>
-										<ion-label color="dark">Customer</ion-label>
-										<ion-radio checked="true" value="customer"></ion-radio>
-									</ion-item>
-
-									<ion-item>
-										<ion-label color="dark">Restaurant Owner</ion-label>
-										<ion-radio value="owner"></ion-radio>
-									</ion-item>
-
-									<ion-item>
-										<ion-label color="dark">Chef</ion-label>
-										<ion-radio value="chef"></ion-radio>
-									</ion-item>
-								</ion-list>
-
-								<ion-item>
-									<ion-label>Available to receive promo or app messages?</ion-label>
-								<ion-checkbox></ion-checkbox>
-							</ion-item>
-							</ion-list>
-						</div>
-
-						<button ion-button large full color="dark" (click)="sendData()">Edit</button>
+						<img src="assets/img/avatar.jpeg">
+						<h2 class="fw500">customer001</h2>
+						<button ion-button icon-start block outline margin-top color="light">
+							<ion-icon name="photos"></ion-icon>
+							Thay đổi ảnh đại diện
+						</button>
 					</ion-col>
 				</ion-row>
 			</ion-grid>
-    </ion-card>
-
-    <div padding>
-      <p ion-text color="dark" no-margin>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum odio placeat incidunt nesciunt atque ratione quisquam, fugit omnis maxime adipisci excepturi dignissimos aliquam asperiores itaque unde sequi? Minus, quia, dolore?
-      </p>
-    </div>
-
+		</ion-card-content>
+		<ion-grid no-padding fixed>
+			<ion-row no-padding>
+				<ion-col>
+					<div padding>
+						<ion-list>
+							<ion-item>
+								<ion-label color="dark" stacked>Họ và tên:</ion-label>
+								<ion-input type="text" value="João Firmino"></ion-input>
+							</ion-item>
+							<ion-item>
+									<ion-label color="dark" stacked>Số điện thoại:</ion-label>
+									<ion-input type="email" value="firminoata@gmail.com"></ion-input>
+								</ion-item>
+							<ion-item>
+								<ion-label color="dark" stacked>Email:</ion-label>
+								<ion-input type="email" value="firminoata@gmail.com"></ion-input>
+							</ion-item>
+							<ion-item>
+								<ion-label color="dark" stacked>Địa chỉ:</ion-label>
+								<ion-input type="text"></ion-input>
+							</ion-item>
+						</ion-list>
+					</div>
+					<button ion-button large full color="dark" (click)="sendData()">Cập nhật</button>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+	</ion-card>
 </ion-content>

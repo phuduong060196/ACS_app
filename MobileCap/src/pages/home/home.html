@@ -42,6 +42,7 @@
 				</ion-card>
 			</ion-col>
 		</ion-row>
+
 		<ion-list ion-row padding-horizontal>
 			<button ion-item ion-col *ngFor="let restaurant of restaurants" (click)="openRestaurantDetail(restaurant)" col-12
 			 col-md-6>
@@ -58,9 +59,10 @@
 				</ion-badge>
 			</button>
 		</ion-list>
+
 		<ion-row padding>
 			<button ion-button round block color="secondary" (click)="openRestaurantListPage()">
-				See more
+				Tải thêm
 			</button>
 		</ion-row>
 	</ion-grid>
