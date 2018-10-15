@@ -32,10 +32,10 @@
 			<ion-col>
 				<ion-card no-margin margin-bottom>
 					<ion-item class="lightest-bg">
-						<h3 ion-text no-margin color="dark" class="fw500 no-margin">Địa điểm hiện tại:</h3>
+						<h3 ion-text no-margin color="dark" class="fw500 no-margin">Vị trí hiện tại:</h3>
 						<span ion-text class="text-11x no-margin" color="primary">{{yourLocation}}</span>
 						<button ion-button outline round item-end icon-right color="primary" (click)="alertLocation()">
-							Đổi địa điểm
+							Đổi vị trí
 							<ion-icon name="locate"></ion-icon>
 						</button>
 					</ion-item>
@@ -68,21 +68,21 @@
 	</ion-grid>
 </ion-content>
 
-<!-- <ion-footer class="no-padding dark-bg">
+<ion-footer class="no-padding dark-bg">
 	<ion-grid no-padding fixed>
 		<ion-row no-padding>
 			<button ion-button icon-left block color="primary" (click)="openNearbyPage()" class="col col-4">
 				<ion-icon name="compass" class="text-18x"></ion-icon>
 				<span ion-text class="text-12x">Nearby</span>
 			</button>
-			<button ion-button icon-left block color="primary" (click)="openCategoryPage()" class="col col-4">
+			<!-- <button ion-button icon-left block color="primary" (click)="openCategoryPage()" class="col col-4">
 				<ion-icon name="albums" class="text-18x"></ion-icon>
 				<span ion-text class="text-12x">By Category</span>
 			</button>
 			<button ion-button icon-left block color="primary" (click)="openOrders()" class="col col-4">
 				<ion-icon name="list-box" class="text-18x"></ion-icon>
 				<span ion-text class="text-12x">Orders</span>
-			</button>
+			</button> -->
 		</ion-row>
 	</ion-grid>
-</ion-footer> -->
+</ion-footer>

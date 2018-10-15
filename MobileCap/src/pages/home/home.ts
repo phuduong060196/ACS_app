@@ -85,11 +85,11 @@ export class HomePage {
 
   alertLocation() {
     let changeLocation = this.locationCtrl.create({
-      title: 'Đổi địa điểm',
+      title: 'Đổi vị trí',
       inputs: [
         {
           name: 'location',
-          placeholder: 'Nhập địa điểm',
+          placeholder: 'Nhập vị trí',
           type: 'text'
         },
       ],
