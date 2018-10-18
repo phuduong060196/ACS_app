@@ -1,34 +1,38 @@
 <ion-header>
 	<ion-navbar color="primary">
 		<ion-title>
-			<span ion-text>Tên nhà cung cấp</span>
+			<!-- <span ion-text> {{supplier.Name}} </span> -->
+			Tên nhà cung cấp
 		</ion-title>
 	</ion-navbar>
 </ion-header>
 
 <ion-content class="lightest-bg">
-	<ion-card *ngIf="restaurant.id" class="full-width" no-margin>
+	<ion-card *ngIf="supplier" class="full-width" no-margin>
 		<div class="card-img-wrap">
-			<span ion-text class="card-img-status fw700 text-white" [ngClass]="{'closed': restaurant.label === 'closed', 'open': restaurant.label === 'open'}">
-				{{ restaurant.label }}
-			</span>
+			<!-- <span ion-text class="card-img-status fw700 text-white" [ngClass]="{'closed': restaurant.label === 'closed', 'open': restaurant.label === 'open'}">
+				Label
+			</span> -->
 			<ion-slides class="to-top primary-bg" pager>
-				<ion-slide *ngFor="let image of restaurant.images">
-					<img src="{{ image }}" alt="">
-				</ion-slide>
+				<!-- <ion-slide *ngFor="let image of restaurant.images"> -->
+				<!-- <img src="{{ image }}" alt=""> -->
+				<img src="https://dienlanhhoanggia.com/getattachment/d5ec3649-e3f1-4c91-8c5f-e57cf512210f//trang-chu/logo/dien-may-viet-long.aspx?width=&height="
+				 alt="">
+
+				<!-- </ion-slide> -->
 			</ion-slides>
 		</div>
 		<!-- <img src="{{restaurant.picture}}"> -->
 		<ion-card-content>
 			<h1 ion-text color="dark" class="card-title fw700" text-center>
-				{{restaurant.title}}
+				<!-- {{supplier.Name}} -->
+				Tên nhà cung cấp
 			</h1>
-			<p ion-text color="primary" text-center>1 mile<sup>sq</sup> • 30 - 60min • {{restaurant.price}}</p>
 			<div text-center>
-				<ion-badge color="secondary">{{restaurant.tags}}</ion-badge>
-				<ion-badge color="dark" class="text-11x">
+				<!-- <ion-badge color="secondary">{{restaurant.tags}}</ion-badge> -->
+				<ion-badge color="secondary" class="text-11x">
 					<ion-icon name="star"></ion-icon>
-					{{ restaurant.rating | number:'1.1' }}
+					5
 				</ion-badge>
 			</div>
 		</ion-card-content>
@@ -52,13 +56,15 @@
 						<div *ngSwitchCase="'menu'">
 
 							<ion-list>
-								<ion-item no-padding *ngFor="let dish of dishes" tapplable (click)="openDishDetail(dish)">
-									<ion-thumbnail item-start>
-										<img src="{{dish.picture}}">
-									</ion-thumbnail>
-									<h2 ion-text color="dark" class="fw500">{{dish.name}}</h2>
-									<p ion-text color="primary" class="text-11x">{{ dish.ingredients }}</p>
-									<button ion-button clear class="green-bg text-white" item-end>{{ dish.price | currency }}</button>
+								<ion-item no-padding *ngFor="let service of supplier.Services">
+									<p ion-text color="primary" class="text-11x">
+										<!-- {{ supplier.Services.Name }} -->
+										Tên dịch vụ
+									</p>
+									<button ion-button clear class="green-bg text-white" item-end>
+										<!-- {{ supplier.Services.Price }} -->
+										Giá dịch vụ
+									</button>
 								</ion-item>
 							</ion-list>
 
@@ -69,20 +75,26 @@
 
 							<!--list of reviews-->
 							<ion-list class="list-full-border">
-								<ion-item *ngFor="let review of restaurant.reviews" margin-bottom text-wrap>
-
+								<!-- <ion-item *ngFor="let review of restaurant.reviews" margin-bottom text-wrap> -->
+								<ion-item margin-bottom text-wrap>
 									<h2 class="fw700">
 										<ion-badge color="secondary" class="text-1x">
 											<ion-icon name="star"></ion-icon>
-											{{ review.rating | number:'1.1' }}
+											<!-- {{ review.rating | number:'1.1' }} -->
+											5
 										</ion-badge>
-										{{ review.title }}
+										<!-- {{ review.title }} -->
+										Dịch vụ tốt
 									</h2>
 
 									<p ion-text>
-										{{ review.content }}
+										<!-- {{ review.content }} -->
+										Chất lượng dịch vụ tốt, giá cả hợp ly, nhân viên chuyên nghiêp.
 									</p>
-									<span ion-text class="author text-11x">{{ review.username }} from {{ review.from }}</span>
+									<span ion-text class="author text-11x">
+										<!-- {{ review.username }} from {{ review.from }} -->
+										customer001
+									</span>
 
 								</ion-item>
 							</ion-list>
@@ -91,20 +103,20 @@
 						</div>
 						<div *ngSwitchCase="'info'">
 							<!-- Show map here -->
-							<div id="map-detail" margin-bottom>
+							<!-- <div id="map-detail" margin-bottom>
 								<agm-map [latitude]="restaurant.lat" [longitude]="restaurant.long" [zoom]="12">
 									<agm-marker [latitude]="restaurant.lat" [longitude]="restaurant.long">
 									</agm-marker>
 								</agm-map>
-							</div>
-							<p ion-text text-center color="dark" class="fw700">{{restaurant.address}}, {{restaurant.city}}
-								{{restaurant.state}}</p>
+							</div> -->
+
+							<p ion-text text-center color="dark" class="fw700">Địa chỉ</p>
 							<hr margin-bottom>
 
 							<h2>
 								<span ion-text class="fw700">About</span>
 							</h2>
-							<p ion-text margin-bottom>{{ restaurant.description }}</p>
+							<p ion-text margin-bottom>Mô tả</p>
 
 							<h2>
 								<span ion-text class="fw700">Hours</span>

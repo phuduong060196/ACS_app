@@ -17,7 +17,7 @@
 	</ion-navbar>
 
 	<ion-toolbar color="primary">
-		<ion-searchbar [(ngModel)]="searchKey" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)"></ion-searchbar>
+		<ion-searchbar [(ngModel)]="searchKey" (keyup.enter)="search($event)" (ionCancel)="onCancel($event)"></ion-searchbar>
 		<ion-buttons end>
 			<button ion-button (click)="openRestaurantFilterPage()">
 				<ion-icon name="options"></ion-icon>
@@ -43,11 +43,29 @@
 			</ion-col>
 		</ion-row>
 
-		<ion-list ion-row padding-horizontal>
-			<button ion-item ion-col *ngFor="let restaurant of restaurants" (click)="openRestaurantDetail(restaurant)" col-12
-			 col-md-6>
+		<div id="nearby-map" class="nearby-map">
+			<agm-map [latitude]="lat" [longitude]="lng" [zoom]="12">
+				<agm-marker *ngFor="let restaurant of restaurants; let i = index" [latitude]="restaurant.lat" [longitude]="restaurant.long">
+					<agm-info-window>
+						<img src="{{restaurant.thumbnail}}" class="mw240" tappable (click)="openRestaurantDetail(restaurant)">
+						<h3 tappable (click)="openRestaurantDetail(restaurant)">
+							<strong>{{restaurant.title}}</strong>
+						</h3>
+						<p ion-text tappable (click)="openRestaurantDetail(restaurant)" color="primary" no-margin>
+							{{restaurant.city}}, {{restaurant.state}} •
+							<span ion-text class="fw700">{{ restaurant.price }}</span>
+						</p>
+					</agm-info-window>
+				</agm-marker>
+			</agm-map>
+		</div>
+
+		<!-- <ion-list ion-row padding-horizontal>
+			<button ion-item ion-col *ngFor="let restaurant of restaurants" (click)="openRestaurantDetail(restaurant)" col-12 col-md-6>
+			<button ion-item ion-col *ngFor="let restaurant of restaurants" col-12 col-md-6>
 				<ion-thumbnail item-start>
 					<img src="{{restaurant.thumbnail}}">
+					<img src="https://dienlanhhoanggia.com/getattachment/d5ec3649-e3f1-4c91-8c5f-e57cf512210f//trang-chu/logo/dien-may-viet-long.aspx?width=&height=">
 				</ion-thumbnail>
 				<h3 ion-text color="dark" class="fw500">{{restaurant.title}}</h3>
 				<p ion-text class="text-12x"><span ion-text color="secondary" class="fw700">{{restaurant.tags}}</span> ∙ <span
@@ -56,6 +74,19 @@
 				<ion-badge class="white-bg text-secondary" item-end>
 					<ion-icon name="star"></ion-icon>
 					{{ restaurant.rating | number:'1.1' }}
+				</ion-badge>
+			</button>
+		</ion-list> -->
+
+		<ion-list ion-row padding-horizontal>
+			<button ion-item ion-col *ngFor="let supplier of suppliers" col-12 col-md-6 (click)="openRestaurantDetail(supplier)">
+				<ion-thumbnail item-start>
+					<img src="https://dienlanhhoanggia.com/getattachment/d5ec3649-e3f1-4c91-8c5f-e57cf512210f//trang-chu/logo/dien-may-viet-long.aspx?width=&height=">
+				</ion-thumbnail>
+				<h3 ion-text color="dark" class="fw500">{{supplier.Name}}</h3>
+				<ion-badge class="white-bg text-secondary" item-end>
+					<ion-icon name="star"></ion-icon>
+					5
 				</ion-badge>
 			</button>
 		</ion-list>
@@ -67,22 +98,3 @@
 		</ion-row>
 	</ion-grid>
 </ion-content>
-
-<ion-footer class="no-padding dark-bg">
-	<ion-grid no-padding fixed>
-		<ion-row no-padding>
-			<button ion-button icon-left block color="primary" (click)="openNearbyPage()" class="col col-4">
-				<ion-icon name="compass" class="text-18x"></ion-icon>
-				<span ion-text class="text-12x">Nearby</span>
-			</button>
-			<!-- <button ion-button icon-left block color="primary" (click)="openCategoryPage()" class="col col-4">
-				<ion-icon name="albums" class="text-18x"></ion-icon>
-				<span ion-text class="text-12x">By Category</span>
-			</button>
-			<button ion-button icon-left block color="primary" (click)="openOrders()" class="col col-4">
-				<ion-icon name="list-box" class="text-18x"></ion-icon>
-				<span ion-text class="text-12x">Orders</span>
-			</button> -->
-		</ion-row>
-	</ion-grid>
-</ion-footer>

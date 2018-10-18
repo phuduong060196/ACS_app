@@ -64,6 +64,10 @@ export class foodIonicApp {
     }
 
     openPage(page) {
-        this.nav.setRoot(page.component);
+        if (page.component) {
+            this.nav.setRoot(page.component);
+        } else {
+
+        }
     }
 }

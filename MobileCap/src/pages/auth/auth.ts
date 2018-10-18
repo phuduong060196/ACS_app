@@ -1,11 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { IonicPage, NavController, AlertController, MenuController } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { IonicPage, NavController, AlertController, ToastController, MenuController } from 'ionic-angular';
+import { HttpClient } from "@angular/common/http";
+
+import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
+import { CustomerServiceProvider } from '../../providers/customer-service/customer-service';
+import { AccessTokenHelperProvider } from '../../providers/access-token-helper/access-token-helper';
+import { GetUrlProvider } from '../../providers/get-url/get-url';
 
 @IonicPage({
-	name: 'page-auth',
-	segment: 'auth',
-	priority: 'high'
+  name: 'page-auth',
+  segment: 'auth',
+  priority: 'high'
 })
 
 @Component({
@@ -15,16 +21,18 @@ import { IonicPage, NavController, AlertController, ToastController, MenuControl
 export class AuthPage implements OnInit {
   public onLoginForm: FormGroup;
   public onRegisterForm: FormGroup;
-  auth: string = "login";
 
-  constructor(private _fb: FormBuilder, public nav: NavController, public forgotCtrl: AlertController, public menu: MenuController, public toastCtrl: ToastController) {
-		this.menu.swipeEnable(false);
-		this.menu.enable(false);
+  auth: string = "login";
+  private token: any = null;
+
+  constructor(private _fb: FormBuilder, public navCtrl: NavController, public alertCtrl: AlertController, public menu: MenuController, public http: HttpClient, public loadingHelperPro: LoadingHelperProvider, public customerServicePro: CustomerServiceProvider, public accessTokenHelperPro: AccessTokenHelperProvider, public getUrlPro: GetUrlProvider) {
+    this.menu.swipeEnable(false);
+    this.menu.enable(false);
   }
 
   ngOnInit() {
     this.onLoginForm = this._fb.group({
-      email: ['', Validators.compose([
+      username: ['', Validators.compose([
         Validators.required
       ])],
       password: ['', Validators.compose([
@@ -33,7 +41,7 @@ export class AuthPage implements OnInit {
     });
 
     this.onRegisterForm = this._fb.group({
-      fullName: ['', Validators.compose([
+      username: ['', Validators.compose([
         Validators.required
       ])],
       email: ['', Validators.compose([
@@ -45,52 +53,57 @@ export class AuthPage implements OnInit {
     });
   }
 
-  // go to register page
-  // register() {
-  //   this.nav.setRoot(RegisterPage);
-  // }
-
-  // login and go to home page
-  login() {
-    this.nav.setRoot('page-home');
+  isFieldInvalid(field: string, form: FormGroup) {
+    return (
+      (form.get(field).touched && form.get(field).hasError('required'))
+    );
   }
 
-  forgotPass() {
-    let forgot = this.forgotCtrl.create({
-      title: 'Forgot Password?',
-      message: "Enter you email address to send a reset link password.",
-      inputs: [
-        {
-          name: 'email',
-          placeholder: 'Email',
-          type: 'email'
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Send',
-          handler: data => {
-            console.log('Send clicked');
-            let toast = this.toastCtrl.create({
-              message: 'Email was sended successfully',
-              duration: 3000,
-              position: 'top',
-              cssClass: 'dark-trans',
-              closeButtonText: 'OK',
-              showCloseButton: true
-            });
-            toast.present();
-          }
-        }
-      ]
+  authMessage(textMess) {
+    let registerAlert = this.alertCtrl.create({
+      title: 'Thông báo',
+      message: textMess,
+      buttons: [{
+        text: 'Xác nhận',
+        handler: data => { }
+      }],
     });
-    forgot.present();
+    registerAlert.present();
   }
 
+  login() {
+    this.loadingHelperPro.presentLoading('Đang đăng nhập...');
+    this.customerServicePro.login(this.onLoginForm.value).subscribe(
+      (res) => {
+        console.log(res);
+        this.accessTokenHelperPro.SetAccessToken = res;
+        this.loadingHelperPro.dismissLoading();
+        this.navCtrl.setRoot('page-home');
+      },
+      (err) => {
+        console.log(err);
+        this.loadingHelperPro.dismissLoading();
+        this.authMessage('Tên đăng nhập hoặc mật khẩu sai!');
+      }
+    )
+  }
+
+  register() {
+    this.loadingHelperPro.presentLoading('Đang gửi yêu cầu...');
+    this.http.post(this.getUrlPro.getUrl + '/api/customer/register', this.onRegisterForm.value, { responseType: 'text' }).subscribe(
+      (res) => {
+        console.log(res);
+        this.loadingHelperPro.dismissLoading();
+        let resData = JSON.parse(res);
+        if (!resData.result) {
+          this.authMessage(resData.message);
+        } else {
+          this.authMessage(resData.message);
+          this.navCtrl.setRoot('page-home');
+        }
+      },
+      (err) => {
+        console.log(err);
+      });
+  }
 }

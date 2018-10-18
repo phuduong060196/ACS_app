@@ -1,6 +1,6 @@
 page-home {
-	.list-ios > .item-block:first-child {
-	    border-top: 0;
+	.list-ios>.item-block:first-child {
+		border-top: 0;
 	}
 
 	.item-ios[detail-push] .item-inner,
@@ -23,6 +23,14 @@ page-home {
 
 
 	// Special custom
+
+	.nearby-map {
+		agm-map {
+			width: 100%;
+			height: 200px;
+		}
+	}
+
 	.card-ios,
 	.card-md {
 		width: 100%;
@@ -33,8 +41,8 @@ page-home {
 	.toolbar-ios-primary {
 		.searchbar-ios {
 			.searchbar-input {
-			    color: #fff;
-			    background: rgba(255, 255, 255, .2);
+				color: #fff;
+				background: rgba(255, 255, 255, .2);
 			}
 		}
 	}
@@ -46,22 +54,24 @@ page-home {
 			// padding-left: 8px !important;
 		}
 
-	  .btn-group {
-	    .button-ios,
-	    .button-md {
-	      border-radius: 0;
-	      border-right: 1px solid rgba(color($colors, dark), .4);
-	      &:last-of-type {
-	        border-right: 0;
-	      }
-	    }
-	  }
+		.btn-group {
+
+			.button-ios,
+			.button-md {
+				border-radius: 0;
+				border-right: 1px solid rgba(color($colors, dark), .4);
+
+				&:last-of-type {
+					border-right: 0;
+				}
+			}
+		}
 	}
 
 	.segment-button {
-	  display: flex;
-	  align-items: center;
-	  justify-content: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.segment-ios {

@@ -1,80 +1,39 @@
 <ion-header>
-    <ion-navbar color="primary">
-        <ion-title>
-            <span ion-text>{{dish.name}}</span>
-				</ion-title>
-		</ion-navbar>
-
-		<ion-fab middle right>
-			<button ion-fab mini color="secondary" (click)="favorite(dish)">
-				<ion-icon name="heart" class="text-white"></ion-icon>
-			</button>
-		</ion-fab>
+	<ion-navbar color="primary">
+		<ion-title>
+			<span ion-text>{{dish.name}}</span>
+		</ion-title>
+	</ion-navbar>
 </ion-header>
 
 <ion-content class="dish lightest-bg">
 
-  <ion-card class="dish-card">
+	<ion-card class="dish-card">
 
-    <ion-card-content class="profiles-bg">
-			<!--slides-->
-			<ion-slides pager>
-				<ion-slide *ngFor="let image of dish.images">
-					<img src="{{ image }}">
-				</ion-slide>
-			</ion-slides>
+		<ion-card-content class="profiles-bg">
 			<div padding>
-	      <ion-grid class="filters" no-padding fixed>
-	        <ion-row margin-bottom>
-	          <ion-col text-center>
-	          	<h4 ion-text color="light">Price</h4>
-	            <h1 ion-text class="text-white fw700">{{ dish.price | currency }}</h1>
-	            <hr margin-vertical>
-	          </ion-col>
-	        </ion-row>
-	        <ion-row margin-bottom>
-	          <ion-col text-center>
-	            <ion-icon name="remove-circle" class="text-4x" tappable (click)="minusQtd()" [hidden]="qtd < 2"
-	                      color="secondary"></ion-icon>
-	          </ion-col>
-	          <ion-col width-10 text-center>
-	          	<h4 ion-text color="light">Quantity:</h4>
-	          	<h2 ion-text>{{ qtd }}</h2>
-	          </ion-col>
-	          <ion-col width-10 text-center>
-	            <ion-icon name="add-circle" class="text-4x" tappable (click)="plusQtd()" color="secondary"></ion-icon>
-	          </ion-col>
-	        </ion-row>
-	        <ion-row>
-				<ion-col text-center>
-		      <button ion-button color="secondary" icon-left tappable (click)="addcart(dish, qtd)">
-		      	<ion-icon name="cart"></ion-icon>
-		      	Add Cart ({{ dish.price * qtd | currency }})
-		      </button>
-				</ion-col>
-	        </ion-row>
-	      </ion-grid>
+				<ion-grid class="filters" no-padding fixed>
+					<ion-row margin-bottom>
+						<ion-col text-center>
+							<h4 ion-text color="light">Giá</h4>
+							<h1 ion-text class="text-white fw700">{{ dish.price | currency }}</h1>
+							<hr margin-vertical>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
 			</div>
-    </ion-card-content>
+		</ion-card-content>
 
-  </ion-card>
+	</ion-card>
 
-  <ion-card>
-    <ion-card-content>
-      <h2 ion-text color="primary" class="fw500">Ingredients</h2>
-      <p ion-text>{{dish.ingredients}}</p>
+	<ion-card>
+		<ion-card-content>
+			<h2 ion-text color="primary" class="fw500">Ingredients</h2>
+			<p ion-text>{{dish.ingredients}}</p>
 			<hr>
-      <h2 ion-text color="primary" class="fw500">Description</h2>
-      <p ion-text>{{dish.description}}</p>
-    </ion-card-content>
-  </ion-card>
-
-  <br><br><br><br><br>
-
-  <ion-fab bottom right>
-    <button ion-fab round icon-only color="dark" (click)="openCart()">
-      <ion-icon name="cart" class="text-white"></ion-icon>
-    </button>
-  </ion-fab>
+			<h2 ion-text color="primary" class="fw500">Description</h2>
+			<p ion-text>{{dish.description}}</p>
+		</ion-card-content>
+	</ion-card>
 
 </ion-content>

@@ -19,6 +19,12 @@ import {OrdersService} from "../providers/orders-service-mock";
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Keyboard } from '@ionic-native/keyboard';
+import { AccessTokenHelperProvider } from '../providers/access-token-helper/access-token-helper';
+import { GetUrlProvider } from '../providers/get-url/get-url';
+import { HttpHelperProvider } from '../providers/http-helper/http-helper';
+import { LoadingHelperProvider } from '../providers/loading-helper/loading-helper';
+import { CustomerServiceProvider } from '../providers/customer-service/customer-service';
+import { SupplierServiceProvider } from '../providers/supplier-service/supplier-service';
 
 @NgModule({
   declarations: [
@@ -56,7 +62,13 @@ import { Keyboard } from '@ionic-native/keyboard';
     MessageService,
     CartService,
     OrdersService,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    AccessTokenHelperProvider,
+    GetUrlProvider,
+    HttpHelperProvider,
+    LoadingHelperProvider,
+    CustomerServiceProvider,
+    SupplierServiceProvider
   ]
 })
 export class AppModule {}

@@ -1,79 +1,27 @@
 <ion-header>
-  <ion-navbar color="primary">
-    <ion-buttons start>
-        <button ion-button round (click)="closeModal()">
-            <ion-icon name="close"></ion-icon>
-        </button>
-    </ion-buttons>
-    <ion-title>
-    	<span ion-text>Search Filter</span>
-    </ion-title>
-  </ion-navbar>
+	<ion-navbar color="primary">
+		<ion-buttons start>
+			<button ion-button round (click)="closeModal()">
+				<ion-icon name="close"></ion-icon>
+			</button>
+		</ion-buttons>
+		<ion-title>
+			<span ion-text>Lọc</span>
+		</ion-title>
+	</ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
-  <ion-item margin-bottom>
-    <ion-label color="primary" stacked>
-    	<span ion-text color="dark" class="fw500">ZipCode Area</span>
-    </ion-label>
-    <ion-input type="number" placeholder="Put your zipcode preference area"></ion-input>
-  </ion-item>
 
 	<ion-item>
-	  <ion-label class="no-margin-bottom">
-	  	<span ion-text color="dark" class="fw500">Radius:</span> <span ion-text color="primary"> {{radiusmiles}} Mile(s)</span></ion-label>
-	  <ion-range min="1" max="50" step="1" value="1" class="no-padding-top" [(ngModel)]="radiusmiles">
-	  </ion-range>
+		<ion-label class="fw500" color="dark">Lọc kết quả theo</ion-label>
+		<ion-select [(ngModel)]="organizeby">
+			<ion-option>Giá thấp</ion-option>
+			<ion-option>Giá cao</ion-option>
+			<ion-option>Đánh giá</ion-option>
+		</ion-select>
 	</ion-item>
 
-	<ion-item>
-	  <ion-label class="fw500" color="dark">Organize by</ion-label>
-	  <ion-select [(ngModel)]="organizeby">
-	    <ion-option>Most Relevant</ion-option>
-	    <ion-option>Closest</ion-option>
-	    <ion-option>Low Price</ion-option>
-	    <ion-option>High Price</ion-option>
-	    <ion-option>Shorter delivery time</ion-option>
-	    <ion-option>Most rating</ion-option>
-	  </ion-select>
-	</ion-item>
-
-	<ion-item>
-	  <ion-label class="fw500" color="dark">Dish Type</ion-label>
-	  <ion-select [(ngModel)]="dishtype" multiple="true">
-	    <ion-option>Health Food</ion-option>
-	    <ion-option>Veggie</ion-option>
-	    <ion-option>Pasta</ion-option>
-	    <ion-option>Barbecue</ion-option>
-	    <ion-option>Casual Dining</ion-option>
-	    <ion-option>Fine Dining</ion-option>
-	    <ion-option>Street Food</ion-option>
-	    <ion-option>Fast Food</ion-option>
-	    <ion-option>Pizza</ion-option>
-	  </ion-select>
-	</ion-item>
-
-	<ion-item>
-	  <ion-label class="fw500" color="dark">Nationalities</ion-label>
-	  <ion-select [(ngModel)]="dishnationality" multiple="true">
-	    <ion-option>German</ion-option>
-	    <ion-option>Japanese</ion-option>
-	    <ion-option>Korean</ion-option>
-	    <ion-option>Indian</ion-option>
-	    <ion-option>Arabian</ion-option>
-	    <ion-option>Italian</ion-option>
-	    <ion-option>Chinese</ion-option>
-	    <ion-option>Brazilian</ion-option>
-	    <ion-option>Thai</ion-option>
-	  </ion-select>
-	</ion-item>
-
-	<ion-item margin-bottom>
-	  <ion-label class="no-margin-bottom">
-	  	<span ion-text color="dark" class="fw500">Min/Max Price:</span> <span ion-text color="primary"> $ {{minmaxprice.lower}} to $ {{minmaxprice.upper}}</span></ion-label>
-	  	<ion-range dualKnobs="true" [(ngModel)]="minmaxprice" min="10" max="1000" step="10" class="no-padding-top"></ion-range>
-	</ion-item>
-
-	<button ion-button block color="primary" (click)="closeModal()">Filter Results</button>
+	<button ion-button block color="primary" (click)="closeModal()">Xác nhận</button>
 </ion-content>

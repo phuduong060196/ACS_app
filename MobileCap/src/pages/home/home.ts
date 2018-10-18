@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, AlertController, MenuController, ToastController, PopoverController, ModalController } from 'ionic-angular';
 
-import {RestaurantService} from '../../providers/restaurant-service-mock';
+import { RestaurantService } from '../../providers/restaurant-service-mock';
+import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
+import { SupplierServiceProvider } from '../../providers/supplier-service/supplier-service';
 
 @IonicPage({
-	name: 'page-home',
-	segment: 'home',
-	priority: 'high'
+  name: 'page-home',
+  segment: 'home',
+  priority: 'high'
 })
 
 @Component({
@@ -17,17 +19,21 @@ import {RestaurantService} from '../../providers/restaurant-service-mock';
 export class HomePage {
 
   restaurants: Array<any>;
-  searchKey: string = "";
+  suppliers: any;
+  lat: number = 42.35663;
+  lng: number = -71.11095;
+
+  searchKey: string = '';
   yourLocation: string = "123 Cộng Hòa, F12, Q. Tân Bình, Tp. HCM";
 
-  constructor(public navCtrl: NavController, public menuCtrl: MenuController, public popoverCtrl: PopoverController, public locationCtrl: AlertController, public modalCtrl: ModalController, public toastCtrl: ToastController, public service: RestaurantService) {
-		this.menuCtrl.swipeEnable(true, 'authenticated');
-		this.menuCtrl.enable(true);
-		this.findAll();
+  constructor(public navCtrl: NavController, public menuCtrl: MenuController, public popoverCtrl: PopoverController, public locationCtrl: AlertController, public modalCtrl: ModalController, public toastCtrl: ToastController, public service: RestaurantService, public httpHelperPro: HttpHelperProvider, public supplierServicePro: SupplierServiceProvider) {
+    this.menuCtrl.swipeEnable(true, 'authenticated');
+    this.menuCtrl.enable(true);
+    this.getAllSuppliers();
   }
 
   openRestaurantListPage(proptype) {
-  	this.navCtrl.push('page-restaurant-list', proptype);
+    this.navCtrl.push('page-restaurant-list', proptype);
   }
 
   openRestaurantFilterPage() {
@@ -47,41 +53,56 @@ export class HomePage {
     this.navCtrl.push('page-cart');
   }
 
-	openRestaurantDetail(restaurant: any) {
-  	this.navCtrl.push('page-restaurant-detail', {
-			'id': restaurant.id
-		});
-	}
+  openRestaurantDetail(supplier: any) {
+    this.navCtrl.push('page-restaurant-detail', {
+      'supplier': supplier
+    });
+  }
 
   openSettingsPage() {
-  	this.navCtrl.push('page-settings');
+    this.navCtrl.push('page-settings');
   }
 
   openNotificationsPage() {
-  	this.navCtrl.push('page-notifications');
+    this.navCtrl.push('page-notifications');
   }
 
   openCategoryPage() {
     this.navCtrl.push('page-category');
   }
 
-	onInput(event) {
-	    this.service.findByName(this.searchKey)
-	        .then(data => {
-	            this.restaurants = data;
-	        })
-	        .catch(error => alert(JSON.stringify(error)));
-	}
+  onInput(event) {
+    console.log(event.data);
+  }
 
-	onCancel(event) {
-	    this.findAll();
-	}
+  onCancel(event) {
 
-	findAll() {
-	    this.service.findAll()
-	        .then(data => this.restaurants = data)
-	        .catch(error => alert(error));
-	}
+  }
+
+  getAllSuppliers() {
+    this.httpHelperPro.get('/api/supplier/search?name=&searchBy=price&sort=desc').subscribe(
+      (res: any) => {
+        this.suppliers = res.data;
+        console.log(this.suppliers);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+
+  search(event) {
+    console.log(event.target.value);
+    this.httpHelperPro.get('/api/supplier/search?name=' + event.target.value + '&searchBy=price&sort=desc').subscribe(
+      (res: any) => {
+        this.suppliers = res.data;
+        console.log(this.suppliers);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
 
   alertLocation() {
     let changeLocation = this.locationCtrl.create({
@@ -129,7 +150,7 @@ export class HomePage {
   }
 
   ionViewWillEnter() {
-      this.navCtrl.canSwipeBack();
+    this.navCtrl.canSwipeBack();
   }
 
 }
