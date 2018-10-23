@@ -1,0 +1,30 @@
+<ion-header>
+	<ion-navbar color="primary">
+		<ion-title>
+			<div *ngIf="supplier">
+				{{supplier.Name}}
+			</div>
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content padding>
+	<div *ngIf="supplier">{{supplier.Name}}<br>{{supplier.PhoneNumber}}
+		<div text-center>
+			<ion-buttons class="full-width">
+				<button ion-button (click)="favorite(supplier)">
+					<ion-icon name="calendar"></ion-icon>&nbsp;&nbsp;Đặt dịch vụ
+				</button>
+				<a href="tel:{{supplier.PhoneNumber}}">
+					<button ion-button>
+						<ion-icon name="call"></ion-icon>
+						&nbsp;&nbsp;Gọi
+					</button>
+				</a>
+				<button ion-button (click)="openChatDetail({'idSup': 1},{'idCus': 2})">
+					<ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp;Nhắn tin
+				</button>
+			</ion-buttons>
+		</div>
+	</div>
+</ion-content>

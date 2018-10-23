@@ -1,0 +1,71 @@
+<!--
+  Generated template for the SupplierListPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+	<ion-navbar color="primary">
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>
+			<span ion-text>Nhà cung cấp</span>
+		</ion-title>
+		<!--<ion-buttons end>-->
+		<!--<button ion-button (click)="openFilterModal()">-->
+		<!--<ion-icon name="options"></ion-icon>-->
+		<!--</button>-->
+		<!--</ion-buttons>-->
+	</ion-navbar>
+
+	<!--<ion-toolbar>-->
+	<!--<ion-searchbar [(ngModel)]="searchKey" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)"></ion-searchbar>-->
+	<!--</ion-toolbar>-->
+</ion-header>
+
+
+
+<ion-content class="lightest-bg">
+	<div>
+		<ion-grid no-padding>
+			<ion-row no-padding>
+				<ion-col col-12 col-md-6 *ngFor="let suppliers of supplier">
+
+					<ion-card margin-bottom tappable (click)="openSupplierDetail(suppliers.SupplierId)">
+						<div class="card-img-wrap">
+							<ion-fab bottom right edge>
+								<!--<button ion-fab mini (click)="favorite(restaurant)">-->
+								<!--<ion-icon name="heart"></ion-icon>-->
+								<!--</button>-->
+							</ion-fab>
+							<!--<img src="{{restaurant.thumbnail}}" tappable (click)="openRestaurantDetail(restaurant)">-->
+							<span ion-text class="card-img-price fw700 text-black">
+		            <!--{{ restaurant.tags }}-->
+		          </span>
+							<!--<span ion-text class="card-img-status fw500 text-white" [ngClass]="{'closed': restaurant.label === 'closed', 'open': restaurant.label === 'open'}">-->
+							<!--{{ restaurant.label }}-->
+							<!--</span>-->
+						</div>
+						<ion-card-content>
+							<!--<ion-card-title ion-text color="dark" class="fw700" tappable (click)="openRestaurantDetail(restaurant)" no-margin no-padding>-->
+							{{suppliers.Name}}
+							<!--</ion-card-title>-->
+							<p ion-text color="primary" no-margin>
+								<!--{{supplier.city}}, {{supplier.state}} • <span ion-text class="fw700">{{ supplier.price }}</span>-->
+								{{suppliers.PhoneNumber}}
+							</p>
+							<hr>
+							<ion-badge color="secondary">
+								<ion-icon name="star"></ion-icon>
+								<!--{{ restaurant.rating | number:'1.1' }}-->
+							</ion-badge>
+						</ion-card-content>
+					</ion-card>
+
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+	</div>
+
+</ion-content>

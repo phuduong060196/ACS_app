@@ -1,0 +1,42 @@
+<!--
+  Generated template for the ChatDetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+	<ion-navbar color="primary">
+		<ion-title>
+			Chat
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+	<!--<div id="chatMessages">-->
+		<!--<div *ngFor="let message of messages" [class]="message.specialMessage ? 'message special' : 'message'">-->
+			<!--<div [class]="message.username == username ? 'innerMessage messageRight' : 'innerMessage messageLeft'">-->
+				<!--<div class="username">{{ message.username }}</div>-->
+				<!--<div class="messageContent">{{ message.message }}</div>-->
+			<!--</div>-->
+		<!--</div>-->
+	<!--</div>-->
+
+	<ul *ngFor="let post of posts | async">
+		<li>
+			<strong>{{post.userID}}</strong>
+			<br/>
+			{{post.message}}
+		</li>
+	</ul>
+</ion-content>
+
+<ion-footer>
+	<ion-toolbar>
+		<div id="footer">
+			<div class="elem"><textarea [(ngModel)]="message" name="message" placeholder="Text here.."></textarea></div>
+			<div class="elem"><button ion-button icon-only (click)="sendMessage()"><ion-icon name="send"></ion-icon> </button></div>
+		</div>
+	</ion-toolbar>
+</ion-footer>

@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {IonicPage, Config, NavController, NavParams, ToastController, ModalController} from 'ionic-angular';
 import {RestaurantService} from '../../providers/restaurant-service-mock';
+import {HttpClient} from "@angular/common/http";
+import {GetUrlProvider} from "../../providers/get-url/get-url";
 
 @IonicPage({
 	name: 'page-restaurant-list',
@@ -21,8 +23,9 @@ export class RestaurantListPage {
     from: string;
 	lat: number = 42.35663;
 	lng: number = -71.11095;
+	public  suppliers:any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public service: RestaurantService, public toastCtrl: ToastController, public modalCtrl: ModalController, public config: Config) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public service: RestaurantService, public toastCtrl: ToastController, public modalCtrl: ModalController, public config: Config, public http: HttpClient, public getUrlPro: GetUrlProvider) {
         this.findAll();
         this.proptype = this.navParams.get('proptype') || "";
         this.from = this.navParams.get('from') || "";
@@ -69,5 +72,18 @@ export class RestaurantListPage {
             .then(data => this.restaurants = data)
             .catch(error => alert(error));
     }
+
+	public loadAllSupplies(){
+		this.http.get(this.getUrlPro.getUrl + '/api/supplier/get-all?name=')
+			.subscribe((res:any) => {
+
+				this.suppliers = res.data;
+				// console.log(this.suppliers);
+
+			}, (err) => {
+				console.log(err);
+			});
+	}
+
 
 }

@@ -8,6 +8,9 @@ import { AgmCoreModule } from '@agm/core';
 import { foodIonicApp } from './app.component';
 
 import { PipesModule } from '../pipes/pipes.module';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { FormsModule } from '@angular/forms';
 
 import {MessageService} from "../providers/message-service-mock";
 import {RestaurantService} from "../providers/restaurant-service-mock";
@@ -26,9 +29,18 @@ import { LoadingHelperProvider } from '../providers/loading-helper/loading-helpe
 import { CustomerServiceProvider } from '../providers/customer-service/customer-service';
 import { SupplierServiceProvider } from '../providers/supplier-service/supplier-service';
 
+var config = {
+	apiKey: "AIzaSyCxm0jQrorq3-dCoiwwTchjaIe_H6OX2H0",
+	authDomain: "firestore-a792b.firebaseapp.com",
+	databaseURL: "https://firestore-a792b.firebaseio.com",
+	projectId: "firestore-a792b",
+	storageBucket: "firestore-a792b.appspot.com",
+	messagingSenderId: "651552319035"
+};
+
 @NgModule({
   declarations: [
-    foodIonicApp
+    foodIonicApp,
   ],
   imports: [
     BrowserModule,
@@ -46,7 +58,10 @@ import { SupplierServiceProvider } from '../providers/supplier-service/supplier-
 		AgmCoreModule.forRoot({
 				apiKey: 'AIzaSyD9BxeSvt3u--Oj-_GD-qG2nPr1uODrR0Y'
 		}),
-    PipesModule
+    PipesModule,
+	  AngularFireModule.initializeApp(config),
+	  AngularFirestoreModule,
+	  FormsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

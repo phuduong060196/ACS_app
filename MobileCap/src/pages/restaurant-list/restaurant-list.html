@@ -4,56 +4,42 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      <span ion-text>Restaurants</span>
+      <span ion-text>Nhà cung cấp</span>
     </ion-title>
-    <ion-buttons end>
-      <button ion-button (click)="openFilterModal()">
-        <ion-icon name="options"></ion-icon>
-      </button>
-    </ion-buttons>
+    <!--<ion-buttons end>-->
+      <!--<button ion-button (click)="openFilterModal()">-->
+        <!--<ion-icon name="options"></ion-icon>-->
+      <!--</button>-->
+    <!--</ion-buttons>-->
   </ion-navbar>
 
-  <ion-toolbar>
-    <ion-searchbar [(ngModel)]="searchKey" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)"></ion-searchbar>
-  </ion-toolbar>
+  <!--<ion-toolbar>-->
+    <!--<ion-searchbar [(ngModel)]="searchKey" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)"></ion-searchbar>-->
+  <!--</ion-toolbar>-->
 </ion-header>
 
 <ion-content class="lightest-bg">
 
 
-	<ion-list *ngIf="from !== 'home'" no-margin>
-	  <ion-item>
-	    <ion-label class="fw700">Restaurant type:</ion-label>
-	    <ion-select [(ngModel)]="proptype">
-	      <ion-option value="">All categories</ion-option>
-	      <ion-option value="Barbecue">Barbecue</ion-option>
-	      <ion-option value="Bistro">Bistro</ion-option>
-	      <ion-option value="Casual Dining">Casual Dining</ion-option>
-	      <ion-option value="Pizza">Pizza</ion-option>
-	      <ion-option value="Oriental">Oriental</ion-option>
-	      <ion-option value="Variable">Variable</ion-option>
-	      <ion-option value="Local Food">Local Food</ion-option>
-	      <ion-option value="Street Food">Street Food</ion-option>
-	      <ion-option value="Indian Food">Indian Food</ion-option>
-	      <ion-option value="Pasta">Pasta</ion-option>
-	      <ion-option value="Seafood">Seafood</ion-option>
-	    </ion-select>
-	  </ion-item>
-	</ion-list>
-
-	<div *ngIf="from !== 'home'">
-	  <ion-segment [(ngModel)]="label">
-			<ion-segment-button value="">
-				All
-			</ion-segment-button>
-	    <ion-segment-button value="open">
-	      Open
-	    </ion-segment-button>
-	    <ion-segment-button value="closed">
-	      Closed
-	    </ion-segment-button>
-	  </ion-segment>
-	</div>
+	<!--<ion-list *ngIf="from !== 'home'" no-margin>-->
+	  <!--<ion-item>-->
+	    <!--<ion-label class="fw700">Restaurant type:</ion-label>-->
+	    <!--<ion-select [(ngModel)]="proptype">-->
+	      <!--<ion-option value="">All categories</ion-option>-->
+	      <!--<ion-option value="Barbecue">Barbecue</ion-option>-->
+	      <!--<ion-option value="Bistro">Bistro</ion-option>-->
+	      <!--<ion-option value="Casual Dining">Casual Dining</ion-option>-->
+	      <!--<ion-option value="Pizza">Pizza</ion-option>-->
+	      <!--<ion-option value="Oriental">Oriental</ion-option>-->
+	      <!--<ion-option value="Variable">Variable</ion-option>-->
+	      <!--<ion-option value="Local Food">Local Food</ion-option>-->
+	      <!--<ion-option value="Street Food">Street Food</ion-option>-->
+	      <!--<ion-option value="Indian Food">Indian Food</ion-option>-->
+	      <!--<ion-option value="Pasta">Pasta</ion-option>-->
+	      <!--<ion-option value="Seafood">Seafood</ion-option>-->
+	    <!--</ion-select>-->
+	  <!--</ion-item>-->
+	<!--</ion-list>-->
 
   <div *ngIf="viewMode === 'list'">
 		<ion-grid no-padding>

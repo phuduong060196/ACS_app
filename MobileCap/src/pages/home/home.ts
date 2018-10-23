@@ -4,6 +4,7 @@ import { IonicPage, NavController, AlertController, MenuController, ToastControl
 import { RestaurantService } from '../../providers/restaurant-service-mock';
 import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
 import { SupplierServiceProvider } from '../../providers/supplier-service/supplier-service';
+import {SupplierListPage} from "../supplier-list/supplier-list";
 
 @IonicPage({
   name: 'page-home',
@@ -32,8 +33,8 @@ export class HomePage {
     this.getAllSuppliers();
   }
 
-  openRestaurantListPage(proptype) {
-    this.navCtrl.push('page-restaurant-list', proptype);
+  openSupplierList() {
+	  this.navCtrl.push('page-supplier-list');
   }
 
   openRestaurantFilterPage() {
