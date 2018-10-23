@@ -1,8 +1,8 @@
 <ion-header>
 	<ion-navbar color="primary">
 		<ion-title>
-			<!-- <span ion-text> {{supplier.Name}} </span> -->
-			Tên nhà cung cấp
+			<span ion-text> {{supplier.Name}} </span>
+			<!-- Tên nhà cung cấp -->
 		</ion-title>
 	</ion-navbar>
 </ion-header>
@@ -25,8 +25,8 @@
 		<!-- <img src="{{restaurant.picture}}"> -->
 		<ion-card-content>
 			<h1 ion-text color="dark" class="card-title fw700" text-center>
-				<!-- {{supplier.Name}} -->
-				Tên nhà cung cấp
+				{{supplier.Name}}
+				<!-- Tên nhà cung cấp -->
 			</h1>
 			<div text-center>
 				<!-- <ion-badge color="secondary">{{restaurant.tags}}</ion-badge> -->
@@ -103,12 +103,12 @@
 						</div>
 						<div *ngSwitchCase="'info'">
 							<!-- Show map here -->
-							<!-- <div id="map-detail" margin-bottom>
-								<agm-map [latitude]="restaurant.lat" [longitude]="restaurant.long" [zoom]="12">
-									<agm-marker [latitude]="restaurant.lat" [longitude]="restaurant.long">
+							<div id="map-detail" margin-bottom>
+								<agm-map [latitude]="supplier.Branches[0].Latitude" [longitude]="supplier.Branches[0].Longitude" [zoom]="12">
+									<agm-marker [latitude]="supplier.Branches[0].Longitude" [longitude]="supplier.Branches[0].Longitude">
 									</agm-marker>
 								</agm-map>
-							</div> -->
+							</div>
 
 							<p ion-text text-center color="dark" class="fw700">Địa chỉ</p>
 							<hr margin-bottom>
