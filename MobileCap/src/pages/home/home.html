@@ -46,7 +46,7 @@
 		<div id="nearby-map" class="nearby-map">
 			<agm-map [latitude]="lat" [longitude]="lng" [zoom]="15">
 				<!-- <agm-marker *ngFor="let restaurant of restaurants; let i = index" [latitude]="restaurant.lat" [longitude]="restaurant.long"> -->
-				<agm-marker *ngFor="let supplier of suppliersNearby; let i = index" [latitude]="supplier.Branches[i].Latitude" [longitude]="supplier.Branches[i].Longitude">
+				<agm-marker *ngFor="let supplier of suppliersNearby" [latitude]="supplier.Branches[0].Latitude" [longitude]="supplier.Branches[0].Longitude">
 					<!-- <agm-info-window>
 						<img src="{{restaurant.thumbnail}}" class="mw240" tappable (click)="openRestaurantDetail(restaurant)">
 						<h3 tappable (click)="openRestaurantDetail(restaurant)">
