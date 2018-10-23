@@ -5,6 +5,10 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { AgmCoreModule } from '@agm/core';
 
+
+import { NativeGeocoder } from '@ionic-native/native-geocoder';
+import { Geolocation } from '@ionic-native/geolocation';
+
 import { foodIonicApp } from './app.component';
 
 import { PipesModule } from '../pipes/pipes.module';
@@ -83,7 +87,9 @@ var config = {
     HttpHelperProvider,
     LoadingHelperProvider,
     CustomerServiceProvider,
-    SupplierServiceProvider
+    SupplierServiceProvider,
+    NativeGeocoder,
+    Geolocation
   ]
 })
 export class AppModule {}

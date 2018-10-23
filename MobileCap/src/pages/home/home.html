@@ -43,10 +43,11 @@
 			</ion-col>
 		</ion-row>
 
-		<div id="nearby-map" class="nearby-map">
-			<agm-map [latitude]="lat" [longitude]="lng" [zoom]="12">
-				<agm-marker *ngFor="let restaurant of restaurants; let i = index" [latitude]="restaurant.lat" [longitude]="restaurant.long">
-					<agm-info-window>
+		<div id="nearby-map" class="nearby-map" *ngFor="let supplier of suppliersNearby">
+			<agm-map [latitude]="lat" [longitude]="lng" [zoom]="15">
+				<!-- <agm-marker *ngFor="let restaurant of restaurants; let i = index" [latitude]="restaurant.lat" [longitude]="restaurant.long"> -->
+				<agm-marker *ngFor="let branch of supplier.Branches" [latitude]="branch.Latitude" [longitude]="branch.Longitude">
+					<!-- <agm-info-window>
 						<img src="{{restaurant.thumbnail}}" class="mw240" tappable (click)="openRestaurantDetail(restaurant)">
 						<h3 tappable (click)="openRestaurantDetail(restaurant)">
 							<strong>{{restaurant.title}}</strong>
@@ -55,7 +56,7 @@
 							{{restaurant.city}}, {{restaurant.state}} •
 							<span ion-text class="fw700">{{ restaurant.price }}</span>
 						</p>
-					</agm-info-window>
+					</agm-info-window> -->
 				</agm-marker>
 			</agm-map>
 		</div>
@@ -79,7 +80,7 @@
 		</ion-list> -->
 
 		<ion-list ion-row padding-horizontal>
-			<button ion-item ion-col *ngFor="let supplier of suppliers" col-12 col-md-6 (click)="openRestaurantDetail(supplier)">
+			<button ion-item ion-col *ngFor="let supplier of suppliersNearby" col-12 col-md-6 (click)="openRestaurantDetail(supplier)">
 				<ion-thumbnail item-start>
 					<img src="https://dienlanhhoanggia.com/getattachment/d5ec3649-e3f1-4c91-8c5f-e57cf512210f//trang-chu/logo/dien-may-viet-long.aspx?width=&height=">
 				</ion-thumbnail>
@@ -88,11 +89,18 @@
 					<ion-icon name="star"></ion-icon>
 					5
 				</ion-badge>
+				<h3>
+					<ion-icon name="pin"> {{supplier.distance}} km</ion-icon>
+				</h3>
 			</button>
 		</ion-list>
 
 		<ion-row padding>
+<<<<<<< HEAD
 			<button ion-button round block color="secondary" (click)="openSupplierList()">
+=======
+			<button ion-button round block color="secondary">
+>>>>>>> 10805f05de25c5b12e0d416f65bb0ac457333c49
 				Tải thêm
 			</button>
 		</ion-row>
