@@ -58,12 +58,12 @@
 							<ion-list>
 								<ion-item no-padding *ngFor="let service of supplier.Services">
 									<p ion-text color="primary" class="text-11x">
-										<!-- {{ supplier.Services.Name }} -->
-										Tên dịch vụ
+										{{ service.Name }}
+										<!-- Tên dịch vụ -->
 									</p>
 									<button ion-button clear class="green-bg text-white" item-end>
-										<!-- {{ supplier.Services.Price }} -->
-										Giá dịch vụ
+										{{ service.Price }} VND
+										<!-- Giá dịch vụ -->
 									</button>
 								</ion-item>
 							</ion-list>
@@ -103,9 +103,9 @@
 						</div>
 						<div *ngSwitchCase="'info'">
 							<!-- Show map here -->
-							<div id="map-detail" margin-bottom>
-								<agm-map [latitude]="supplier.Branches[0].Latitude" [longitude]="supplier.Branches[0].Longitude" [zoom]="12">
-									<agm-marker [latitude]="supplier.Branches[0].Longitude" [longitude]="supplier.Branches[0].Longitude">
+							<div id="map-detail" margin-bottom *ngFor="let branch of supplier.Branches">
+								<agm-map [latitude]="branch.Latitude" [longitude]="branch.Longitude" [zoom]="12">
+									<agm-marker [latitude]="branch.Longitude" [longitude]="branch.Longitude">
 									</agm-marker>
 								</agm-map>
 							</div>

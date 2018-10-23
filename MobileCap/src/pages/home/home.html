@@ -43,10 +43,10 @@
 			</ion-col>
 		</ion-row>
 
-		<div id="nearby-map" class="nearby-map">
+		<div id="nearby-map" class="nearby-map" *ngFor="let supplier of suppliersNearby">
 			<agm-map [latitude]="lat" [longitude]="lng" [zoom]="15">
 				<!-- <agm-marker *ngFor="let restaurant of restaurants; let i = index" [latitude]="restaurant.lat" [longitude]="restaurant.long"> -->
-				<agm-marker *ngFor="let supplier of suppliersNearby" [latitude]="supplier.Branches[0].Latitude" [longitude]="supplier.Branches[0].Longitude">
+				<agm-marker *ngFor="let branch of supplier.Branches" [latitude]="branch.Latitude" [longitude]="branch.Longitude">
 					<!-- <agm-info-window>
 						<img src="{{restaurant.thumbnail}}" class="mw240" tappable (click)="openRestaurantDetail(restaurant)">
 						<h3 tappable (click)="openRestaurantDetail(restaurant)">
@@ -96,7 +96,7 @@
 		</ion-list>
 
 		<ion-row padding>
-			<button ion-button round block color="secondary" (click)="openRestaurantListPage()">
+			<button ion-button round block color="secondary">
 				Tải thêm
 			</button>
 		</ion-row>
