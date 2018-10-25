@@ -38,7 +38,8 @@
         "@ionic-native/status-bar": "4.15.0",
         "@ionic/pro": "1.0.20",
         "@ionic/storage": "2.2.0",
-        "cordova-android": "^7.1.1",
+        "build": "0.1.4",
+        "cordova-android": "7.1.1",
         "cordova-ios": "^4.5.5",
         "cordova-plugin-console": "^1.1.0",
         "cordova-plugin-device": "^1.1.6",
@@ -66,7 +67,7 @@
         "purify-css": "^1.2.5",
         "typescript": "2.4.2"
     },
-    "description": "foodIonic: Ionic 3 Restaurant and Food Order Theme",
+    "description": "Air Conditioning Service Application",
     "cordova": {
         "plugins": {
             "cordova-plugin-console": {},
@@ -81,8 +82,8 @@
             "cordova-plugin-geolocation": {}
         },
         "platforms": [
-            "android",
-            "ios"
+            "ios",
+            "android"
         ]
     },
     "config": {

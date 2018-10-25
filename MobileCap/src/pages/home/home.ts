@@ -177,16 +177,18 @@ export class HomePage {
                 }
               });
               this.yourLocation = result.results[1].formatted_address
-              this.http.get('http://web-capstone.azurewebsites.net/api/location/search-location?district=Quận ' + this.administrative_area_level_2 + '&city=' + this.administrative_area_level_1)
+              this.http.get('http://web-capstone.azurewebsites.net/api/location/search-location?district=' + this.administrative_area_level_2 + '&city=' + this.administrative_area_level_1)
                 .subscribe(
                   (res: any) => {
                     this.suppliersNearby = res;
                     this.suppliersNearby.forEach(supplier => {
+						supplier.Branches[0].Latitude = parseFloat(supplier.Branches[0].Latitude);
+						supplier.Branches[0].Longitude = parseFloat(supplier.Branches[0].Longitude);
                       let distance = this.getDistanceFromLatLonInKm(this.lat, this.lng, supplier.Branches[0].Latitude, supplier.Branches[0].Longitude);
                       supplier.distance = distance.toFixed(2);
                     });
                     this.suppliersNearby = this.suppliersNearby.sort(this.compareObj);
-                    console.log(this.suppliersNearby);
+                    console.log(this.administrative_area_level_2);
                   },
                   (err) => {
                     console.log(err);

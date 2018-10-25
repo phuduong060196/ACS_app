@@ -42,6 +42,7 @@ export class SupplierListPage implements OnInit {
 
 	ngOnInit(): void {
 		this.loadAllSuppliers();
+
 	}
 
 }

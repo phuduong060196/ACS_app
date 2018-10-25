@@ -33,20 +33,20 @@
 				<ion-col col-12 col-md-6 *ngFor="let suppliers of supplier">
 
 					<ion-card margin-bottom tappable (click)="openSupplierDetail(suppliers.SupplierId)">
-						<div class="card-img-wrap">
-							<ion-fab bottom right edge>
+						<!--<div class="card-img-wrap">-->
+							<!--<ion-fab bottom right edge>-->
 								<!--<button ion-fab mini (click)="favorite(restaurant)">-->
 								<!--<ion-icon name="heart"></ion-icon>-->
 								<!--</button>-->
-							</ion-fab>
+							<!--</ion-fab>-->
 							<!--<img src="{{restaurant.thumbnail}}" tappable (click)="openRestaurantDetail(restaurant)">-->
-							<span ion-text class="card-img-price fw700 text-black">
+							<!--<span ion-text class="card-img-price fw700 text-black">-->
 		            <!--{{ restaurant.tags }}-->
-		          </span>
+		          <!--</span>-->
 							<!--<span ion-text class="card-img-status fw500 text-white" [ngClass]="{'closed': restaurant.label === 'closed', 'open': restaurant.label === 'open'}">-->
 							<!--{{ restaurant.label }}-->
 							<!--</span>-->
-						</div>
+						<!--</div>-->
 						<ion-card-content>
 							<!--<ion-card-title ion-text color="dark" class="fw700" tappable (click)="openRestaurantDetail(restaurant)" no-margin no-padding>-->
 							{{suppliers.Name}}

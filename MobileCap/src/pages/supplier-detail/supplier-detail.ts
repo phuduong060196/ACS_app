@@ -21,7 +21,6 @@ import {GetUrlProvider} from "../../providers/get-url/get-url";
 export class SupplierDetailPage implements OnInit{
 	public param: number;
 	public supplier: any;
-	chatDetail: Array<any>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpClient, public getUrlPro: GetUrlProvider) {
 	  this.param = this.navParams.get('id');
@@ -36,14 +35,15 @@ export class SupplierDetailPage implements OnInit{
 			});
 	}
 
-	openChatDetail(supplier, customer){
-  	this.chatDetail = [supplier, customer];
-  	this.navCtrl.push('page-chat-detail', {'id': this.chatDetail});
-  	// console.log(this.chatDetail);
+	openChatDetail(param){
+  	this.navCtrl.push('page-chat-detail', {'id': param});
 	}
 
   ngOnInit(): void {
-	  this.loadAllSuppliesById();
+  	if (this.param == null){
+		this.navCtrl.push('page-supplier-list');
+	}
+		this.loadAllSuppliesById();
   }
 
 }

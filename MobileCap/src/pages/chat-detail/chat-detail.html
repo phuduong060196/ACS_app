@@ -6,14 +6,14 @@
 -->
 <ion-header>
 	<ion-navbar color="primary">
-		<ion-title>
-			Chat
+		<ion-title *ngIf="paramId">
+			{{paramId.supName}}
 		</ion-title>
 	</ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding id="messagesContent">
 	<!--<div id="chatMessages">-->
 		<!--<div *ngFor="let message of messages" [class]="message.specialMessage ? 'message special' : 'message'">-->
 			<!--<div [class]="message.username == username ? 'innerMessage messageRight' : 'innerMessage messageLeft'">-->
@@ -23,13 +23,18 @@
 		<!--</div>-->
 	<!--</div>-->
 
-	<ul *ngFor="let post of posts | async">
-		<li>
-			<strong>{{post.userID}}</strong>
-			<br/>
-			{{post.message}}
-		</li>
-	</ul>
+	<ion-list *ngFor="let post of posts | async">
+		<ion-item *ngIf="post.isCustomer == true">
+			<div float-right>
+				{{post.message}}
+			</div>
+		</ion-item>
+		<ion-item *ngIf="post.isCustomer != true">
+			<div float-left>
+				{{post.message}}
+			</div>
+		</ion-item>
+	</ion-list>
 </ion-content>
 
 <ion-footer>
