@@ -12,7 +12,7 @@
 	<div *ngIf="supplier">{{supplier.Name}}<br>{{supplier.PhoneNumber}}
 		<div text-center>
 			<ion-buttons class="full-width">
-				<button ion-button (click)="favorite(supplier)">
+				<button ion-button (click)="openBookingService(supplier)">
 					<ion-icon name="calendar"></ion-icon>&nbsp;&nbsp;Đặt dịch vụ
 				</button>
 				<a href="tel:{{supplier.PhoneNumber}}">

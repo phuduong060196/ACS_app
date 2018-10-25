@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {HttpClient} from "@angular/common/http";
 import {GetUrlProvider} from "../../providers/get-url/get-url";
 
@@ -15,35 +15,39 @@ import {GetUrlProvider} from "../../providers/get-url/get-url";
 	segment: 'supplier-detail',
 })
 @Component({
-  selector: 'page-supplier-detail',
-  templateUrl: 'supplier-detail.html',
+	selector: 'page-supplier-detail',
+	templateUrl: 'supplier-detail.html',
 })
-export class SupplierDetailPage implements OnInit{
+export class SupplierDetailPage implements OnInit {
 	public param: number;
 	public supplier: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpClient, public getUrlPro: GetUrlProvider) {
-	  this.param = this.navParams.get('id');
-  }
+	constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpClient, public getUrlPro: GetUrlProvider) {
+		this.param = this.navParams.get('id');
+	}
 
-	public loadAllSuppliesById(){
+	public loadAllSuppliesById() {
 		this.http.get(this.getUrlPro.getUrl + '/api/supplier/get-by-id?id=' + this.param)
-			.subscribe((res:any) => {
+			.subscribe((res: any) => {
 				this.supplier = res.data;
 			}, (err) => {
 				console.log(err);
 			});
 	}
 
-	openChatDetail(param){
-  	this.navCtrl.push('page-chat-detail', {'id': param});
+	openChatDetail(param) {
+		this.navCtrl.push('page-chat-detail', {'id': param});
 	}
 
-  ngOnInit(): void {
-  	if (this.param == null){
-		this.navCtrl.push('page-supplier-list');
+	openBookingService(param) {
+  		this.navCtrl.push('page-booking-service-detail',{'id': param});
 	}
+
+	ngOnInit(): void {
+		if (this.param == null) {
+			this.navCtrl.push('page-supplier-list');
+		}
 		this.loadAllSuppliesById();
-  }
+	}
 
 }
