@@ -38,6 +38,7 @@
         "@ionic-native/status-bar": "4.15.0",
         "@ionic/pro": "1.0.20",
         "@ionic/storage": "2.2.0",
+        "@types/googlemaps": "^3.30.16",
         "build": "0.1.4",
         "cordova-android": "7.1.1",
         "cordova-ios": "^4.5.5",

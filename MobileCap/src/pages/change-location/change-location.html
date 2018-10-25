@@ -1,0 +1,28 @@
+<ion-header>
+	<ion-navbar color="primary">
+		<ion-buttons start>
+			<button ion-button round (click)="closeModal()">
+				<ion-icon name="close"></ion-icon>
+			</button>
+		</ion-buttons>
+		<ion-title>
+			<span ion-text>Đổi vị trí</span>
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content padding>
+	<ion-toolbar color="primary">
+		<ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Nhập vị trí"></ion-searchbar>
+	</ion-toolbar>
+	<ion-list [hidden]="autocompleteItems.length == 0">
+		<ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
+			{{ item.description }}
+		</ion-item>
+	</ion-list>
+</ion-content>
+<ion-footer>
+	<ion-toolbar>
+		<button ion-button block color="primary" (click)="closeModal()">Xác nhận</button>
+	</ion-toolbar>
+</ion-footer>

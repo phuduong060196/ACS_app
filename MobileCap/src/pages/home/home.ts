@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { RestaurantService } from '../../providers/restaurant-service-mock';
 import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
 import { SupplierServiceProvider } from '../../providers/supplier-service/supplier-service';
-import {SupplierListPage} from "../supplier-list/supplier-list";
+import { SupplierListPage } from "../supplier-list/supplier-list";
 
 @IonicPage({
   name: 'page-home',
@@ -35,12 +35,12 @@ export class HomePage {
   constructor(public navCtrl: NavController, public menuCtrl: MenuController, public popoverCtrl: PopoverController, public locationCtrl: AlertController, public modalCtrl: ModalController, public toastCtrl: ToastController, public service: RestaurantService, public httpHelperPro: HttpHelperProvider, public supplierServicePro: SupplierServiceProvider, private platform: Platform, private geolocation: Geolocation, private http: HttpClient) {
     this.menuCtrl.swipeEnable(true, 'authenticated');
     this.menuCtrl.enable(true);
-    this.getCurrentLocal();
+    this.getCurentLocation();
     this.getAllSuppliers();
   }
 
   openSupplierList() {
-	  this.navCtrl.push('page-supplier-list');
+    this.navCtrl.push('page-supplier-list');
   }
 
   openRestaurantFilterPage() {
@@ -111,41 +111,9 @@ export class HomePage {
     );
   }
 
-  alertLocation() {
-    let changeLocation = this.locationCtrl.create({
-      title: 'Đổi vị trí',
-      inputs: [
-        {
-          name: 'location',
-          placeholder: 'Nhập vị trí',
-          type: 'text'
-        },
-      ],
-      buttons: [
-        {
-          text: 'Hủy',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Xác nhận',
-          handler: data => {
-            console.log('Change clicked', data);
-            this.yourLocation = data.location;
-            let toast = this.toastCtrl.create({
-              message: 'Đổi thành công',
-              duration: 3000,
-              position: 'top',
-              closeButtonText: 'OK',
-              showCloseButton: true
-            });
-            toast.present();
-          }
-        }
-      ]
-    });
-    changeLocation.present();
+  changeLocation() {
+    let modal = this.modalCtrl.create('page-change-location');
+    modal.present();
   }
 
   presentNotifications(myEvent) {
@@ -182,8 +150,8 @@ export class HomePage {
                   (res: any) => {
                     this.suppliersNearby = res;
                     this.suppliersNearby.forEach(supplier => {
-						supplier.Branches[0].Latitude = parseFloat(supplier.Branches[0].Latitude);
-						supplier.Branches[0].Longitude = parseFloat(supplier.Branches[0].Longitude);
+                      supplier.Branches[0].Latitude = parseFloat(supplier.Branches[0].Latitude);
+                      supplier.Branches[0].Longitude = parseFloat(supplier.Branches[0].Longitude);
                       let distance = this.getDistanceFromLatLonInKm(this.lat, this.lng, supplier.Branches[0].Latitude, supplier.Branches[0].Longitude);
                       supplier.distance = distance.toFixed(2);
                     });
@@ -226,5 +194,36 @@ export class HomePage {
       return 1;
     }
     return 0;
+  }
+
+  getCurentLocation() {
+    this.platform.ready().then(
+      () => {
+        if (this.lat != null && this.lng != null) {
+          return;
+        }
+        else {
+          this.geolocation.getCurrentPosition().then(
+            (res) => {
+              this.lat = res.coords.latitude;
+              this.lng = res.coords.longitude;
+              this.http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + res.coords.latitude + ',' + res.coords.longitude + '&key=AIzaSyDr5qwgemJp4LtodR8lvXg382V-cDFK3bY&sensor=false').subscribe(
+                (res: any) => {
+                  res.results[1].address_components.forEach((element) => {
+                    if (element.types[0] == "administrative_area_level_1") {
+                      this.administrative_area_level_1 = element.long_name
+                    }
+                    if (element.types[0] == "administrative_area_level_2") {
+                      this.administrative_area_level_2 = element.long_name
+                    }
+                  });
+                  this.yourLocation = res.results[1].formatted_address
+                }
+              );
+            }
+          );
+        }
+      }
+    );
   }
 }

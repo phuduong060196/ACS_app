@@ -32,9 +32,12 @@
 			<ion-col>
 				<ion-card no-margin margin-bottom>
 					<ion-item class="lightest-bg">
+						<button ion-button round item-end color="primary" (click)="getCurentLocation()">
+							<ion-icon name="locate"></ion-icon>
+						</button>
 						<h3 ion-text no-margin color="dark" class="fw500 no-margin">Vị trí hiện tại:</h3>
 						<span ion-text class="text-11x no-margin" color="primary">{{yourLocation}}</span>
-						<button ion-button outline round item-end icon-right color="primary" (click)="alertLocation()">
+						<button ion-button outline round item-end icon-right color="primary" (click)="changeLocation()">
 							Đổi vị trí
 							<ion-icon name="locate"></ion-icon>
 						</button>
@@ -43,8 +46,8 @@
 			</ion-col>
 		</ion-row>
 
-		<div id="nearby-map" class="nearby-map" >
-			<agm-map [latitude]="lat" [longitude]="lng" [zoom]="15">
+		<div id="nearby-map" class="nearby-map">
+			<agm-map [latitude]="lat" [longitude]="lng" [zoom]="12">
 				<div *ngFor="let supplier of suppliersNearby">
 					<!-- <agm-marker *ngFor="let restaurant of restaurants; let i = index" [latitude]="restaurant.lat" [longitude]="restaurant.long"> -->
 					<agm-marker *ngFor="let branch of supplier.Branches" [latitude]="branch.Latitude" [longitude]='branch.Longitude'>
@@ -97,10 +100,10 @@
 			</button>
 		</ion-list>
 
-		<ion-row padding>
+		<!-- <ion-row padding>
 			<button ion-button round block color="secondary" (click)="openSupplierList()">
 				Tải thêm
 			</button>
-		</ion-row>
+		</ion-row> -->
 	</ion-grid>
 </ion-content>
