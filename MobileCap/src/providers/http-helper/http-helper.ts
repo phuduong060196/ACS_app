@@ -32,12 +32,19 @@ export class HttpHelperProvider {
     });
   }
 
-  put(url, data, responseType) {
+  put(url, data) {
     let headers = this.createHeader();
     return this.http.put(this.getUrlPro.getUrl + url, data, {
       headers: headers,
-      responseType: responseType
     });
   }
+
+  // put(url, data, responseType) {
+  //   let headers = this.createHeader();
+  //   return this.http.put(this.getUrlPro.getUrl + url, data, {
+  //     headers: headers,
+  //     responseType: responseType
+  //   });
+  // }
 
 }

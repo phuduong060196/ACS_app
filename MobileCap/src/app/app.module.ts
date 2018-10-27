@@ -32,6 +32,7 @@ import { HttpHelperProvider } from '../providers/http-helper/http-helper';
 import { LoadingHelperProvider } from '../providers/loading-helper/loading-helper';
 import { CustomerServiceProvider } from '../providers/customer-service/customer-service';
 import { SupplierServiceProvider } from '../providers/supplier-service/supplier-service';
+import { LocalHelperProvider } from '../providers/local-helper/local-helper';
 
 var config = {
 	apiKey: "AIzaSyCxm0jQrorq3-dCoiwwTchjaIe_H6OX2H0",
@@ -89,7 +90,8 @@ var config = {
     CustomerServiceProvider,
     SupplierServiceProvider,
     NativeGeocoder,
-    Geolocation
+    Geolocation,
+    LocalHelperProvider
   ]
 })
 export class AppModule {}

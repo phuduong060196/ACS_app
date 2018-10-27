@@ -8,48 +8,64 @@
 		</ion-title>
 	</ion-navbar>
 </ion-header>
+
 <ion-content class="profile light-bg">
-	<ion-card>
-		<ion-card-content class="profiles-bg">
+	<form [formGroup]="onUpdateForm">
+		<ion-card>
+			<ion-card-content class="profiles-bg">
+				<ion-grid no-padding fixed>
+					<ion-row no-padding>
+						<ion-col>
+							<img src="../../assets/img/avatar-default.png">
+							<h2 class="fw500">customer001</h2>
+							<button ion-button icon-start block outline margin-top color="light">
+								<ion-icon name="photos"></ion-icon>
+								Thay đổi ảnh đại diện
+							</button>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</ion-card-content>
+
 			<ion-grid no-padding fixed>
 				<ion-row no-padding>
 					<ion-col>
-						<img src="../../assets/img/avatar-default.png">
-						<h2 class="fw500">customer001</h2>
-						<button ion-button icon-start block outline margin-top color="light">
-							<ion-icon name="photos"></ion-icon>
-							Thay đổi ảnh đại diện
-						</button>
+						<div padding>
+							<ion-list>
+								<ion-item>
+									<ion-label color="dark" stacked>Họ và tên:</ion-label>
+									<ion-input type="text" formControlName="fullName"></ion-input>
+								</ion-item>
+								<p ion-text color="danger" class="text-12x has-error" *ngIf="isFieldInvalid('fullName', onUpdateForm)">
+									Họ và tên không được để trống
+								</p>
+								<ion-item>
+									<ion-label color="dark" stacked>Số điện thoại:</ion-label>
+									<ion-input type="email" formControlName="phoneNumber"></ion-input>
+								</ion-item>
+								<p ion-text color="danger" class="text-12x has-error" *ngIf="isFieldInvalid('phoneNumber', onUpdateForm)">
+									Số điện thoại không được để trống
+								</p>
+								<ion-item>
+									<ion-label color="dark" stacked>Email:</ion-label>
+									<ion-input type="email" formControlName="email"></ion-input>
+								</ion-item>
+								<p ion-text color="danger" class="text-12x has-error" *ngIf="isFieldInvalid('email', onUpdateForm)">
+									Email không được để trống
+								</p>
+								<ion-item>
+									<ion-label color="dark" stacked>Địa chỉ:</ion-label>
+									<ion-input type="text" formControlName="address"></ion-input>
+								</ion-item>
+								<p ion-text color="danger" class="text-12x has-error" *ngIf="isFieldInvalid('address', onUpdateForm)">
+									Địa chỉ không được để trống
+								</p>
+							</ion-list>
+						</div>
+						<button ion-button large full color="dark" (click)="sendData()">Cập nhật</button>
 					</ion-col>
 				</ion-row>
 			</ion-grid>
-		</ion-card-content>
-		<ion-grid no-padding fixed>
-			<ion-row no-padding>
-				<ion-col>
-					<div padding>
-						<ion-list>
-							<ion-item>
-								<ion-label color="dark" stacked>Họ và tên:</ion-label>
-								<ion-input type="text" value="João Firmino"></ion-input>
-							</ion-item>
-							<ion-item>
-								<ion-label color="dark" stacked>Số điện thoại:</ion-label>
-								<ion-input type="email" value="firminoata@gmail.com"></ion-input>
-							</ion-item>
-							<ion-item>
-								<ion-label color="dark" stacked>Email:</ion-label>
-								<ion-input type="email" value="firminoata@gmail.com"></ion-input>
-							</ion-item>
-							<ion-item>
-								<ion-label color="dark" stacked>Địa chỉ:</ion-label>
-								<ion-input type="text"></ion-input>
-							</ion-item>
-						</ion-list>
-					</div>
-					<button ion-button large full color="dark" (click)="sendData()">Cập nhật</button>
-				</ion-col>
-			</ion-row>
-		</ion-grid>
-	</ion-card>
+		</ion-card>
+	</form>
 </ion-content>

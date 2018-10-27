@@ -7,6 +7,7 @@ import { LoadingHelperProvider } from '../../providers/loading-helper/loading-he
 import { CustomerServiceProvider } from '../../providers/customer-service/customer-service';
 import { AccessTokenHelperProvider } from '../../providers/access-token-helper/access-token-helper';
 import { GetUrlProvider } from '../../providers/get-url/get-url';
+import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
 
 @IonicPage({
   name: 'page-auth',
@@ -25,7 +26,7 @@ export class AuthPage implements OnInit {
   auth: string = "login";
   private token: any = null;
 
-  constructor(private _fb: FormBuilder, public navCtrl: NavController, public alertCtrl: AlertController, public menu: MenuController, public http: HttpClient, public loadingHelperPro: LoadingHelperProvider, public customerServicePro: CustomerServiceProvider, public accessTokenHelperPro: AccessTokenHelperProvider, public getUrlPro: GetUrlProvider) {
+  constructor(private _fb: FormBuilder, public navCtrl: NavController, public alertCtrl: AlertController, public menu: MenuController, public http: HttpClient, public loadingHelperPro: LoadingHelperProvider, public customerServicePro: CustomerServiceProvider, public accessTokenHelperPro: AccessTokenHelperProvider, public getUrlPro: GetUrlProvider, public httpHelperPro: HttpHelperProvider) {
     this.menu.swipeEnable(false);
     this.menu.enable(false);
   }
@@ -74,9 +75,18 @@ export class AuthPage implements OnInit {
   login() {
     this.loadingHelperPro.presentLoading('Đang đăng nhập...');
     this.customerServicePro.login(this.onLoginForm.value).subscribe(
-      (res) => {
+      (res: any) => {
         console.log(res);
         this.accessTokenHelperPro.SetAccessToken = res;
+        // this.httpHelperPro.get('/api/customer/get-info?customerId=' + res.CustomerId).subscribe(
+        //   (res: any) => {
+        //     if (res.result) {
+        //       // localStorage.setItem('UserInfo', res.data);
+        //       console.log(res);
+        //     }
+        //   },
+        //   (err) => console.log(err)
+        // );
         this.loadingHelperPro.dismissLoading();
         this.navCtrl.setRoot('page-home');
       },
