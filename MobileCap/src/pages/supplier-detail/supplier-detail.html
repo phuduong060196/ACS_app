@@ -8,11 +8,11 @@
 	</ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="lightest-bg">
 	<div *ngIf="supplier">{{supplier.Name}}<br>{{supplier.PhoneNumber}}
 		<div text-center>
 			<ion-buttons class="full-width">
-				<button ion-button (click)="openBookingService(supplier)">
+				<button ion-button (click)="openBookingService({'supId': supplier.SupplierId, 'supName': supplier.Name})">
 					<ion-icon name="calendar"></ion-icon>&nbsp;&nbsp;Đặt dịch vụ
 				</button>
 				<a href="tel:{{supplier.PhoneNumber}}">
@@ -21,7 +21,7 @@
 						&nbsp;&nbsp;Gọi
 					</button>
 				</a>
-				<button ion-button (click)="openChatDetail({'supId': supplier.SupplierId, 'supName': supplier.Name, 'cusId': 2})">
+				<button ion-button (click)="openChatDetail({'supId': supplier.SupplierId, 'supName': supplier.Name})">
 					<ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp;Nhắn tin
 				</button>
 			</ion-buttons>

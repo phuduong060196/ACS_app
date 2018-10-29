@@ -3,7 +3,7 @@ import { IonicPage, NavController } from 'ionic-angular';
 
 @IonicPage({
   name: 'page-change-location',
-  segment: 'change-locationr'
+  segment: 'change-location'
 })
 
 @Component({
@@ -17,6 +17,7 @@ export class ChangeLocationPage {
   autocomplete;
   autocompleteItems;
   geocoder;
+
 
   constructor(public navCtrl: NavController, public zone: NgZone) {
     this.GoogleAutocomplete = new google.maps.places.AutocompleteService();
