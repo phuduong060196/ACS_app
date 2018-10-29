@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { RestaurantService } from '../../providers/restaurant-service-mock';
 import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
 import { SupplierServiceProvider } from '../../providers/supplier-service/supplier-service';
-import { SupplierListPage } from "../supplier-list/supplier-list";
+import { LocalHelperProvider } from '../../providers/local-helper/local-helper';
 
 @IonicPage({
   name: 'page-home',
@@ -32,10 +32,22 @@ export class HomePage {
   searchKey: string;
   yourLocation: string;
 
-  constructor(public navCtrl: NavController, public menuCtrl: MenuController, public popoverCtrl: PopoverController, public locationCtrl: AlertController, public modalCtrl: ModalController, public toastCtrl: ToastController, public service: RestaurantService, public httpHelperPro: HttpHelperProvider, public supplierServicePro: SupplierServiceProvider, private platform: Platform, private geolocation: Geolocation, private http: HttpClient) {
+  constructor(public navCtrl: NavController, public menuCtrl: MenuController, public popoverCtrl: PopoverController,
+    public locationCtrl: AlertController, public modalCtrl: ModalController, public toastCtrl: ToastController,
+    public service: RestaurantService, public httpHelperPro: HttpHelperProvider, public supplierServicePro: SupplierServiceProvider,
+    private platform: Platform, private geolocation: Geolocation, private http: HttpClient,
+    private localPro: LocalHelperProvider) {
+    this.localPro.GetLocation.subscribe(val => {
+      if (val) {
+        this.lat = val.lat;
+        this.lng = val.lng;
+        this.yourLocation = val.yourLocation;
+      } else {
+        this.getCurentLocation();
+      }
+    })
     this.menuCtrl.swipeEnable(true, 'authenticated');
     this.menuCtrl.enable(true);
-    this.getCurentLocation();
     this.getAllSuppliers();
   }
 
@@ -100,10 +112,15 @@ export class HomePage {
 
   search(event) {
     console.log(event.target.value);
-    this.httpHelperPro.get('/api/supplier/search?name=' + event.target.value + '&searchBy=price&sort=desc').subscribe(
+    this.httpHelperPro.get('/api/location/search-location-with-lat-long?latitude=' + this.lat + '&longitude=' + this.lng + '&service=' + this.searchKey).subscribe(
       (res: any) => {
-        this.suppliers = res.data;
-        console.log(this.suppliers);
+        this.suppliersNearby = res;
+        this.suppliersNearby.forEach(supplier => {
+          supplier.Branches[0].Latitude = parseFloat(supplier.Branches[0].Latitude);
+          supplier.Branches[0].Longitude = parseFloat(supplier.Branches[0].Longitude);
+          let distance = this.getDistanceFromLatLonInKm(this.lat, this.lng, supplier.Branches[0].Latitude, supplier.Branches[0].Longitude);
+          supplier.distance = distance.toFixed(2);
+        });
       },
       (err) => {
         console.log(err);
@@ -128,45 +145,45 @@ export class HomePage {
     this.navCtrl.canSwipeBack();
   }
 
-  getCurrentLocal() {
-    this.platform.ready().then(() => {
-      this.geolocation.getCurrentPosition().then(res => {
-        this.lat = res.coords.latitude;
-        this.lng = res.coords.longitude;
-        this.http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + res.coords.latitude + ',' + res.coords.longitude + '&key=AIzaSyDr5qwgemJp4LtodR8lvXg382V-cDFK3bY&sensor=false')
-          .subscribe(
-            (result: any) => {
-              result.results[1].address_components.forEach(element => {
-                if (element.types[0] == "administrative_area_level_1") {
-                  this.administrative_area_level_1 = element.long_name
-                }
-                if (element.types[0] == "administrative_area_level_2") {
-                  this.administrative_area_level_2 = element.long_name
-                }
-              });
-              this.yourLocation = result.results[1].formatted_address
-              this.http.get('http://web-capstone.azurewebsites.net/api/location/search-location?district=' + this.administrative_area_level_2 + '&city=' + this.administrative_area_level_1)
-                .subscribe(
-                  (res: any) => {
-                    this.suppliersNearby = res;
-                    this.suppliersNearby.forEach(supplier => {
-                      supplier.Branches[0].Latitude = parseFloat(supplier.Branches[0].Latitude);
-                      supplier.Branches[0].Longitude = parseFloat(supplier.Branches[0].Longitude);
-                      let distance = this.getDistanceFromLatLonInKm(this.lat, this.lng, supplier.Branches[0].Latitude, supplier.Branches[0].Longitude);
-                      supplier.distance = distance.toFixed(2);
-                    });
-                    this.suppliersNearby = this.suppliersNearby.sort(this.compareObj);
-                    console.log(this.administrative_area_level_2);
-                  },
-                  (err) => {
-                    console.log(err);
-                  }
-                )
-            }
-          )
-      })
-    });
-  }
+  // getCurrentLocal() {
+  //   this.platform.ready().then(() => {
+  //     this.geolocation.getCurrentPosition().then(res => {
+  //       this.lat = res.coords.latitude;
+  //       this.lng = res.coords.longitude;
+  //       this.http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + res.coords.latitude + ',' + res.coords.longitude + '&key=AIzaSyDr5qwgemJp4LtodR8lvXg382V-cDFK3bY&sensor=false')
+  //         .subscribe(
+  //           (result: any) => {
+  //             result.results[1].address_components.forEach(element => {
+  //               if (element.types[0] == "administrative_area_level_1") {
+  //                 this.administrative_area_level_1 = element.long_name
+  //               }
+  //               if (element.types[0] == "administrative_area_level_2") {
+  //                 this.administrative_area_level_2 = element.long_name
+  //               }
+  //             });
+  //             this.yourLocation = result.results[1].formatted_address
+  //             this.http.get('http://web-capstone.azurewebsites.net/api/location/search-location?district=' + this.administrative_area_level_2 + '&city=' + this.administrative_area_level_1)
+  //               .subscribe(
+  //                 (res: any) => {
+  //                   this.suppliersNearby = res;
+  //                   this.suppliersNearby.forEach(supplier => {
+  //                     supplier.Branches[0].Latitude = parseFloat(supplier.Branches[0].Latitude);
+  //                     supplier.Branches[0].Longitude = parseFloat(supplier.Branches[0].Longitude);
+  //                     let distance = this.getDistanceFromLatLonInKm(this.lat, this.lng, supplier.Branches[0].Latitude, supplier.Branches[0].Longitude);
+  //                     supplier.distance = distance.toFixed(2);
+  //                   });
+  //                   this.suppliersNearby = this.suppliersNearby.sort(this.compareObj);
+  //                   console.log(this.administrative_area_level_2);
+  //                 },
+  //                 (err) => {
+  //                   console.log(err);
+  //                 }
+  //               )
+  //           }
+  //         )
+  //     })
+  //   });
+  // }
 
   getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
     var R = 6371; // Radius of the earth in km
@@ -199,30 +216,19 @@ export class HomePage {
   getCurentLocation() {
     this.platform.ready().then(
       () => {
-        if (this.lat != null && this.lng != null) {
-          return;
-        }
-        else {
-          this.geolocation.getCurrentPosition().then(
-            (res) => {
-              this.lat = res.coords.latitude;
-              this.lng = res.coords.longitude;
-              this.http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + res.coords.latitude + ',' + res.coords.longitude + '&key=AIzaSyDr5qwgemJp4LtodR8lvXg382V-cDFK3bY&sensor=false').subscribe(
-                (res: any) => {
-                  res.results[1].address_components.forEach((element) => {
-                    if (element.types[0] == "administrative_area_level_1") {
-                      this.administrative_area_level_1 = element.long_name
-                    }
-                    if (element.types[0] == "administrative_area_level_2") {
-                      this.administrative_area_level_2 = element.long_name
-                    }
-                  });
-                  this.yourLocation = res.results[1].formatted_address
-                }
-              );
-            }
-          );
-        }
+        this.geolocation.getCurrentPosition().then(
+          (ressult) => {
+            this.http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + ressult.coords.latitude + ',' + ressult.coords.longitude + '&key=AIzaSyDr5qwgemJp4LtodR8lvXg382V-cDFK3bY&sensor=false').subscribe(
+              (res: any) => {
+                this.localPro.SetLocation = {
+                  lat: ressult.coords.latitude,
+                  lng: ressult.coords.longitude,
+                  yourLocation: res.results[1].formatted_address
+                };
+              }
+            );
+          }
+        );
       }
     );
   }
