@@ -24,6 +24,12 @@
 				<button ion-button (click)="openChatDetail({'supId': supplier.SupplierId, 'supName': supplier.Name})">
 					<ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp;Nhắn tin
 				</button>
+				<div *ngIf="feedbackFlag == false">
+					<button ion-button (click)="openFeedbackDetail({'supId': supplier.SupplierId, 'supName': supplier.Name})">
+						<ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp;Đánh giá
+					</button>
+				</div>
+
 			</ion-buttons>
 		</div>
 	</div>

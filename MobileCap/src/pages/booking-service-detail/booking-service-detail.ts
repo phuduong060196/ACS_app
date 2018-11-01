@@ -42,12 +42,20 @@ export class BookingServiceDetailPage implements OnInit {
 		let supplierId = this.paramId.supId;
 
 		let dateTime = new Date();
-		this.database.collection(this.booking_path).doc(supplierId + '-' + customerId).set({});
-		this.database.collection(this.booking_path).doc(supplierId + '-' + customerId).collection(this.booking_path1).add({
-			'message': 'test',
-			'isAccept': false,
+		console.log('test');
+		this.database.collection(this.booking_path).add({
+			'supplierId': supplierId,
+			'customerId': customerId,
 			'time': dateTime
 		});
+		// this.database.collection(this.booking_path).doc(supplierId + '-' + customerId).set({});
+		// this.database.collection(this.booking_path).doc(supplierId + '-' + customerId).collection(this.booking_path1).add({
+		// 	'serviceId': '1,3,4',
+		// 	'isAccept': false,
+		// 	'time': dateTime
+		// });
+
+
 	}
 
 	ngOnInit() {

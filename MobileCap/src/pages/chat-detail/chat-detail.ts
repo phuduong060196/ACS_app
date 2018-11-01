@@ -35,7 +35,7 @@ export class ChatDetailPage implements OnInit {
 	private chat_path1: 'chat1';
 	postsCol: AngularFirestoreCollection<Post>;
 	posts: any;
-	post: Observable<Post>;
+	// post: Observable<Post>;
 	message: string;
 	@ViewChild(Content) content: Content;
 

@@ -1,0 +1,64 @@
+<!--
+  Generated template for the FeedbackDetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+	<ion-navbar color="primary">
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>
+			<span ion-text>Đánh giá</span>
+		</ion-title>
+	</ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="page-feedback-detail lightest-bg">
+	<ion-grid no-padding fixed>
+		<ion-row no-padding>
+			<ion-col>
+				<ion-card class="primary-bg">
+					<ion-card-content>
+						<p class="text-white">Hãy điền đầy đủ để đánh giá công ty</p>
+					</ion-card-content>
+				</ion-card>
+
+				<ion-card>
+					<ion-card-content>
+						<form [formGroup]="onYourFeedbackForm" class="list-form">
+							<ion-list margin-bottom>
+								<p text-center>
+									<ion-icon style="font-size: 30px" *ngFor="let i of [1,2,3,4,5]" (click)="setStar(i)" [ngClass]="this.starRating >= i ? 'isRated' : ''"
+											  [name]="this.starRating >= i ? 'ios-star' : 'ios-star-outline'"></ion-icon>
+								</p>
+								<p ion-text color="danger" class="text-1x has-error" *ngIf="isFieldInvalid('feedbackStar', onYourFeedbackForm)">Bắt buộc</p>
+								<ion-item>
+									<ion-label color="primary" stacked>Tiêu đề:</ion-label>
+									<ion-input type="text" placeholder="Nhấn vào đây..."
+											   formControlName="feedbackTitle"></ion-input>
+								</ion-item>
+								<p ion-text color="danger" class="text-1x has-error" *ngIf="isFieldInvalid('feedbackTitle', onYourFeedbackForm)">Bắt buộc</p>
+
+								<ion-item>
+									<ion-label color="primary" stacked>Nội dung:</ion-label>
+									<ion-textarea type="text" maxLength="500" rows="8" placeholder="Nhấn vào đây..."
+											   formControlName="feedbackContent"></ion-textarea>
+								</ion-item>
+								<p ion-text color="danger" class="text-1x has-error" *ngIf="isFieldInvalid('feedbackContent', onYourFeedbackForm)">Bắt buộc</p>
+
+								<button ion-button block color="dark" (click)="sendData()" [disabled]="!onYourFeedbackForm.valid">Gửi</button>
+							</ion-list>
+						</form>
+					</ion-card-content>
+				</ion-card>
+
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+</ion-content>
