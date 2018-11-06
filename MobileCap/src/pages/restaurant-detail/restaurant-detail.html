@@ -34,6 +34,13 @@
 					<ion-icon name="star"></ion-icon>
 					5
 				</ion-badge>
+				<ion-buttons>
+					<button ion-button (click)="openBookingServiceDetail(supplier)">
+						<ion-icon name="calendar">
+							Đặt dịch vụ
+						</ion-icon>
+					</button>
+				</ion-buttons>
 			</div>
 		</ion-card-content>
 
@@ -56,7 +63,7 @@
 						<div *ngSwitchCase="'menu'">
 
 							<ion-list>
-								<ion-item no-padding *ngFor="let service of supplier.Services">
+								<ion-item no-padding *ngFor="let service of services">
 									<p ion-text color="primary" class="text-11x">
 										{{ service.Name }}
 										<!-- Tên dịch vụ -->
@@ -110,7 +117,9 @@
 								</agm-map>
 							</div>
 
-							<p ion-text text-center color="dark" class="fw700">Địa chỉ</p>
+							<p ion-text text-center color="dark" class="fw700" *ngFor="let branch of supplier.Branches">
+								{{branch.Address}}
+							</p>
 							<hr margin-bottom>
 
 							<h2>
@@ -126,7 +135,9 @@
 							<h2>
 								<span ion-text class="fw700">Phone</span>
 							</h2>
-							<p ion-text margin-bottom>+1 (212) 999 0001</p>
+							<p ion-text margin-bottom>
+								{{supplier.PhoneNumber}}
+							</p>
 
 							<br><br>
 						</div>
