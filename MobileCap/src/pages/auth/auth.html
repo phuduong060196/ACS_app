@@ -37,7 +37,7 @@
 						<ion-input type="password" formControlName="password"></ion-input>
 					</ion-item>
 					<p ion-text color="danger" class="text-12x has-error" *ngIf="isFieldInvalid('password', onLoginForm)">
-						Mật khẩu không đươc để trống
+						Mật khẩu không được để trống
 					</p>
 				</form>
 				<div margin-top>
@@ -64,23 +64,43 @@
 					</p>
 					<ion-item>
 						<ion-label floating>
-							<ion-icon name="mail" item-start class="text-white"></ion-icon>
-							Email:
-						</ion-label>
-						<ion-input type="email" formControlName="email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"></ion-input>
-					</ion-item>
-					<p ion-text color="danger" class="text-12x has-error" *ngIf="isFieldInvalid('email', onRegisterForm)">
-						Email không đươc để trống
-					</p>
-					<ion-item>
-						<ion-label floating>
 							<ion-icon name="lock" item-start class="text-white"></ion-icon>
 							Mật khẩu:
 						</ion-label>
 						<ion-input type="password" formControlName="password"></ion-input>
 					</ion-item>
 					<p ion-text color="danger" class="text-12x has-error" *ngIf="isFieldInvalid('password', onRegisterForm)">
-						Mật khẩu không đươc để trống
+						Mật khẩu không được để trống
+					</p>
+					<ion-item>
+						<ion-label floating>
+							<ion-icon name="lock" item-start class="text-white"></ion-icon>
+							Nhập lại mật khẩu:
+						</ion-label>
+						<ion-input type="password" formControlName="repassword"></ion-input>
+					</ion-item>
+					<p ion-text color="danger" class="text-12x has-error" *ngIf="isFieldInvalid('repassword', onRegisterForm)">
+						Mật khẩu không được để trống
+					</p>
+					<ion-item>
+						<ion-label floating>
+							<ion-icon name="brush" item-start class="text-white"></ion-icon>
+							Họ tên:
+						</ion-label>
+						<ion-input type="text" formControlName="fullname"></ion-input>
+					</ion-item>
+					<p ion-text color="danger" class="text-12x has-error" *ngIf="isFieldInvalid('fullname', onRegisterForm)">
+						Họ tên không được để trống
+					</p>
+					<ion-item>
+						<ion-label floating>
+							<ion-icon name="mail" item-start class="text-white"></ion-icon>
+							Email:
+						</ion-label>
+						<ion-input type="email" formControlName="email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"></ion-input>
+					</ion-item>
+					<p ion-text color="danger" class="text-12x has-error" *ngIf="isFieldInvalid('email', onRegisterForm)">
+						Email không được để trống
 					</p>
 				</form>
 				<div margin-top>

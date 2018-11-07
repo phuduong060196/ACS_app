@@ -45,10 +45,16 @@ export class AuthPage implements OnInit {
       username: ['', Validators.compose([
         Validators.required
       ])],
-      email: ['', Validators.compose([
+      password: ['', Validators.compose([
         Validators.required
       ])],
-      password: ['', Validators.compose([
+      repassword: ['', Validators.compose([
+        Validators.required
+      ])],
+      fullname: ['', Validators.compose([
+        Validators.required
+      ])],
+      email: ['', Validators.compose([
         Validators.required
       ])]
     });

@@ -48,7 +48,7 @@ export class HomePage {
     })
     this.menuCtrl.swipeEnable(true, 'authenticated');
     this.menuCtrl.enable(true);
-    this.getAllSuppliers();
+    // this.getAllSuppliers();
   }
 
   openSupplierList() {
@@ -111,10 +111,11 @@ export class HomePage {
   }
 
   search(event) {
-    console.log(event.target.value);
+    console.log(this.searchKey);
     this.httpHelperPro.get('/api/location/search-location-with-lat-long?latitude=' + this.lat + '&longitude=' + this.lng + '&service=' + this.searchKey).subscribe(
       (res: any) => {
         this.suppliersNearby = res;
+        console.log(res);
         this.suppliersNearby.forEach(supplier => {
           supplier.Branches[0].Latitude = parseFloat(supplier.Branches[0].Latitude);
           supplier.Branches[0].Longitude = parseFloat(supplier.Branches[0].Longitude);

@@ -40,8 +40,6 @@
         "@ionic/storage": "2.2.0",
         "@types/googlemaps": "^3.30.16",
         "build": "0.1.4",
-        "cordova-android": "7.1.1",
-        "cordova-ios": "^4.5.5",
         "cordova-plugin-console": "^1.1.0",
         "cordova-plugin-device": "^1.1.6",
         "cordova-plugin-firebase": "2.0.5",
@@ -82,10 +80,7 @@
             "cordova-plugin-nativegeocoder": {},
             "cordova-plugin-geolocation": {}
         },
-        "platforms": [
-            "ios",
-            "android"
-        ]
+        "platforms": []
     },
     "config": {
         "ionic_sass": "./sass.js"

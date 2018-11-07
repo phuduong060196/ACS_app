@@ -1,24 +1,32 @@
 <ion-header>
 	<ion-navbar color="primary">
-		<button ion-button menuToggle>
-			<ion-icon name="menu"></ion-icon>
-		</button>
+		<ion-buttons start>
+			<button ion-button round (click)="closeModal()">
+				<ion-icon name="close"></ion-icon>
+			</button>
+		</ion-buttons>
 		<ion-title>
-			<span ion-text>Booking Service</span>
+			<span ion-text>Đặt dịch vụ</span>
 		</ion-title>
 	</ion-navbar>
 </ion-header>
 
 
 <ion-content class="lightest-bg">
-	<div>
-		<button ion-button color="primary" (click)="sendBookingRequest()">
-			Đặt dịch vụ
-		</button>
-	</div>
-	<ion-list *ngFor="let post of posts | async">
-		{{post.SeenBySupplier}}
-		{{post.CurrentStatus.CreatedByCustomer}}
-	</ion-list>
+
+	<form>
+
+		<ion-list *ngFor="let service of services">
+
+			<ion-item>
+				<ion-label> {{service.Name}} </ion-label>
+				<ion-checkbox name="services" [(ngModel)]="service.checked"></ion-checkbox>
+			</ion-item>
+
+		</ion-list>
+
+		<button ion-button block color="primary" (click)="sendBookingRequest()">Xác nhận</button>
+
+	</form>
 
 </ion-content>

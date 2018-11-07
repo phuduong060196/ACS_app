@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, ActionSheetController, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, ActionSheetController, NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
 
 import { RestaurantService } from '../../providers/restaurant-service-mock';
 import { DishService } from '../../providers/dish-service-mock';
@@ -18,12 +18,34 @@ import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
 export class RestaurantDetailPage {
 
     supplier: any;
+    services: any;
     restaurantopts: String = 'menu';
 
-    constructor(public actionSheetCtrl: ActionSheetController, public navCtrl: NavController, public navParams: NavParams, public cartService: CartService, public restaurantService: RestaurantService, public dishService: DishService, public toastCtrl: ToastController, public httpHelperPro: HttpHelperProvider) {
+    constructor(public actionSheetCtrl: ActionSheetController, public navCtrl: NavController, public navParams: NavParams, public cartService: CartService, public restaurantService: RestaurantService, public dishService: DishService, public toastCtrl: ToastController, public httpHelperPro: HttpHelperProvider, public modalCtrl: ModalController) {
         this.supplier = this.navParams.get('supplier');
         console.log(this.supplier);
+        if(this.supplier){
+            this.getServices(this.supplier.SupplierId);
+        }
     }
 
+    getServices(SupplierId) {
+        this.httpHelperPro.get('/api/supplier/search-all-service-by-supplierId?supplierId=' + SupplierId).subscribe(
+            (res: any) => {
+                console.log(res.data);
+                this.services = res.data;
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
+    }
+
+    openBookingServiceDetail() {
+        let modal = this.modalCtrl.create('page-booking-service-detail', {
+            'supplier': this.supplier
+        });
+        modal.present();
+    }
 
 }
