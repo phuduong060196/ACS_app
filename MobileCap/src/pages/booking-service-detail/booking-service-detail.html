@@ -16,5 +16,9 @@
 			Đặt dịch vụ
 		</button>
 	</div>
+	<ion-list *ngFor="let post of posts | async">
+		{{post.SeenBySupplier}}
+		{{post.CurrentStatus.CreatedByCustomer}}
+	</ion-list>
 
 </ion-content>

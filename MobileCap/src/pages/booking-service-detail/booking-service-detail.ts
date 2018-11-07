@@ -12,8 +12,8 @@ import 'rxjs/add/operator/map';
  */
 
 interface Post {
-	isCustomer: any;
-	message: string;
+	SeenBySupplier: any;
+	CurrentStatus: any;
 }
 
 @IonicPage({
@@ -48,19 +48,31 @@ export class BookingServiceDetailPage implements OnInit {
 			'customerId': customerId,
 			'time': dateTime
 		});
+
+		// this.database.collection(this.booking_path).doc(this.booking_path).
+
 		// this.database.collection(this.booking_path).doc(supplierId + '-' + customerId).set({});
 		// this.database.collection(this.booking_path).doc(supplierId + '-' + customerId).collection(this.booking_path1).add({
 		// 	'serviceId': '1,3,4',
 		// 	'isAccept': false,
-		// 	'time': dateTime
+		// 	'time': dateTime,
 		// });
 
 
+	}
+
+	checkNotify(){
+		this.postsCol = this.database.collection(this.booking_path, ref =>
+			ref.where('CurrentStatus.CreatedByCustomer', '==', true));
+		this.posts = this.postsCol.valueChanges();
+		console.log('test');
+		;
 	}
 
 	ngOnInit() {
 		if (this.paramId == null) {
 			this.navCtrl.push('page-supplier-list');
 		}
+		this.checkNotify();
 	}
 }
