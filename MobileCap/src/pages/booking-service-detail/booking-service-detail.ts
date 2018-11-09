@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
@@ -13,8 +14,8 @@ import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
  */
 
 interface Post {
-	isCustomer: any;
-	message: string;
+	SeenBySupplier: any;
+	CurrentStatus: any;
 }
 
 @IonicPage({
@@ -118,7 +119,16 @@ export class BookingServiceDetailPage implements OnInit {
 		);
 	}
 
+	checkNotify() {
+		this.postsCol = this.database.collection(this.booking_path, ref =>
+			ref.where('CurrentStatus.CreatedByCustomer', '==', true));
+		this.posts = this.postsCol.valueChanges();
+		console.log('test');
+		;
+	}
+
 	closeModal() {
 		this.navCtrl.pop();
 	}
 }
+
