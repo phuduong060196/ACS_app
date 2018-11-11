@@ -54,7 +54,7 @@ export class CheckoutPage implements OnInit {
 		let toast = this.toastCtrl.create({
 			showCloseButton: true,
 			cssClass: 'profile-bg',
-			message: 'Your order has been done successfully!',
+			message: 'Thanh toán thành công',
 			duration: 3000,
 			position: 'bottom'
 		});
