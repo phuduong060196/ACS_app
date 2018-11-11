@@ -24,7 +24,7 @@ export class AuthPage implements OnInit {
   public onRegisterForm: FormGroup;
 
   auth: string = "login";
-  private token: any = null;
+  private token: any;
 
   constructor(private _fb: FormBuilder, public navCtrl: NavController, public alertCtrl: AlertController, public menu: MenuController, public http: HttpClient, public loadingHelperPro: LoadingHelperProvider, public customerServicePro: CustomerServiceProvider, public accessTokenHelperPro: AccessTokenHelperProvider, public getUrlPro: GetUrlProvider, public httpHelperPro: HttpHelperProvider) {
     this.menu.swipeEnable(false);
@@ -32,6 +32,10 @@ export class AuthPage implements OnInit {
   }
 
   ngOnInit() {
+    this.token = JSON.parse(localStorage.getItem('token')).access_token;
+    if (this.token) {
+      this.navCtrl.setRoot('page-home');
+    }
     this.onLoginForm = this._fb.group({
       username: ['', Validators.compose([
         Validators.required

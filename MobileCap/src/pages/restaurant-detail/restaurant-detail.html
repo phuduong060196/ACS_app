@@ -81,30 +81,33 @@
 						<div *ngSwitchCase="'reviews'" class="tab-reviews">
 
 							<!--list of reviews-->
-							<ion-list class="list-full-border">
-								<!-- <ion-item *ngFor="let review of restaurant.reviews" margin-bottom text-wrap> -->
-								<ion-item margin-bottom text-wrap>
-									<h2 class="fw700">
-										<ion-badge color="secondary" class="text-1x">
-											<ion-icon name="star"></ion-icon>
-											<!-- {{ review.rating | number:'1.1' }} -->
-											5
-										</ion-badge>
-										<!-- {{ review.title }} -->
-										Dịch vụ tốt
-									</h2>
 
-									<p ion-text>
-										<!-- {{ review.content }} -->
-										Chất lượng dịch vụ tốt, giá cả hợp ly, nhân viên chuyên nghiêp.
-									</p>
-									<span ion-text class="author text-11x">
-										<!-- {{ review.username }} from {{ review.from }} -->
-										customer001
-									</span>
+							<div class="container" *ngIf="feedbacks">
+								<ion-list class="list-full-border">
+									<!-- <ion-item *ngFor="let review of restaurant.reviews" margin-bottom text-wrap> -->
+									<ion-item margin-bottom text-wrap *ngFor="let feedback of feedbacks">
+										<h2 class="fw700">
+											<ion-badge color="secondary" class="text-1x">
+												<ion-icon name="star"></ion-icon>
+												<!-- {{ review.rating | number:'1.1' }} -->
+												{{ feedback.NumberOfStar }}
+											</ion-badge>
+											<!-- {{ review.title }} -->
+											Dịch vụ tốt
+										</h2>
 
-								</ion-item>
-							</ion-list>
+										<p ion-text>
+											<!-- {{ review.content }} -->
+											{{feedback.FeedbackContent}}
+										</p>
+										<span ion-text class="author text-11x">
+											<!-- {{ review.username }} from {{ review.from }} -->
+											{{feedback.CustomerName}}
+										</span>
+
+									</ion-item>
+								</ion-list>
+							</div>
 							<br><br>
 
 						</div>

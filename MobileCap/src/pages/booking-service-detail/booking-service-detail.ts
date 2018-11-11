@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection} from '@angular/fire/firestore';
-import {Observable} from 'rxjs';
+
+import { Component, OnInit } from '@angular/core';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
-import {HttpHelperProvider} from '../../providers/http-helper/http-helper';
+import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
 
 /**
  * Generated class for the BookingServiceDetailPage page.
@@ -35,8 +36,8 @@ export class BookingServiceDetailPage implements OnInit {
 	posts: any;
 	private booking_path = 'booking';
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public httpHelperPro: HttpHelperProvider) {
-		this.supplier = this.navParams.get('supplier');
+	constructor(public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public httpHelperPro: HttpHelperProvider, private alertCtrl: AlertController) {
+
 	}
 
 	sendBookingRequest() {
@@ -64,11 +65,21 @@ export class BookingServiceDetailPage implements OnInit {
 				'PhoneNumber': this.customer.PhoneNumber
 			});
 		} else {
-			console.log('false');
+			let alert = this.alertCtrl.create({
+				title: 'Thông báo',
+				message: 'Vui lòng chọn dịch vụ để đặt lịch!',
+				buttons: ['Xác nhận']
+			});
+			alert.present();
 		}
 	}
 
 	ngOnInit() {
+		this.supplier = this.navParams.get('supplier');
+		if (!this.supplier) {
+			this.navCtrl.push('page-home');
+			return;
+		}
 		this.customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
 		if (this.customerId) {
 			console.log(this.customerId);
