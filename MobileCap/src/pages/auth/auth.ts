@@ -32,10 +32,10 @@ export class AuthPage implements OnInit {
   }
 
   ngOnInit() {
-    this.token = JSON.parse(localStorage.getItem('token')).access_token;
-    if (this.token) {
-      this.navCtrl.setRoot('page-home');
-    }
+    // this.token = JSON.parse(localStorage.getItem('token')).access_token;
+    // if (this.token) {
+    //   this.navCtrl.setRoot('page-home');
+    // }
     this.onLoginForm = this._fb.group({
       username: ['', Validators.compose([
         Validators.required

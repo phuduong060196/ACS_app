@@ -43,7 +43,10 @@ export class BookingServiceDetailPage implements OnInit {
 	sendBookingRequest() {
 		const list = this.services.filter(el => el.checked == true).map(el => {
 			return {
-				ServiceId: el.ServiceId, Price: el.Price
+				ServiceId: el.ServiceId,
+				Price: el.Price,
+				PriceDisplay: el.PriceDisplay,
+				Name: el.Name
 			}
 		})
 		if (list.length > 0) {
