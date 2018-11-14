@@ -30,6 +30,7 @@ export class SupplierDetailPage implements OnInit {
 	posts: any;
 	public feedbackFlag: boolean;
 	public status: boolean;
+	supplierAvatar: string;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpClient, public getUrlPro: GetUrlProvider) {
 		this.param = this.navParams.get('id');
@@ -39,6 +40,7 @@ export class SupplierDetailPage implements OnInit {
 		this.http.get(this.getUrlPro.getUrl + '/api/supplier/get-by-id?id=' + this.param)
 			.subscribe((res: any) => {
 				this.supplier = res.data;
+				this.supplierAvatar = "http://web-capstone.azurewebsites.net/" + this.supplier.Avatar;
 			}, (err) => {
 				console.log(err);
 			});

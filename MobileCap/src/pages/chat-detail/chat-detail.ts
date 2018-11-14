@@ -1,8 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewChecked, Component, OnInit, ViewChild} from '@angular/core';
 import {Content, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection} from '@angular/fire/firestore';
 import {Observable} from 'rxjs';
 import 'rxjs/add/operator/map';
+import {HttpClient} from "@angular/common/http";
+import {GetUrlProvider} from "../../providers/get-url/get-url";
 
 /**
  * Generated class for the ChatDetailPage page.
@@ -29,7 +31,7 @@ export interface Item {
 	selector: 'page-chat-detail',
 	templateUrl: 'chat-detail.html'
 })
-export class ChatDetailPage{
+export class ChatDetailPage {
 	paramId: any;
 	private chat_path: 'chat';
 	private chat_path1: 'chat1';
@@ -39,23 +41,31 @@ export class ChatDetailPage{
 	message: string;
 	@ViewChild(Content) content: Content;
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public http: HttpClient, public getUrlPro: GetUrlProvider) {
 		this.paramId = this.navParams.get('id');
 	}
 
 	sendMessage() {
 		if (this.message != undefined && this.message != '') {
 			//get UserID
-			var customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
+			let customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
 			//get SupplierID
-			var supplierId = this.paramId.supId;
+			let supplierId = this.paramId.supId;
 			let dateTime = new Date();
-			this.database.collection('chat').doc(supplierId + '-' + customerId).set({});
+			this.database.collection('chat').doc(supplierId + '-' + customerId).set({
+				'supId': supplierId,
+				'cusId': customerId,
+				'lastTime': dateTime,
+				'isCustomer': true,
+				'supName': this.paramId.supName,
+				'supAvatar': this.paramId.supAvatar
+			});
 			this.database.collection('chat').doc(supplierId + '-' + customerId).collection('chat1').add({
 				'message': this.message,
 				'isCustomer': true,
 				'time': dateTime
 			});
+
 			this.scrollToBottom();
 			this.message = '';
 		}
@@ -68,6 +78,7 @@ export class ChatDetailPage{
 		//get SupplierID
 		let supplierId = this.paramId.supId;
 		//load from firestore
+
 		this.postsCol = this.database.collection('chat').doc(supplierId + '-' + customerId).collection('chat1', ref =>
 			ref.orderBy('time', 'asc'));
 		this.posts = this.postsCol.valueChanges();
@@ -84,13 +95,7 @@ export class ChatDetailPage{
 		if (this.paramId == null) {
 			this.navCtrl.push('page-supplier-detail');
 		}
-		console.log('test ne2');
 		this.loadMessage();
-	}
-
-	ionViewWillEnter() {
-		this.scrollToBottom();
-		console.log('test ne  1');
 	}
 
 }

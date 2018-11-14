@@ -16,8 +16,10 @@
 			<div class="sender" *ngIf="post.isCustomer != true">
 				<ion-grid>
 					<ion-row>
-						<ion-col col-2 text-left>
-							<img class="friend-img" [src]="" alt="">
+						<ion-col col-2 text-left *ngIf="paramId">
+							<ion-avatar item-start>
+								<img src="{{ paramId.supAvatar }}">
+							</ion-avatar>
 						</ion-col>
 						<ion-col col-10>
 							<p>{{post.message}}</p>

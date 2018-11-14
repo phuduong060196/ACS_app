@@ -21,7 +21,7 @@
 						&nbsp;&nbsp;Gọi
 					</button>
 				</a>
-				<button ion-button (click)="openChatDetail({'supId': supplier.SupplierId, 'supName': supplier.Name})">
+				<button ion-button (click)="openChatDetail({'supId': supplier.SupplierId, 'supName': supplier.Name, 'supAvatar': supplierAvatar})">
 					<ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp;Nhắn tin
 				</button>
 				<div *ngIf="feedbackFlag == false">
