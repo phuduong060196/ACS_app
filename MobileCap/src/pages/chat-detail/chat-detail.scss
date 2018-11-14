@@ -1,89 +1,62 @@
-page-chat {
-  .innerMessage {
-	display: inline-block;
-	padding: 5px 10px;
-	background: color($colors, 'primary');
-	margin: 5px;
-	color: white;
-	border-radius: 3px;
-  }
-  .innerMessage.messageRight {
-	background: color($colors, 'secondary');
-  }
-  .username {
-	font-weight: bold;
-	font-size: 80%;
-  }
-  .message {
-	font-size: 120%;
-  }
-  .elem button {
-	border-radius: 0;
-	margin: 0;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-  }
-  .elem {
-	position: relative;
-	min-width: 50px;
-  }
-  div#footer div.elem:first-child {
-	flex-grow: 1;
-  }
-  div#footer {
-	display: flex;
-	flex-direction: row;
-	align-items: stretch;
+page-chat-detail {
+
+  .grid {
+	padding: 0;
   }
 
-  ion-input{
-	padding-left: 15px;
-	font-size: 125%;
-  }
-  ion-toolbar {
-	margin: 0;
-	padding: 0!important;
-  }
-  .message:after {
-	content: '';
-	display: block;
-	clear: both;
-  }
-  .messageLeft {
-	float: left;
-  }
-  .messageRight {
-	float: right;
+  .sender, .me {
+	.friend-img {
+	  position: absolute;
+	  border-radius: 40px;
+	  width: 40px;
+	  height: 40px;
+	  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+	}
+	p {
+	  border-radius: 5px;
+	  margin: 0;
+	}
   }
 
-  .message.special .innerMessage .messageContent{
-	background: white;
-	display: inline-block;
-	padding: 0 10px;
+
+  .sender {
+	p {
+	  text-align: left;
+	  background-color: #fff;
+	  padding: 12px 10px;
+	  border: 1px solid #d1d1d1;
+	}
+	.friend-img {
+	  margin: 0 0;
+	}
   }
 
-  .message.special .innerMessage:before{
-	content: '';
-	height: 2px;
-	background: #eee;
-	display: block;
-	top: 50%;
-	position: absolute;
-	left: 0;
-	width: 100%;
-	z-index: -1;
+
+  .me {
+	.txt {
+	  display: inline;
+	  text-align: right;
+	}
+	.friend-img {
+	  margin: 0 22px;
+	}
+	p {
+	  background-color: #cd1e37;
+	  color: #fff;
+	  padding: 12px 10px;
+	}
   }
 
-  .message.special .innerMessage{
-	background: transparent;
-	color: black;
-	font-size: 80%;
-	width: 100%;
-	float: none;
-	text-align: center;
-	position: relative;
+  .text-input {
+	background-color: #fff;
+	border-radius: 5px;
+	padding: 5px;
+  }
+  ion-footer {
+	--ion-toolbar-background-color: var(--ion-color-white);
+
+	.message-input {
+	  padding-left: 8px;
+	}
   }
 }

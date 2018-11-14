@@ -29,7 +29,7 @@ export interface Item {
 	selector: 'page-chat-detail',
 	templateUrl: 'chat-detail.html'
 })
-export class ChatDetailPage implements OnInit {
+export class ChatDetailPage{
 	paramId: any;
 	private chat_path: 'chat';
 	private chat_path1: 'chat1';
@@ -56,6 +56,7 @@ export class ChatDetailPage implements OnInit {
 				'isCustomer': true,
 				'time': dateTime
 			});
+			this.scrollToBottom();
 			this.message = '';
 		}
 
@@ -70,13 +71,26 @@ export class ChatDetailPage implements OnInit {
 		this.postsCol = this.database.collection('chat').doc(supplierId + '-' + customerId).collection('chat1', ref =>
 			ref.orderBy('time', 'asc'));
 		this.posts = this.postsCol.valueChanges();
+		this.scrollToBottom();
 	}
 
-	ngOnInit() {
+	scrollToBottom() {
+		setTimeout(() => {
+			this.content.scrollToBottom(300);
+		});
+	}
+
+	ionViewDidLoad() {
 		if (this.paramId == null) {
-			this.navCtrl.push('page-supplier-list');
+			this.navCtrl.push('page-supplier-detail');
 		}
+		console.log('test ne2');
 		this.loadMessage();
+	}
+
+	ionViewWillEnter() {
+		this.scrollToBottom();
+		console.log('test ne  1');
 	}
 
 }
