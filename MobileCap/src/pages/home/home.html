@@ -9,6 +9,9 @@
 		<ion-buttons end>
 			<button ion-button (click)="presentNotifications($event)">
 				<ion-icon name="notifications"></ion-icon>
+				<ion-badge color="dark" *ngIf="notifications">
+					{{notifications.length}}
+				</ion-badge>
 			</button>
 			<button ion-button (click)="openCart()">
 				<ion-icon name="cart"></ion-icon>
