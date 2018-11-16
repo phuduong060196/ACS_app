@@ -6,13 +6,6 @@ import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
 
-/**
- * Generated class for the BookingServiceDetailPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 interface Post {
 	SeenBySupplier: any;
 	CurrentStatus: any;

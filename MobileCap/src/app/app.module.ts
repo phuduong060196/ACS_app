@@ -15,6 +15,7 @@ import { PipesModule } from '../pipes/pipes.module';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { FormsModule } from '@angular/forms';
+import { Firebase } from '@ionic-native/firebase';
 
 import {MessageService} from "../providers/message-service-mock";
 import {RestaurantService} from "../providers/restaurant-service-mock";
@@ -33,6 +34,8 @@ import { LoadingHelperProvider } from '../providers/loading-helper/loading-helpe
 import { CustomerServiceProvider } from '../providers/customer-service/customer-service';
 import { SupplierServiceProvider } from '../providers/supplier-service/supplier-service';
 import { LocalHelperProvider } from '../providers/local-helper/local-helper';
+import { FcmProvider } from '../providers/fcm/fcm';
+import { NotificationHelperProvider } from '../providers/notification-helper/notification-helper';
 
 var config = {
 	apiKey: "AIzaSyCxm0jQrorq3-dCoiwwTchjaIe_H6OX2H0",
@@ -91,7 +94,10 @@ var config = {
     SupplierServiceProvider,
     NativeGeocoder,
     Geolocation,
-    LocalHelperProvider
+    LocalHelperProvider,
+    Firebase,
+    FcmProvider,
+    NotificationHelperProvider
   ]
 })
 export class AppModule {}

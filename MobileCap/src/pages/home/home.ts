@@ -7,6 +7,7 @@ import { RestaurantService } from '../../providers/restaurant-service-mock';
 import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
 import { SupplierServiceProvider } from '../../providers/supplier-service/supplier-service';
 import { LocalHelperProvider } from '../../providers/local-helper/local-helper';
+import { NotificationHelperProvider } from '../../providers/notification-helper/notification-helper';
 
 @IonicPage({
   name: 'page-home',
@@ -32,11 +33,14 @@ export class HomePage {
   searchKey: string;
   yourLocation: string;
 
+  
+  notifications: any;
+
   constructor(public navCtrl: NavController, public menuCtrl: MenuController, public popoverCtrl: PopoverController,
     public locationCtrl: AlertController, public modalCtrl: ModalController, public toastCtrl: ToastController,
     public service: RestaurantService, public httpHelperPro: HttpHelperProvider, public supplierServicePro: SupplierServiceProvider,
     private platform: Platform, private geolocation: Geolocation, private http: HttpClient,
-    private localPro: LocalHelperProvider) {
+    private localPro: LocalHelperProvider, private notificationHelperPro: NotificationHelperProvider) {
     this.localPro.GetLocation.subscribe(val => {
       if (val) {
         this.lat = val.lat;
@@ -46,9 +50,11 @@ export class HomePage {
         this.getCurentLocation();
       }
     })
+    this.notificationHelperPro.GetTestNotification.subscribe((val) => {
+      this.notifications = val;
+    })
     this.menuCtrl.swipeEnable(true, 'authenticated');
     this.menuCtrl.enable(true);
-    // this.getAllSuppliers();
   }
 
   openSupplierList() {

@@ -1,7 +1,10 @@
 import {Component, ViewChild} from '@angular/core';
-import {Nav, Platform} from 'ionic-angular';
+import {Nav, Platform, ToastController} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
+
+import { FcmProvider } from '../providers/fcm/fcm';
+import { NotificationHelperProvider } from '../providers/notification-helper/notification-helper';
 
 export interface MenuItem {
 	title: string;
@@ -41,7 +44,7 @@ export class foodIonicApp {
 
 	helpMenuItems: Array<MenuItem>;
 
-	constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+	constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private fcmPro: FcmProvider, private toastCtrl: ToastController, private notificationHelperPro: NotificationHelperProvider) {
 		this.initializeApp();
 		this.homeItem = {component: 'page-home'};
 		this.messagesItem = {component: 'page-message-list'};
@@ -59,6 +62,30 @@ export class foodIonicApp {
 		this.platform.ready().then(() => {
 			this.statusBar.overlaysWebView(false);
 			this.splashScreen.hide();
+
+			this.fcmPro.getToken();
+
+			this.fcmPro.listenToNotifications().subscribe((res) => {
+                if (!res.tap) {
+                    this.toastCtrl.create({
+                        message: res.body,
+                        position: 'top',
+                        showCloseButton: true,
+                        closeButtonText: 'Đóng'
+                    }).present();
+                }
+                this.notificationHelperPro.GetTestNotification.subscribe((val) => {
+                    let listNewNotification = val;
+                    listNewNotification.unshift({
+                        'OrderId': parseInt(res.OrderId),
+                        'MessageBody': res.MessageBody,
+                        'tap': false,
+                        'time': new Date()
+                    });
+                    this.notificationHelperPro.SetTestNotification(listNewNotification);
+                })
+            });
+
 		});
 
 		if (!this.platform.is('mobile')) {
