@@ -72,8 +72,8 @@ export class HomePage {
     this.navCtrl.push('page-cart');
   }
 
-  openRestaurantDetail(supplier: any) {
-    this.navCtrl.push('page-restaurant-detail', {
+  openSupplierDetail(supplier: any) {
+    this.navCtrl.push('page-supplier-detail', {
       'supplier': supplier
     });
   }
@@ -102,7 +102,6 @@ export class HomePage {
     this.httpHelperPro.get('/api/supplier/search?name=&searchBy=price&sort=desc').subscribe(
       (res: any) => {
         this.suppliers = res.data;
-        console.log(this.suppliers);
       },
       (err) => {
         console.log(err);
@@ -111,11 +110,9 @@ export class HomePage {
   }
 
   search(event) {
-    console.log(this.searchKey);
     this.httpHelperPro.get('/api/location/search-location-with-lat-long?latitude=' + this.lat + '&longitude=' + this.lng + '&service=' + this.searchKey).subscribe(
       (res: any) => {
         this.suppliersNearby = res;
-        console.log(res);
         this.suppliersNearby.forEach(supplier => {
           supplier.Branches[0].Latitude = parseFloat(supplier.Branches[0].Latitude);
           supplier.Branches[0].Longitude = parseFloat(supplier.Branches[0].Longitude);

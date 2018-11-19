@@ -28,20 +28,42 @@
 				{{supplier.Name}}
 				<!-- Tên nhà cung cấp -->
 			</h1>
-			<div text-center>
-				<!-- <ion-badge color="secondary">{{restaurant.tags}}</ion-badge> -->
-				<ion-badge color="secondary" class="text-11x">
-					<ion-icon name="star"></ion-icon>
-					5
-				</ion-badge>
-				<ion-buttons>
-					<button ion-button (click)="openBookingServiceDetail(supplier)">
-						<ion-icon name="calendar">
-							Đặt dịch vụ
-						</ion-icon>
-					</button>
-				</ion-buttons>
-			</div>
+			<!--<div text-center>-->
+				<!--&lt;!&ndash; <ion-badge color="secondary">{{restaurant.tags}}</ion-badge> &ndash;&gt;-->
+				<!--<ion-badge color="secondary" class="text-11x">-->
+					<!--<ion-icon name="star"></ion-icon>-->
+					<!--5-->
+				<!--</ion-badge>-->
+				<!--<ion-buttons>-->
+					<!--<button ion-button (click)="openBookingServiceDetail(supplier)">-->
+						<!--<ion-icon name="calendar">-->
+							<!--Đặt dịch vụ-->
+						<!--</ion-icon>-->
+					<!--</button>-->
+				<!--</ion-buttons>-->
+			<!--</div>-->
+				<div text-center>
+					<ion-buttons class="full-width">
+						<button ion-button (click)="openBookingService(supplier)">
+							<ion-icon name="calendar"></ion-icon>&nbsp;&nbsp;Đặt dịch vụ
+						</button>
+						<a href="tel:{{supplier.PhoneNumber}}">
+							<button ion-button>
+								<ion-icon name="call"></ion-icon>
+								&nbsp;&nbsp;Gọi
+							</button>
+						</a>
+						<button ion-button (click)="openChatDetail({'supId': supplier.SupplierId, 'supName': supplier.Name, 'supAvatar': supplierAvatar})">
+							<ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp;Nhắn tin
+						</button>
+						<div *ngIf="feedbackFlag == false">
+							<button ion-button (click)="openFeedbackDetail({'supId': supplier.SupplierId, 'supName': supplier.Name})">
+								<ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp;Đánh giá
+							</button>
+						</div>
+
+					</ion-buttons>
+				</div>
 		</ion-card-content>
 
 		<ion-grid no-padding fixed>

@@ -1,36 +1,209 @@
+<!--<ion-header>-->
+<!--<ion-navbar color="primary">-->
+<!--<ion-title>-->
+<!--<div *ngIf="supplier">-->
+<!--{{supplier.Name}}-->
+<!--</div>-->
+<!--</ion-title>-->
+<!--</ion-navbar>-->
+<!--</ion-header>-->
+
+<!--<ion-content class="lightest-bg">-->
+<!--<div *ngIf="supplier">{{supplier.Name}}<br>{{supplier.PhoneNumber}}-->
+<!--<div text-center>-->
+<!--<ion-buttons class="full-width">-->
+<!--<button ion-button (click)="openBookingService({'supId': supplier.SupplierId, 'supName': supplier.Name})">-->
+<!--<ion-icon name="calendar"></ion-icon>&nbsp;&nbsp;Đặt dịch vụ-->
+<!--</button>-->
+<!--<a href="tel:{{supplier.PhoneNumber}}">-->
+<!--<button ion-button>-->
+<!--<ion-icon name="call"></ion-icon>-->
+<!--&nbsp;&nbsp;Gọi-->
+<!--</button>-->
+<!--</a>-->
+<!--<button ion-button (click)="openChatDetail({'supId': supplier.SupplierId, 'supName': supplier.Name, 'supAvatar': supplierAvatar})">-->
+<!--<ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp;Nhắn tin-->
+<!--</button>-->
+<!--<div *ngIf="feedbackFlag == false">-->
+<!--<button ion-button (click)="openFeedbackDetail({'supId': supplier.SupplierId, 'supName': supplier.Name})">-->
+<!--<ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp;Đánh giá-->
+<!--</button>-->
+<!--</div>-->
+
+<!--</ion-buttons>-->
+<!--</div>-->
+<!--</div>-->
+<!--</ion-content>-->
+
 <ion-header>
 	<ion-navbar color="primary">
 		<ion-title>
-			<div *ngIf="supplier">
-				{{supplier.Name}}
-			</div>
+			<span ion-text> {{supplier.Name}} </span>
+			<!-- Tên nhà cung cấp -->
 		</ion-title>
 	</ion-navbar>
 </ion-header>
 
 <ion-content class="lightest-bg">
-	<div *ngIf="supplier">{{supplier.Name}}<br>{{supplier.PhoneNumber}}
-		<div text-center>
-			<ion-buttons class="full-width">
-				<button ion-button (click)="openBookingService({'supId': supplier.SupplierId, 'supName': supplier.Name})">
-					<ion-icon name="calendar"></ion-icon>&nbsp;&nbsp;Đặt dịch vụ
-				</button>
-				<a href="tel:{{supplier.PhoneNumber}}">
-					<button ion-button>
-						<ion-icon name="call"></ion-icon>
-						&nbsp;&nbsp;Gọi
-					</button>
-				</a>
-				<button ion-button (click)="openChatDetail({'supId': supplier.SupplierId, 'supName': supplier.Name, 'supAvatar': supplierAvatar})">
-					<ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp;Nhắn tin
-				</button>
-				<div *ngIf="feedbackFlag == false">
-					<button ion-button (click)="openFeedbackDetail({'supId': supplier.SupplierId, 'supName': supplier.Name})">
-						<ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp;Đánh giá
-					</button>
-				</div>
+	<ion-card *ngIf="supplier" class="full-width" no-margin>
+		<div class="card-img-wrap">
+			<!-- <span ion-text class="card-img-status fw700 text-white" [ngClass]="{'closed': restaurant.label === 'closed', 'open': restaurant.label === 'open'}">
+				Label
+			</span> -->
+			<ion-slides class="to-top primary-bg" pager>
+				<!-- <ion-slide *ngFor="let image of restaurant.images"> -->
+				<!-- <img src="{{ image }}" alt=""> -->
+				<img src="https://dienlanhhoanggia.com/getattachment/d5ec3649-e3f1-4c91-8c5f-e57cf512210f//trang-chu/logo/dien-may-viet-long.aspx?width=&height="
+					 alt="">
 
-			</ion-buttons>
+				<!-- </ion-slide> -->
+			</ion-slides>
 		</div>
-	</div>
+		<ion-card-content>
+			<h1 ion-text color="dark" class="card-title fw700" text-center>
+				{{supplier.Name}}
+				<!-- Tên nhà cung cấp -->
+			</h1>
+			<!--<div text-center>-->
+			<!--&lt;!&ndash; <ion-badge color="secondary">{{restaurant.tags}}</ion-badge> &ndash;&gt;-->
+			<!--<ion-badge color="secondary" class="text-11x">-->
+			<!--<ion-icon name="star"></ion-icon>-->
+			<!--5-->
+			<!--</ion-badge>-->
+			<!--<ion-buttons>-->
+			<!--<button ion-button (click)="openBookingServiceDetail(supplier)">-->
+			<!--<ion-icon name="calendar">-->
+			<!--Đặt dịch vụ-->
+			<!--</ion-icon>-->
+			<!--</button>-->
+			<!--</ion-buttons>-->
+			<!--</div>-->
+			<div text-center>
+				<ion-buttons class="full-width">
+					<button ion-button (click)="openBookingServiceDetail(supplier)">
+						<ion-icon name="calendar"></ion-icon>&nbsp;&nbsp;Đặt dịch vụ
+					</button>
+					<a href="tel:{{supplier.PhoneNumber}}">
+						<button ion-button>
+							<ion-icon name="call"></ion-icon>
+							&nbsp;&nbsp;Gọi
+						</button>
+					</a>
+					<button ion-button
+							(click)="openChatDetail({'supId': supplier.SupplierId, 'supName': supplier.Name, 'supAvatar': supplierAvatar})">
+						<ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp;Nhắn tin
+					</button>
+					<div *ngIf="feedbackFlag == true">
+						<button ion-button
+								(click)="openFeedbackDetail({'supId': supplier.SupplierId, 'supName': supplier.Name})">
+							<ion-icon name="text"></ion-icon>&nbsp;&nbsp;Đánh giá
+						</button>
+					</div>
+
+				</ion-buttons>
+			</div>
+		</ion-card-content>
+
+		<ion-grid no-padding fixed>
+			<ion-row no-padding>
+				<ion-col>
+					<ion-segment [(ngModel)]="supplieropts" padding-horizontal>
+						<ion-segment-button value="menu">
+							Dịch vụ
+						</ion-segment-button>
+						<ion-segment-button value="info">
+							Thông tin
+						</ion-segment-button>
+						<ion-segment-button value="reviews">
+							Đánh giá
+						</ion-segment-button>
+					</ion-segment>
+
+					<div [ngSwitch]="supplieropts" padding>
+						<div *ngSwitchCase="'menu'">
+
+							<ion-list>
+								<ion-item no-padding *ngFor="let service of services">
+									<p ion-text color="primary" class="text-11x">
+										{{ service.Name }}
+										<!-- Tên dịch vụ -->
+									</p>
+									<button ion-button clear class="green-bg text-white" item-end>
+										{{ service.PriceDisplay }}
+										<!-- Giá dịch vụ -->
+									</button>
+								</ion-item>
+							</ion-list>
+
+							<br><br><br><br>
+
+						</div>
+						<div *ngSwitchCase="'reviews'" class="tab-reviews">
+
+							<!--list of reviews-->
+
+							<div class="container" *ngIf="feedbacks">
+								<ion-list class="list-full-border">
+									<!-- <ion-item *ngFor="let review of restaurant.reviews" margin-bottom text-wrap> -->
+									<ion-item margin-bottom text-wrap *ngFor="let feedback of feedbacks">
+										<h2 class="fw700">
+											<ion-badge color="secondary" class="text-1x">
+												<ion-icon name="star"></ion-icon>
+												<!-- {{ review.rating | number:'1.1' }} -->
+												{{ feedback.NumberOfStar }}
+											</ion-badge>
+											{{feedback.CustomerName}}
+										</h2>
+
+										<p ion-text>
+											{{feedback.FeedbackContent}}
+										</p>
+										<span ion-text class="author text-11x">
+											{{feedback.CreatedDate}}
+										</span>
+
+									</ion-item>
+								</ion-list>
+							</div>
+							<br><br>
+
+						</div>
+						<div *ngSwitchCase="'info'">
+							<!-- Show map here -->
+							<div id="map-detail" margin-bottom *ngFor="let branch of supplier.Branches">
+								<agm-map [latitude]="branch.Latitude" [longitude]="branch.Longitude" [zoom]="12">
+									<agm-marker [latitude]="branch.Latitude" [longitude]="branch.Longitude">
+									</agm-marker>
+								</agm-map>
+							</div>
+
+							<p ion-text text-center color="dark" class="fw700" *ngFor="let branch of supplier.Branches">
+								{{branch.Address}}
+							</p>
+							<hr margin-bottom>
+
+							<h2>
+								<span ion-text class="fw700">About</span>
+							</h2>
+							<p ion-text margin-bottom>Mô tả</p>
+
+							<h2>
+								<span ion-text class="fw700">Hours</span>
+							</h2>
+							<p ion-text margin-bottom>Open 11AM • Closes 11PM</p>
+
+							<h2>
+								<span ion-text class="fw700">Phone</span>
+							</h2>
+							<p ion-text margin-bottom>
+								{{supplier.PhoneNumber}}
+							</p>
+
+							<br><br>
+						</div>
+					</div>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+	</ion-card>
 </ion-content>

@@ -37,12 +37,6 @@
 											  [name]="this.starRating >= i ? 'ios-star' : 'ios-star-outline'"></ion-icon>
 								</p>
 								<p ion-text color="danger" class="text-1x has-error" *ngIf="isFieldInvalid('feedbackStar', onYourFeedbackForm)">Bắt buộc</p>
-								<ion-item>
-									<ion-label color="primary" stacked>Tiêu đề:</ion-label>
-									<ion-input type="text" placeholder="Nhấn vào đây..."
-											   formControlName="feedbackTitle"></ion-input>
-								</ion-item>
-								<p ion-text color="danger" class="text-1x has-error" *ngIf="isFieldInvalid('feedbackTitle', onYourFeedbackForm)">Bắt buộc</p>
 
 								<ion-item>
 									<ion-label color="primary" stacked>Nội dung:</ion-label>

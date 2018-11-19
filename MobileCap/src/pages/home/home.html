@@ -17,7 +17,8 @@
 	</ion-navbar>
 
 	<ion-toolbar color="primary">
-		<ion-searchbar [(ngModel)]="searchKey" (keyup.enter)="search($event)" (ionCancel)="onCancel($event)"></ion-searchbar>
+		<ion-searchbar [(ngModel)]="searchKey" (keyup.enter)="search($event)"
+					   (ionCancel)="onCancel($event)"></ion-searchbar>
 		<ion-buttons end>
 			<button ion-button (click)="openRestaurantFilterPage()">
 				<ion-icon name="options"></ion-icon>
@@ -37,7 +38,8 @@
 						</button>
 						<h3 ion-text no-margin color="dark" class="fw500 no-margin">Vị trí hiện tại:</h3>
 						<span ion-text class="text-11x no-margin" color="primary">{{yourLocation}}</span>
-						<button ion-button outline round item-end icon-right color="primary" (click)=" changeLocation()">
+						<button ion-button outline round item-end icon-right color="primary"
+								(click)=" changeLocation()">
 							Đổi vị trí
 							<ion-icon name="locate"></ion-icon>
 						</button>
@@ -50,7 +52,8 @@
 			<agm-map [latitude]="lat" [longitude]="lng" [zoom]="12">
 				<div *ngFor="let supplier of suppliersNearby">
 					<!-- <agm-marker *ngFor="let restaurant of restaurants; let i = index" [latitude]="restaurant.lat" [longitude]="restaurant.long"> -->
-					<agm-marker *ngFor="let branch of supplier.Branches" [latitude]="branch.Latitude" [longitude]='branch.Longitude'>
+					<agm-marker *ngFor="let branch of supplier.Branches" [latitude]="branch.Latitude"
+								[longitude]='branch.Longitude'>
 						<!-- <agm-info-window>
 							<img src="{{restaurant.thumbnail}}" class="mw240" tappable (click)="openRestaurantDetail(restaurant)">
 							<h3 tappable (click)="openRestaurantDetail(restaurant)">
@@ -85,7 +88,8 @@
 		</ion-list> -->
 
 		<ion-list ion-row padding-horizontal>
-			<button ion-item ion-col *ngFor="let supplier of suppliersNearby" col-12 col-md-6 (click)="openRestaurantDetail(supplier)">
+			<button ion-item ion-col *ngFor="let supplier of suppliersNearby" col-12 col-md-6
+					(click)="openSupplierDetail(supplier)">
 				<ion-thumbnail item-start>
 					<img src="https://dienlanhhoanggia.com/getattachment/d5ec3649-e3f1-4c91-8c5f-e57cf512210f//trang-chu/logo/dien-may-viet-long.aspx?width=&height=">
 				</ion-thumbnail>
@@ -95,15 +99,9 @@
 					5
 				</ion-badge>
 				<h3>
-					<ion-icon name="pin"> {{supplier.distance}} km</ion-icon>
+					<ion-icon name="pin"></ion-icon> {{supplier.distance}} km
 				</h3>
 			</button>
 		</ion-list>
-
-		<ion-row padding>
-			<button ion-button round block color="secondary" (click)="openSupplierList()">
-				Tải thêm
-			</button>
-		</ion-row>
 	</ion-grid>
 </ion-content>

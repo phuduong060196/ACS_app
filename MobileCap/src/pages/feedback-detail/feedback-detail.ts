@@ -81,7 +81,7 @@ export class FeedbackDetailPage implements OnInit {
 						loader.dismiss();
 						toast.present();
 						// back to home page
-						this.navCtrl.setRoot('page-supplier-list');
+						this.navCtrl.setRoot('page-home');
 					}, 3000)
 				}
 			}
@@ -112,15 +112,11 @@ export class FeedbackDetailPage implements OnInit {
 	setStar(index: number) {
 		this.openCloseAnim = 'open';
 		this.starRating = index;
-		console.log(index);
 	}
 
 	ngOnInit() {
 		this.onYourFeedbackForm = this._fb.group({
 			feedbackStar: [this.starRating, Validators.compose([
-				Validators.required
-			])],
-			feedbackTitle: ['', Validators.compose([
 				Validators.required
 			])],
 			feedbackContent: ['', Validators.compose([
