@@ -36,6 +36,7 @@ import { SupplierServiceProvider } from '../providers/supplier-service/supplier-
 import { LocalHelperProvider } from '../providers/local-helper/local-helper';
 import { FcmProvider } from '../providers/fcm/fcm';
 import { NotificationHelperProvider } from '../providers/notification-helper/notification-helper';
+import { NumberNotificationHelperProvider } from '../providers/number-notification-helper/number-notification-helper';
 
 var config = {
 	apiKey: "AIzaSyCxm0jQrorq3-dCoiwwTchjaIe_H6OX2H0",
@@ -97,7 +98,8 @@ var config = {
     LocalHelperProvider,
     Firebase,
     FcmProvider,
-    NotificationHelperProvider
+    NotificationHelperProvider,
+    NumberNotificationHelperProvider
   ]
 })
 export class AppModule {}

@@ -16,22 +16,22 @@
 			<ion-col>
 				<ion-card *ngIf="!messages.length" class="primary-bg" margin-top>
 					<ion-card-content>
-						<p text-center class="text-white">You have no messages yet.</p>
+						<p text-center class="text-white">Bạn không có thông báo nào !!!</p>
 					</ion-card-content>
 				</ion-card>
 
 				<ion-list>
 					<ion-item-sliding *ngFor="let message of messages">
-						<button ion-item (click)="itemTapped(message)" [ngClass]="{'light-bg': !message.read}">
-							<h2 [ngClass]="{'fw700': !message.read}">
-								<ion-icon name="mail" color="primary" *ngIf="!message.read"></ion-icon>
-								<ion-icon name="mail-open" color="primary" *ngIf="message.read"></ion-icon>
-								{{message.title}}
+						<button ion-item (click)="itemTapped(message)" [ngClass]="{'light-bg': !message.tap}">
+							<h2 [ngClass]="{'fw700': !message.tap}">
+								<ion-icon name="mail" color="primary" *ngIf="!message.tap"></ion-icon>
+								<ion-icon name="mail-open" color="primary" *ngIf="message.tap"></ion-icon>
+								{{message.MessageBody}}
 							</h2>
-							<p>{{message.senderName}} ∙ {{message.date | date: 'MM/dd/yyyy'}}</p>
+							<p>Người gửi ∙ {{message.date | date: 'dd/MM/yyyy, h:mm a'}}</p>
 						</button>
 						<ion-item-options>
-							<button ion-button color="danger" (click)="deleteItem(message)">Delete</button>
+							<button ion-button color="danger" (click)="deleteItem(message)">Xóa</button>
 						</ion-item-options>
 					</ion-item-sliding>
 				</ion-list>

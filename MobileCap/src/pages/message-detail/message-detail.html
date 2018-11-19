@@ -11,17 +11,17 @@
 
 <ion-content>
 
-	<ion-grid no-padding fixed>
+	<ion-grid no-padding fixed *ngIf="message">
 		<ion-row no-padding>
 			<ion-col>
 				<div class="message-header profiles-bg" padding>
 					<h5 ion-text color="light" class="fw700">{{message.title}}</h5>
-					<p ion-text no-margin color="light">{{message.date | date: 'MM/dd/yyyy'}} ∙ by {{message.senderName}}</p>
+					<p ion-text no-margin color="light">{{message.date | date: 'MM/dd/yyyy'}} ∙ bởi Người gửi</p>
 				</div>
 
 				<div padding-horizontal>
 					<p>
-						{{message.message}}
+						{{message.OrderId}}
 					</p>
 				</div>
 			</ion-col>

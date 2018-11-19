@@ -1,11 +1,12 @@
-import {Component} from '@angular/core';
-import {IonicPage, NavController} from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController } from 'ionic-angular';
 
-import {MessageService} from '../../providers/message-service-mock';
+import { MessageService } from '../../providers/message-service-mock';
+import { NotificationHelperProvider } from '../../providers/notification-helper/notification-helper';
 
 @IonicPage({
-	name: 'page-message-list',
-	segment: 'message-list'
+    name: 'page-message-list',
+    segment: 'message-list'
 })
 
 @Component({
@@ -14,22 +15,32 @@ import {MessageService} from '../../providers/message-service-mock';
 })
 export class MessageListPage {
 
-    messages: Array<any> = [];
+    messages: any;
 
-    constructor(public navCtrl: NavController, public service: MessageService) {
+    constructor(private notificationHelperPro: NotificationHelperProvider, public navCtrl: NavController, public service: MessageService) {
         this.getMessages();
-        // console.log(this.messages);
+        this.notificationHelperPro.GetTestNotification.subscribe((val) => {
+            this.messages = val;
+        });
     }
 
     itemTapped(message) {
-        // console.log('itemTapped: ', message);
-        this.navCtrl.push('page-message-detail', {
-	      'id': message.id
-	    });
+        this.notificationHelperPro.GetTestNotification.subscribe((val) => {
+            let notifications = val;
+            notifications[notifications.indexOf(message)].tap = true;
+            this.notificationHelperPro.SetTestNotification(notifications);
+        });
+        this.navCtrl.push('page-order-detail', {
+            'message': message
+        });
     }
 
     deleteItem(message) {
-        this.service.delMessage(message);
+        this.notificationHelperPro.GetTestNotification.subscribe((val) => {
+            let notifications = val;
+            notifications.splice(notifications.indexOf(message), 1);
+            this.notificationHelperPro.SetTestNotification(notifications);
+        });
     }
 
     getMessages() {

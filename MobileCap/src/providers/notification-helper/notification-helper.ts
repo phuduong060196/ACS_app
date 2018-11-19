@@ -1,14 +1,14 @@
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 export class NotificationHelperProvider {
-  private TestNotification: BehaviorSubject<any>;
+  private Notification: BehaviorSubject<any>;
   constructor() {
-    this.TestNotification = new BehaviorSubject<any>([]);
+    this.Notification = new BehaviorSubject<any>([]);
   }
   get GetTestNotification() {
-    return this.TestNotification.asObservable();
+    return this.Notification.asObservable();
   }
   set SetTestNotification(val) {
-    this.TestNotification.next(val);
+    this.Notification.next(val);
   }
 }
