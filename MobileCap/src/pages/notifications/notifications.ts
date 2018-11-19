@@ -1,8 +1,9 @@
-import {Component} from "@angular/core";
-import {IonicPage, NavController, ViewController} from "ionic-angular";
+import { Component } from "@angular/core";
+import { IonicPage, NavController, ViewController } from "ionic-angular";
+import { NotificationHelperProvider } from '../../providers/notification-helper/notification-helper';
 
 @IonicPage({
-	name: 'page-notifications'
+  name: 'page-notifications'
 })
 
 @Component({
@@ -11,13 +12,24 @@ import {IonicPage, NavController, ViewController} from "ionic-angular";
 })
 
 export class NotificationsPage {
-  constructor(public navCtrl: NavController, public viewCtrl: ViewController) {}
+
+  notifications: any;
+
+  constructor(private notificationHelperPro: NotificationHelperProvider, public navCtrl: NavController, public viewCtrl: ViewController) {
+    this.notificationHelperPro.GetTestNotification.subscribe((val) => {
+      this.notifications = val;
+    })
+  }
+
+  numberNotification() {
+    return this.notifications.filter(el => el.tap === false).length
+  }
 
   close() {
     this.viewCtrl.dismiss();
   }
 
-  messages () {
-  	this.navCtrl.push('page-message-list');
+  messages() {
+    this.navCtrl.push('page-message-list');
   }
 }

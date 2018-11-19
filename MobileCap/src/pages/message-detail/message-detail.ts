@@ -14,12 +14,13 @@ import {MessageService} from '../../providers/message-service-mock';
 })
 
 export class MessageDetailPage {
-	param: number;
 	message: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public service: MessageService) {
-    this.param = this.navParams.get('id');
-  	this.message = this.service.getItem(this.param) ? this.service.getItem(this.param) : this.service.getMessages()[0];
+    this.message = this.navParams.get('message');
+  	if(this.message){
+      
+    }
   }
 
 }

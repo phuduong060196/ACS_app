@@ -7,6 +7,8 @@ import { RestaurantService } from '../../providers/restaurant-service-mock';
 import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
 import { SupplierServiceProvider } from '../../providers/supplier-service/supplier-service';
 import { LocalHelperProvider } from '../../providers/local-helper/local-helper';
+import { NotificationHelperProvider } from '../../providers/notification-helper/notification-helper';
+import { NumberNotificationHelperProvider } from '../../providers/number-notification-helper/number-notification-helper';
 
 @IonicPage({
   name: 'page-home',
@@ -32,11 +34,15 @@ export class HomePage {
   searchKey: string;
   yourLocation: string;
 
+
+  notifications: any;
+  numberNotification: any;
+
   constructor(public navCtrl: NavController, public menuCtrl: MenuController, public popoverCtrl: PopoverController,
     public locationCtrl: AlertController, public modalCtrl: ModalController, public toastCtrl: ToastController,
     public service: RestaurantService, public httpHelperPro: HttpHelperProvider, public supplierServicePro: SupplierServiceProvider,
     private platform: Platform, private geolocation: Geolocation, private http: HttpClient,
-    private localPro: LocalHelperProvider) {
+    private localPro: LocalHelperProvider, private notificationHelperPro: NotificationHelperProvider, public numberNotificationHelperPro: NumberNotificationHelperProvider) {
     this.localPro.GetLocation.subscribe(val => {
       if (val) {
         this.lat = val.lat;
@@ -46,9 +52,16 @@ export class HomePage {
         this.getCurentLocation();
       }
     })
+    this.notificationHelperPro.GetTestNotification.subscribe((val) => {
+      this.notifications = val;
+    })
+    this.numberNotificationHelperPro.GetTestNotification.subscribe((val) => {
+      this.numberNotification = val;
+    });
     this.menuCtrl.swipeEnable(true, 'authenticated');
     this.menuCtrl.enable(true);
-    // this.getAllSuppliers();
+
+    console.log(this.notifications.filter(el => el.tap === false).length);
   }
 
   openSupplierList() {
@@ -132,7 +145,12 @@ export class HomePage {
   }
 
   presentNotifications(myEvent) {
-    console.log(myEvent);
+    let numberNotification = {
+      'Number': 0,
+      'Tapped': true
+    };
+    this.numberNotificationHelperPro.SetTestNotification = numberNotification;
+    // console.log(myEvent);
     let popover = this.popoverCtrl.create('page-notifications');
     popover.present({
       ev: myEvent
@@ -142,46 +160,6 @@ export class HomePage {
   ionViewWillEnter() {
     this.navCtrl.canSwipeBack();
   }
-
-  // getCurrentLocal() {
-  //   this.platform.ready().then(() => {
-  //     this.geolocation.getCurrentPosition().then(res => {
-  //       this.lat = res.coords.latitude;
-  //       this.lng = res.coords.longitude;
-  //       this.http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + res.coords.latitude + ',' + res.coords.longitude + '&key=AIzaSyDr5qwgemJp4LtodR8lvXg382V-cDFK3bY&sensor=false')
-  //         .subscribe(
-  //           (result: any) => {
-  //             result.results[1].address_components.forEach(element => {
-  //               if (element.types[0] == "administrative_area_level_1") {
-  //                 this.administrative_area_level_1 = element.long_name
-  //               }
-  //               if (element.types[0] == "administrative_area_level_2") {
-  //                 this.administrative_area_level_2 = element.long_name
-  //               }
-  //             });
-  //             this.yourLocation = result.results[1].formatted_address
-  //             this.http.get('http://web-capstone.azurewebsites.net/api/location/search-location?district=' + this.administrative_area_level_2 + '&city=' + this.administrative_area_level_1)
-  //               .subscribe(
-  //                 (res: any) => {
-  //                   this.suppliersNearby = res;
-  //                   this.suppliersNearby.forEach(supplier => {
-  //                     supplier.Branches[0].Latitude = parseFloat(supplier.Branches[0].Latitude);
-  //                     supplier.Branches[0].Longitude = parseFloat(supplier.Branches[0].Longitude);
-  //                     let distance = this.getDistanceFromLatLonInKm(this.lat, this.lng, supplier.Branches[0].Latitude, supplier.Branches[0].Longitude);
-  //                     supplier.distance = distance.toFixed(2);
-  //                   });
-  //                   this.suppliersNearby = this.suppliersNearby.sort(this.compareObj);
-  //                   console.log(this.administrative_area_level_2);
-  //                 },
-  //                 (err) => {
-  //                   console.log(err);
-  //                 }
-  //               )
-  //           }
-  //         )
-  //     })
-  //   });
-  // }
 
   getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
     var R = 6371; // Radius of the earth in km

@@ -9,10 +9,13 @@
 		<ion-buttons end>
 			<button ion-button (click)="presentNotifications($event)">
 				<ion-icon name="notifications"></ion-icon>
+				<ion-badge color="dark" *ngIf="!numberNotification.Tapped">
+					{{numberNotification.Number}}
+				</ion-badge>
 			</button>
-			<button ion-button (click)="openCart()">
+			<!-- <button ion-button (click)="openCart()">
 				<ion-icon name="cart"></ion-icon>
-			</button>
+			</button> -->
 		</ion-buttons>
 	</ion-navbar>
 
@@ -94,10 +97,10 @@
 					<img src="https://dienlanhhoanggia.com/getattachment/d5ec3649-e3f1-4c91-8c5f-e57cf512210f//trang-chu/logo/dien-may-viet-long.aspx?width=&height=">
 				</ion-thumbnail>
 				<h3 ion-text color="dark" class="fw500">{{supplier.Name}}</h3>
-				<ion-badge class="white-bg text-secondary" item-end>
+				<!-- <ion-badge class="white-bg text-secondary" item-end>
 					<ion-icon name="star"></ion-icon>
 					5
-				</ion-badge>
+				</ion-badge> -->
 				<h3>
 					<ion-icon name="pin"></ion-icon> {{supplier.distance}} km
 				</h3>
