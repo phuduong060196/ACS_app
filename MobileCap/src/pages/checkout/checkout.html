@@ -38,7 +38,7 @@
 
 									<ion-card class="green-bg" no-margin text-center>
 										<ion-card-content>
-											<span ion-text class="text-white">Total</span>
+											<span ion-text class="text-white">Tổng cộng</span>
 											<h2 ion-text no-margin class="fw700 text-white">{{ totalVal | currency
 												}}</h2>
 										</ion-card-content>
@@ -58,17 +58,10 @@
 						</ion-grid>
 					</ion-card-content>
 				</ion-card>
-				<a target="_blank" href="https://www.nganluong.vn/button_payment.php?receiver=jinnguyen1200@gmail.com&product_name=12345&price=10000&comments=Test" style="text-decoration: none">
-					<img src="https://www.nganluong.vn/css/newhome/img/button/safe-pay-3.png"border="0" />
-					<button ion-button color="secondary" margin-top icon-right full tappable>
-						Confirm
-						<ion-icon name="cash"></ion-icon>
-					</button>
-				</a>
 
 				<!--payment info-->
 				<div padding>
-					<h3>Payment Methods</h3>
+					<h3>Phương thức thanh toán</h3>
 
 					<ion-list radio-group>
 						<ion-item class="lightest-bg">
@@ -82,31 +75,42 @@
 					</ion-list>
 
 					<div *ngIf="checkoutOnline == true">
-						<ion-card no-margin margin-vertical class="full-width">
-							<ion-card-content>
-								<form [formGroup]="onYourCheckoutForm" class="list-form">
-									<ion-list margin-bottom>
 
-										<ion-item>
-											<ion-label color="primary" stacked>Nội dung:</ion-label>
-											<ion-textarea type="text" maxLength="500" rows="8" placeholder="Nhấn vào đây..."
-														  formControlName="feedbackContent"></ion-textarea>
-										</ion-item>
-										<p ion-text color="danger" class="text-1x has-error" *ngIf="isFieldInvalid('feedbackContent', onYourCheckoutForm)">Bắt buộc</p>
+						<!--<ion-card no-margin margin-vertical class="full-width">-->
+							<!--<ion-card-content>-->
+								<!--<form [formGroup]="onYourCheckoutForm" class="list-form">-->
+									<!--<ion-list margin-bottom>-->
 
-										<button ion-button block color="dark" (click)="sendData()" [disabled]="!onYourCheckoutForm.valid">Tiếp tục</button>
-									</ion-list>
-								</form>
-							</ion-card-content>
+										<!--<ion-item>-->
+											<!--<ion-label color="primary" stacked>Nội dung:</ion-label>-->
+											<!--<ion-textarea type="text" maxLength="500" rows="8" placeholder="Nhấn vào đây..."-->
+														  <!--formControlName="feedbackContent"></ion-textarea>-->
+										<!--</ion-item>-->
+										<!--<p ion-text color="danger" class="text-1x has-error" *ngIf="isFieldInvalid('feedbackContent', onYourCheckoutForm)">Bắt buộc</p>-->
 
-						</ion-card>
+										<!--<button ion-button block color="dark" (click)="sendData()" [disabled]="!onYourCheckoutForm.valid">Tiếp tục</button>-->
+									<!--</ion-list>-->
+								<!--</form>-->
+							<!--</ion-card-content>-->
+						<!--</ion-card>-->
+
+						<button ion-button color="secondary" margin-top icon-right full tappable (click)="openNganluong()">
+							Thanh toán
+							<ion-icon name="cash"></ion-icon>
+						</button>
 					</div>
 
+					<div *ngIf="checkoutOnline != true">
+						<button ion-button color="secondary" margin-top icon-right full tappable (click)="send()">
+							Tiếp tục
+							<ion-icon name="cash"></ion-icon>
+						</button>
+					</div>
 
 					<!--submit button-->
 					<!--<button ion-button color="secondary" margin-top icon-right full tappable (click)="send()">-->
-						<!--Thanh toán-->
-						<!--<ion-icon name="cash"></ion-icon>-->
+					<!--Thanh toán-->
+					<!--<ion-icon name="cash"></ion-icon>-->
 					<!--</button>-->
 
 				</div>
