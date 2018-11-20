@@ -90,10 +90,28 @@
 										{{ service.Name }}
 										<!-- Tên dịch vụ -->
 									</p>
-									<button ion-button clear class="green-bg text-white" item-end>
-										{{ service.PriceDisplay }}
-										<!-- Giá dịch vụ -->
-									</button>
+									<ng-container *ngIf="service.PromotionPercent === 0 || service.Price === 0">
+										<button ion-button clear class="green-bg text-white" item-end>
+											<ng-container *ngIf="service.Price > 0">
+												{{ service.PriceDisplay }}
+											</ng-container>
+											<ng-container *ngIf="service.Price === 0">
+												Liên hệ
+											</ng-container>
+											<!-- Giá dịch vụ -->
+										</button>
+									</ng-container>
+									<ng-container *ngIf="service.PromotionPercent > 0 && service.Price > 0">
+										<button ion-button clear class="green-bg text-white" style="text-decoration: line-through" item-end>
+											{{service.OriginalPriceDisplay}}
+										</button>
+										<button ion-button clear class="dark-bg text-white" item-end>
+											- {{service.PromotionPercent}}
+										</button>
+										<button ion-button clear class="green-bg text-white" item-end>
+											{{service.PriceDisplay}}
+										</button>
+									</ng-container>
 								</ion-item>
 							</ion-list>
 

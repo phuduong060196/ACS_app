@@ -1,5 +1,19 @@
 page-order-detail {
-    .colfix{
-        width:12%;
-      }
+	.pheader .pcol {
+		background-color: lightgrey;
+	}
+
+	.pcol {
+		border: solid 1px grey;
+		border-bottom-style: none;
+		border-right-style: none;
+	}
+
+	.pcol:last-child {
+		border-right: solid 1px grey;
+	}
+
+	.prow:last-child .pcol {
+		border-bottom: solid 1px grey;
+	}
 }
