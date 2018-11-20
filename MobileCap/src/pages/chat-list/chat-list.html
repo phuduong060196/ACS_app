@@ -17,20 +17,20 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding-top>
 	<ion-list>
-		<ion-card *ngIf="!posts.length" class="primary-bg" margin-top>
+		<ion-card *ngIf="!flagExist" class="primary-bg" margin-top>
 			<ion-card-content>
 				<p text-center class="text-white">Bạn chưa có tin nhắn nào</p>
 			</ion-card-content>
 		</ion-card>
 		<ion-item-sliding #sliding *ngFor="let post of posts | async">
-
 			<ion-item (click)="openChatDetail({'supId': post.data.supId, 'supName': post.data.supName, 'supAvatar': post.data.supAvatar})">
 				<ion-avatar item-start>
 					<img src="{{ post.data.supAvatar }}">
 				</ion-avatar>
-				<h2> <span ion-text color="primary">{{ post.data.supName }}</span></h2>
+				<h2 *ngIf="post.data.seenByCus == false"><b><span ion-text color="primary">{{ post.data.supName }}</span></b><ion-icon name="radio-button-on" style="float: right"></ion-icon></h2>
+				<h2 *ngIf="post.data.seenByCus == true"><span ion-text color="primary">{{ post.data.supName }}</span></h2>
 			</ion-item>
 		</ion-item-sliding>
 	</ion-list>

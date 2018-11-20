@@ -58,7 +58,9 @@ export class ChatDetailPage {
 				'lastTime': dateTime,
 				'isCustomer': true,
 				'supName': this.paramId.supName,
-				'supAvatar': this.paramId.supAvatar
+				'supAvatar': this.paramId.supAvatar,
+				'seenBySup': false,
+				'seenByCus': true,
 			});
 			this.database.collection('chat').doc(supplierId + '-' + customerId).collection('chat1').add({
 				'message': this.message,
@@ -70,6 +72,24 @@ export class ChatDetailPage {
 			this.message = '';
 		}
 
+	}
+
+	setSeenMessage(){
+		//get UserID
+		let customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
+		//get SupplierID
+		let supplierId = this.paramId.supId;
+		let dateTime = new Date();
+		this.database.collection('chat').doc(supplierId + '-' + customerId).set({
+			'supId': supplierId,
+			'cusId': customerId,
+			'lastTime': dateTime,
+			'isCustomer': true,
+			'supName': this.paramId.supName,
+			'supAvatar': this.paramId.supAvatar,
+			'seenBySup': true,
+			'seenByCus': true,
+		});
 	}
 
 	loadMessage() {
@@ -91,10 +111,16 @@ export class ChatDetailPage {
 		});
 	}
 
+	openSupplierDetail(supplier) {
+		this.navCtrl.push('page-supplier-detail',
+			{'id': supplier});
+	}
+
 	ionViewDidLoad() {
 		if (this.paramId == null) {
 			this.navCtrl.push('page-supplier-detail');
 		}
+		this.setSeenMessage();
 		this.loadMessage();
 	}
 

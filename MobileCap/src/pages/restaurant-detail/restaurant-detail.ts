@@ -33,9 +33,9 @@ export class RestaurantDetailPage implements OnInit {
             return;
         }
         if (this.supplier) {
-            this.getServices(this.supplier.SupplierId);
-            this.getFeedback(this.supplier.SupplierId);
-        }
+			this.getServices(this.supplier.SupplierId);
+			this.getFeedback(this.supplier.SupplierId);
+		}
     }
 
     getServices(SupplierId) {

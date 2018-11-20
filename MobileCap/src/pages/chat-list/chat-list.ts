@@ -25,6 +25,7 @@ export class ChatListPage implements OnInit{
 	postsCol: AngularFirestoreCollection<Post>;
 	postDoc: AngularFirestoreDocument<Post>;
 	post: Observable<Post>;
+	flagExist: boolean;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpClient, public getUrlPro: GetUrlProvider, public database: AngularFirestore) {
 	}
@@ -38,12 +39,10 @@ export class ChatListPage implements OnInit{
 				return actions.map(a => {
 					const data = a.payload.doc.data();
 					const id = a.payload.doc.id;
+					this.flagExist = true;
 					return {data, id};
 				});
 			});
-
-
-
 	}
 
 	openChatDetail(param) {

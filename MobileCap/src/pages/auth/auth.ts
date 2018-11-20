@@ -86,7 +86,6 @@ export class AuthPage implements OnInit {
     this.loadingHelperPro.presentLoading('Đang đăng nhập...');
     this.customerServicePro.login(this.onLoginForm.value).subscribe(
       (res: any) => {
-        console.log(res);
         this.accessTokenHelperPro.SetAccessToken = res;
         // this.httpHelperPro.get('/api/customer/get-info?customerId=' + res.CustomerId).subscribe(
         //   (res: any) => {
