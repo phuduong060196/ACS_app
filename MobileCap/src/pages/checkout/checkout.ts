@@ -3,6 +3,7 @@ import {IonicPage, NavController, NavParams, LoadingController, ToastController}
 import {Storage} from '@ionic/storage';
 import {OrdersService} from '../../providers/orders-service-mock';
 import {CartService} from '../../providers/cart-service-mock';
+import {FormGroup, Validators, FormBuilder} from '@angular/forms';
 
 @IonicPage({
 	name: 'page-checkout',
@@ -16,12 +17,12 @@ import {CartService} from '../../providers/cart-service-mock';
 export class CheckoutPage implements OnInit {
 
 	checkoutData: any;
-	paymethods: string = 'creditcard';
 	totalVal: number = 0;
 	orderNumber: number = Math.floor(Math.random() * 10000);
 	checkoutOnline: boolean;
+	public onYourCheckoutForm: FormGroup;
 
-	constructor(public nav: NavController, public navParams: NavParams, private storage: Storage, public ordersService: OrdersService, public cartService: CartService, public loadingCtrl: LoadingController, public toastCtrl: ToastController) {
+	constructor(public nav: NavController, public navParams: NavParams, private storage: Storage, public ordersService: OrdersService, public cartService: CartService, public loadingCtrl: LoadingController, public toastCtrl: ToastController, private _fb: FormBuilder) {
 		this.checkoutData = this.navParams.data.orders;
 
 		// if (this.checkoutData) {
@@ -73,8 +74,18 @@ export class CheckoutPage implements OnInit {
 		}, 3000)
 	}
 
-	ngOnInit(): void {
+	isFieldInvalid(field: string, form: FormGroup) {
+		return (
+			(form.get(field).touched && form.get(field).hasError('required'))
+		);
+	}
 
+	ngOnInit(): void {
+		this.onYourCheckoutForm = this._fb.group({
+			feedbackContent: ['', Validators.compose([
+				Validators.required
+			])]
+		});
 	}
 
 

@@ -6,7 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { FcmProvider } from '../providers/fcm/fcm';
 import { NotificationHelperProvider } from '../providers/notification-helper/notification-helper';
 import { NumberNotificationHelperProvider } from '../providers/number-notification-helper/number-notification-helper';
-
+import { AccessTokenHelperProvider } from '../providers/access-token-helper/access-token-helper';
 export interface MenuItem {
 	title: string;
 	component: any;
@@ -45,7 +45,9 @@ export class foodIonicApp {
 
 	helpMenuItems: Array<MenuItem>;
 
-	constructor(public numberNotificationHelperPro: NumberNotificationHelperProvider, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private fcmPro: FcmProvider, private toastCtrl: ToastController, private notificationHelperPro: NotificationHelperProvider) {
+	userName: any;
+
+	constructor(public numberNotificationHelperPro: NumberNotificationHelperProvider, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private fcmPro: FcmProvider, private toastCtrl: ToastController, private notificationHelperPro: NotificationHelperProvider, private accessToken: AccessTokenHelperProvider) {
 		this.initializeApp();
 		this.homeItem = { component: 'page-home' };
 		this.messagesItem = { component: 'page-message-list' };
@@ -57,6 +59,11 @@ export class foodIonicApp {
 			{ title: 'Tài khoản', component: 'page-my-account', icon: 'contact' },
 			{ title: 'Đăng xuất', component: 'page-auth', icon: 'log-out' },
 		];
+		this.accessToken.GetAccessToken.subscribe(
+			(res) => {
+				this.userName = JSON.parse(localStorage.getItem('token')).username;
+			}
+		);
 	}
 
 	initializeApp() {

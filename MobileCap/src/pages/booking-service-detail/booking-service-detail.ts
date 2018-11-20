@@ -60,6 +60,17 @@ export class BookingServiceDetailPage implements OnInit {
 				'Address': this.customer.Address,
 				'PhoneNumber': this.customer.PhoneNumber
 			});
+			let alert = this.alertCtrl.create({
+				title: 'Thông báo',
+				message: 'Đặt dịch vụ thành công!',
+				buttons: [{
+					text: 'Xác nhận',
+					handler: () => {
+						this.closeModal();
+					}
+				}]
+			});
+			alert.present();
 		} else {
 			let alert = this.alertCtrl.create({
 				title: 'Thông báo',

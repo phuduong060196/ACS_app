@@ -59,7 +59,7 @@ export class CartPage {
   }
 
   openCheckout() {
-      this.navCtrl.push('page-checkout', {orders: this.orders});
+      this.navCtrl.push('page-checkout');
   }
 
 }
