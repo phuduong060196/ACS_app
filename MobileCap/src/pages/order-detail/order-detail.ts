@@ -18,6 +18,7 @@ export class OrderDetailPage implements OnInit {
   order: any;
   services: any;
   customerInfo: any;
+  flagDis = true;
 
   constructor(private httpHelperPro: HttpHelperProvider, private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams) {
     this.message = this.navParams.get('message');

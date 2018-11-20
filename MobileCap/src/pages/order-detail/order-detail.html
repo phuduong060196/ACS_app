@@ -7,85 +7,121 @@
 
 <ion-content>
 
-	<div class="container" *ngIf="order && customerInfo">
+	<ng-container *ngIf="order && customerInfo">
+		<ion-card>
+			<div>
+				<ion-grid>
+					<ion-row>
+						<ion-col>
+							Mã: {{order.OrderId}}
+						</ion-col>
+						<ion-col>
+							Ngày: {{order.CreatedDateDisplay}}
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</div>
+			<ion-card-header color="primary" style="text-align: center; background-color: #ebebe0">
+				<strong>
+					Thông tin khách hàng
+				</strong>
+			</ion-card-header>
+			<ion-card-content>
+				<ion-grid>
+					<ion-row>
+						<ion-col col-6>
+							<h3 ion-text color="primary" class="fw500"><b>Họ tên:</b></h3>
+						</ion-col>
+						<ion-col col-6>
+							<p ion-text>
+								{{customerInfo.FullName}}
+							</p>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col col-6>
+							<h3 ion-text color="primary" class="fw500"><b>Số điện thoại:</b></h3>
+						</ion-col>
+						<ion-col col-6>
+							<p ion-text>
+								{{customerInfo.PhoneNumber}}
+							</p>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col col-6>
+							<h3 ion-text color="primary" class="fw500"><b>Địa chỉ:</b></h3>
+						</ion-col>
+						<ion-col col-6>
+							<p ion-text>
+								{{customerInfo.Address}}
+							</p>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col col-6>
+							<h3 ion-text color="primary" class="fw500"><b>Ghi chú:</b></h3>
+						</ion-col>
+						<ion-col col-6>
+							<p ion-text>
 
-		<!-- Header -->
-		<div class="row">
-			<div class="col-xs-5">
-				<h5 class="text-left">Mã: {{order.OrderId}}</h5>
-			</div>
-			<div class="col-xs-7">
-				<h5 class="text-left">Ngày: {{order.CreatedDateDisplay}}</h5>
-			</div>
-		</div>
+							</p>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</ion-card-content>
+		</ion-card>
 
-		<!-- Body -->
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h4 class="panel-title text-primary" style="font-weight: bold">Thông tin khách hàng</h4>
-			</div>
-			<div class="panel-body">
-				<form>
-					<div class="form-group">
-						<label for="FullName">Tên khách hàng:</label>
-						<input type="text" class="form-control" id="FullName" [(ngModel)]="customerInfo.FullName" name="FullName">
-					</div>
-					<div class="form-group">
-						<label for="Phonenumber">Số điện thoại:</label>
-						<input type="text" class="form-control" id="Phonenumber" [(ngModel)]="customerInfo.PhoneNumber" name="PhoneNumber">
-					</div>
-					<div class="form-group">
-						<label for="Address">Địa chỉ:</label>
-						<textarea class="form-control" id="Address" [(ngModel)]="customerInfo.Address" name="Address"></textarea>
-					</div>
-					<div class="form-group">
-						<label for="Note">Ghi chú:</label>
-						<textarea class="form-control" id="Note" rows="3"></textarea>
-					</div>
-				</form>
-			</div>
-		</div>
-
-		<!-- Order Detail -->
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h4 class="panel-title text-primary" style="font-weight: bold">Chi tiết dịch vụ</h4>
-			</div>
-			<table class="table table-bordered table-condensed">
-				<thead>
-					<tr>
-						<th class="text-center">Dịch vụ</th>
-						<th class="text-center">Giá tiền</th>
-					</tr>
-				</thead>
-				<tbody>
-					<ng-container *ngIf="services">
-						<tr style="color: black !important" *ngFor="let service of services">
-							<td class="text-left">
+		<ion-card>
+			<ion-card-header color="primary" style="text-align: center; background-color: #ebebe0">
+				<strong>
+					Chi tiết dịch vụ
+				</strong>
+			</ion-card-header>
+			<ion-card-content style="color: black">
+				<ion-grid>
+					<ion-row>
+						<ion-col style="text-align: center; font-size: 18px">
+							<b>
+								Dịch vụ
+							</b>
+						</ion-col>
+						<ion-col style="text-align: center; font-size: 18px">
+							<b>
+								Giá
+							</b>
+						</ion-col>
+					</ion-row>
+					<ng-container *ngFor="let service of services">
+						<ion-row>
+							<ion-col style="text-align: left;">
 								{{service.Service}}
-							</td>
-							<td class="text-right">
-								<span *ngIf="service.OrignalPrice > 0">
+							</ion-col>
+							<ion-col style="text-align: right">
+								<ng-container *ngIf="service.OrignalPrice > 0">
 									{{service.Price}}
-								</span>
-								<span *ngIf="service.OrignalPrice === 0">
+								</ng-container>
+								<ng-container *ngIf="service.OrignalPrice === 0">
 									Liên hệ nhà cung cấp
-								</span>
-							</td>
-						</tr>
+								</ng-container>
+							</ion-col>
+						</ion-row>
 					</ng-container>
-					<tr style="color: black !important">
-						<td class="text-left">
-							<strong>Tổng:</strong>
-						</td>
-						<td class="text-right">
-							<strong>{{order.Total}}</strong>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-
-	</div>
+					<ion-row>
+						<ion-col style="text-align: left;">
+							<b>
+								Tổng
+							</b>
+						</ion-col>
+						<ion-col style="text-align: right">
+							<b>
+								{{order.Total}}
+							</b>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</ion-card-content>
+		</ion-card>
+	</ng-container>
 
 </ion-content>
