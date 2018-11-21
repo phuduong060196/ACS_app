@@ -36,7 +36,6 @@
 									<ion-icon style="font-size: 30px" *ngFor="let i of [1,2,3,4,5]" (click)="setStar(i)" [ngClass]="this.starRating >= i ? 'isRated' : ''"
 											  [name]="this.starRating >= i ? 'ios-star' : 'ios-star-outline'"></ion-icon>
 								</p>
-								<p ion-text color="danger" class="text-1x has-error" *ngIf="isFieldInvalid('feedbackStar', onYourFeedbackForm)">Bắt buộc</p>
 
 								<ion-item>
 									<ion-label color="primary" stacked>Nội dung:</ion-label>

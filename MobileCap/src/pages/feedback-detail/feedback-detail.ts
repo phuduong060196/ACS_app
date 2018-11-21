@@ -5,7 +5,6 @@ import {
 	NavParams,
 	ToastController,
 	LoadingController,
-	TextInput,
 	AlertController
 } from 'ionic-angular';
 import {FormGroup, Validators, FormBuilder} from '@angular/forms';
@@ -59,6 +58,24 @@ export class FeedbackDetailPage implements OnInit {
 			(res: any) => {
 				this.loadingHelperPro.dismissLoading();
 				let resData = JSON.parse(res);
+				if(this.starRating == undefined || this.starRating == 0){
+					let alert = this.alertCtrl.create({
+						title: 'Thông báo',
+						subTitle: 'Hãy chọn số sao để đánh giá.',
+						buttons: ['OK']
+					});
+					alert.present();
+					return;
+				}
+				if(form.feedbackContent.length < 10){
+					let alert = this.alertCtrl.create({
+						title: 'Thông báo',
+						subTitle: 'Nội dung tối thiểu 10 ký tự.',
+						buttons: ['OK']
+					});
+					alert.present();
+					return;
+				}
 				if (!resData.result) {
 					this.authMessage(resData.message);
 				} else {
@@ -71,7 +88,7 @@ export class FeedbackDetailPage implements OnInit {
 						showCloseButton: true,
 						cssClass: 'profiles-bg',
 						message: 'Đánh giá thành công!',
-						duration: 3000,
+						duration: 2000,
 						position: 'bottom'
 					});
 
@@ -81,8 +98,8 @@ export class FeedbackDetailPage implements OnInit {
 						loader.dismiss();
 						toast.present();
 						// back to home page
-						this.navCtrl.setRoot('page-home');
-					}, 3000)
+						this.closeModal();
+					}, 2000)
 				}
 			}
 		);
@@ -116,14 +133,15 @@ export class FeedbackDetailPage implements OnInit {
 
 	ngOnInit() {
 		this.onYourFeedbackForm = this._fb.group({
-			feedbackStar: [this.starRating, Validators.compose([
-				Validators.required
-			])],
 			feedbackContent: ['', Validators.compose([
 				Validators.required
 			])]
 		});
 
+	}
+
+	closeModal() {
+		this.navCtrl.pop();
 	}
 
 }

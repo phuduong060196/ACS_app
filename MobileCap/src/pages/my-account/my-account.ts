@@ -70,6 +70,7 @@ export class MyAccountPage implements OnInit {
 
   sendData() {
     this.loadingHelperPro.presentLoading('Đang cập nhập...');
+    console.log(this.onUpdateForm.value);
     this.httpHelperPro.put('/api/customer/info', this.onUpdateForm.value).subscribe(
       (res: any) => {
         this.loadingHelperPro.dismissLoading();

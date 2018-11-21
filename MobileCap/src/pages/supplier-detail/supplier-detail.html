@@ -80,9 +80,6 @@
 			<!--</div>-->
 			<div text-center>
 				<ion-buttons class="full-width">
-					<button ion-button (click)="openBookingServiceDetail(supplier)">
-						<ion-icon name="calendar"></ion-icon>&nbsp;&nbsp;Đặt dịch vụ
-					</button>
 					<a href="tel:{{supplier.PhoneNumber}}" style="text-decoration: none;">
 						<button ion-button>
 							<ion-icon name="call"></ion-icon>
@@ -92,12 +89,6 @@
 					<button ion-button (click)="openChatDetail({'supId': supplier.SupplierId, 'supName': supplier.Name, 'supAvatar': supplierAvatar})">
 						<ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp;Nhắn tin
 					</button>
-					<div *ngIf="feedbackFlag == true">
-						<button ion-button (click)="openFeedbackDetail({'supId': supplier.SupplierId, 'supName': supplier.Name})">
-							<ion-icon name="text"></ion-icon>&nbsp;&nbsp;Đánh giá
-						</button>
-					</div>
-
 				</ion-buttons>
 			</div>
 		</ion-card-content>
@@ -119,8 +110,12 @@
 
 					<div [ngSwitch]="supplieropts" padding>
 						<div *ngSwitchCase="'menu'">
-
 							<ion-list>
+								<div text-center>
+									<button ion-button full (click)="openBookingServiceDetail(supplier)">
+										<ion-icon name="calendar"></ion-icon>&nbsp;&nbsp;Đặt dịch vụ
+									</button>
+								</div>
 								<ion-item no-padding *ngFor="let service of services">
 									<p ion-text color="primary" class="text-11x">
 										{{ service.Name }}
@@ -160,6 +155,11 @@
 
 							<div class="container" *ngIf="feedbacks">
 								<ion-list class="list-full-border">
+									<div *ngIf="feedbackFlag == true" text-center>
+										<button ion-button full (click)="openFeedbackDetail({'supId': supplier.SupplierId, 'supName': supplier.Name})">
+											<ion-icon name="text"></ion-icon>&nbsp;&nbsp;Đánh giá
+										</button>
+									</div>
 									<!-- <ion-item *ngFor="let review of restaurant.reviews" margin-bottom text-wrap> -->
 									<ion-item margin-bottom text-wrap *ngFor="let feedback of feedbacks">
 										<h2 class="fw700">
@@ -185,35 +185,27 @@
 
 						</div>
 						<div *ngSwitchCase="'info'">
-							<!-- Show map here -->
-							<div id="map-detail" margin-bottom *ngFor="let branch of supplier.Branches">
-								<agm-map [latitude]="branch.Latitude" [longitude]="branch.Longitude" [zoom]="12">
-									<agm-marker [latitude]="branch.Latitude" [longitude]="branch.Longitude">
-									</agm-marker>
-								</agm-map>
-							</div>
-
-							<p ion-text text-center color="dark" class="fw700" *ngFor="let branch of supplier.Branches">
-								{{branch.Address}}
-							</p>
-							<hr margin-bottom>
 
 							<h2>
-								<span ion-text class="fw700">About</span>
+								<span ion-text class="fw700">Giờ hoạt động</span>
 							</h2>
-							<p ion-text margin-bottom>Mô tả</p>
+							<p ion-text margin-bottom>11AM • 11PM</p>
 
 							<h2>
-								<span ion-text class="fw700">Hours</span>
-							</h2>
-							<p ion-text margin-bottom>Open 11AM • Closes 11PM</p>
-
-							<h2>
-								<span ion-text class="fw700">Phone</span>
+								<span ion-text class="fw700">Số điện thoại</span>
 							</h2>
 							<p ion-text margin-bottom>
 								{{supplier.PhoneNumber}}
 							</p>
+							<hr margin-bottom>
+							<!-- Show map here -->
+							<div margin-top id="map-detail" margin-bottom *ngFor="let branch of supplier.Branches">
+								<agm-map [latitude]="branch.Latitude" [longitude]="branch.Longitude" [zoom]="12">
+									<agm-marker [latitude]="branch.Latitude" [longitude]="branch.Longitude">
+									</agm-marker>
+								</agm-map><br/>
+								<p ion-text text-center color="dark" class="fw700">{{branch.Address}}</p>
+							</div>
 
 							<br><br>
 						</div>

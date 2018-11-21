@@ -37,8 +37,9 @@ export class ChatDetailPage {
 	private chat_path1: 'chat1';
 	postsCol: AngularFirestoreCollection<Post>;
 	posts: any;
-	// post: Observable<Post>;
 	message: string;
+	supplier: any;
+	supplierAvatar: String;
 	@ViewChild(Content) content: Content;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public http: HttpClient, public getUrlPro: GetUrlProvider) {
@@ -74,7 +75,7 @@ export class ChatDetailPage {
 
 	}
 
-	setSeenMessage(){
+	setSeenMessage() {
 		//get UserID
 		let customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
 		//get SupplierID
@@ -111,9 +112,19 @@ export class ChatDetailPage {
 		});
 	}
 
-	openSupplierDetail(supplier) {
+	loadSupplier() {
+		this.http.get(this.getUrlPro.getUrl + '/api/supplier/get-by-id?id=' + this.paramId.supId)
+			.subscribe((res: any) => {
+				this.supplier = res.data;
+				console.log(this.supplier);
+			}, (err) => {
+				console.log(err);
+			});
+	}
+
+	openSupplierDetail() {
 		this.navCtrl.push('page-supplier-detail',
-			{'id': supplier});
+			{'supplier': this.supplier});
 	}
 
 	ionViewDidLoad() {
@@ -122,6 +133,7 @@ export class ChatDetailPage {
 		}
 		this.setSeenMessage();
 		this.loadMessage();
+		this.loadSupplier();
 	}
 
 }

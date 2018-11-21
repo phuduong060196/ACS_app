@@ -84,9 +84,9 @@ export class CheckoutPage implements OnInit {
 
 	openNganluong(){
 		let url = 'https://www.nganluong.vn/button_payment.php?' +
-			'receiver=jinnguyen1200@gmail.com' +
+			'receiver=' + this.order.SupplierInfo.PaymentEmail +
 			'&product_name=' + this.order.OrderId +
-			'&price=' + this.order +
+			'&price=' + this.order.PaymentPrice +
 			'&return_url=(URL thanh toán thành công)' +
 			'&comments=test ionic';
 		const browser = this.inAppBrowser.create(url, '_self')

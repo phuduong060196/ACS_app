@@ -51,6 +51,7 @@ export class SearchPage {
 	}
 
 	openSupplierDetail(supplier: any) {
+		console.log(supplier);
 		this.navCtrl.push('page-supplier-detail', {
 			'supplier': supplier
 		});
@@ -147,7 +148,6 @@ export class SearchPage {
 	}
 
 	ionViewDidLoad() {
-		console.log('ionViewDidLoad SearchPage');
 	}
 
 }
