@@ -3,6 +3,8 @@ import { IonicPage, NavController, LoadingController, ToastController, AlertCont
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
 import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
+import { AccessTokenHelperProvider } from '../../providers/access-token-helper/access-token-helper';
+import { User } from '../../modal/user';
 
 @IonicPage({
   name: 'page-my-account',
@@ -15,51 +17,49 @@ import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
 })
 export class MyAccountPage implements OnInit {
 
-  public onUpdateForm: FormGroup;
+  onUpdateForm: FormGroup;
+  userInfor: any;
+  userName: any;
 
-  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, private fb: FormBuilder, private loadingHelperPro: LoadingHelperProvider, private httpHelperPro: HttpHelperProvider, private alertCtrl: AlertController) {
+  constructor(private accessToken: AccessTokenHelperProvider, public navCtrl: NavController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, private fb: FormBuilder, private loadingHelperPro: LoadingHelperProvider, private httpHelperPro: HttpHelperProvider, private alertCtrl: AlertController) {
 
   }
 
   ngOnInit() {
-    // this.loadingHelperPro.presentLoading(null);
-    this.httpHelperPro.get('/api/customer/get-info?customerId=' + JSON.parse(localStorage.getItem('token')).CustomerId).subscribe(
+    this.loadingHelperPro.presentLoading('');
+    this.accessToken.GetAccessToken.subscribe(
       (res: any) => {
-        console.log(res);
-        if (res.result) {
-          // this.onUpdateForm = this.fb.group({
-          //   customerId: [],
-          //   fullName: [res.data.FullName, Validators.compose([
-          //     Validators.required
-          //   ])],
-          //   phoneNumber: [res.data.PhoneNumber, Validators.compose([
-          //     Validators.required
-          //   ])],
-          //   email: [res.data.Email, Validators.compose([
-          //     Validators.required
-          //   ])],
-          //   address: [res.data.Address, Validators.compose([
-          //     Validators.required
-          //   ])]
-          // });
+        if (JSON.parse(localStorage.getItem('token'))) {
+          this.userName = JSON.parse(localStorage.getItem('token')).username;
         }
       }
     );
-    this.onUpdateForm = this.fb.group({
-      customerId: [JSON.parse(localStorage.getItem('token')).CustomerId],
-      fullName: ['', Validators.compose([
-        Validators.required
-      ])],
-      phoneNumber: ['', Validators.compose([
-        Validators.required
-      ])],
-      email: ['', Validators.compose([
-        Validators.required
-      ])],
-      address: ['', Validators.compose([
-        Validators.required
-      ])]
-    });
+    this.httpHelperPro.get('/api/customer/get-info?customerId=' + JSON.parse(localStorage.getItem('token')).CustomerId).subscribe(
+      (res: User) => {
+        this.userInfor = res;
+        this.onUpdateForm = this.fb.group({
+          CustomerId: [],
+          fullName: [this.userInfor.FullName, Validators.compose([
+            Validators.required
+          ])],
+          phoneNumber: [this.userInfor.PhoneNumber, Validators.compose([
+            Validators.required
+          ])],
+          email: [this.userInfor.Email, Validators.compose([
+            Validators.required
+          ])],
+          address: [this.userInfor.Address, Validators.compose([
+            Validators.required
+          ])]
+        });
+        this.loadingHelperPro.dismissLoading();
+      },
+      (err) => {
+        console.log(err);
+        this.loadingHelperPro.dismissLoading();
+      }
+    );
+
   }
 
   isFieldInvalid(field: string, form: FormGroup) {
@@ -69,17 +69,19 @@ export class MyAccountPage implements OnInit {
   }
 
   sendData() {
-    this.loadingHelperPro.presentLoading('Đang cập nhập...');
-    this.httpHelperPro.put('/api/customer/info', this.onUpdateForm.value).subscribe(
-      (res: any) => {
-        this.loadingHelperPro.dismissLoading();
-        this.presentAlert(res.message);
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
-    // this.navCtrl.setRoot('page-home');
+    if (this.onUpdateForm.valid) {
+      this.loadingHelperPro.presentLoading('Đang cập nhập...');
+      this.httpHelperPro.put('/api/customer/info', this.onUpdateForm.value).subscribe(
+        (res: any) => {
+          console.log(res);
+          this.loadingHelperPro.dismissLoading();
+          this.presentAlert(res.message);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    }
   }
 
   presentAlert(subTitle) {

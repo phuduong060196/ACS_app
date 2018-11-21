@@ -24,7 +24,6 @@ export class AuthPage implements OnInit {
   public onRegisterForm: FormGroup;
 
   auth: string = "login";
-  private token: any;
 
   constructor(private _fb: FormBuilder, public navCtrl: NavController, public alertCtrl: AlertController, public menu: MenuController, public http: HttpClient, public loadingHelperPro: LoadingHelperProvider, public customerServicePro: CustomerServiceProvider, public accessTokenHelperPro: AccessTokenHelperProvider, public getUrlPro: GetUrlProvider, public httpHelperPro: HttpHelperProvider) {
     this.menu.swipeEnable(false);
@@ -32,10 +31,7 @@ export class AuthPage implements OnInit {
   }
 
   ngOnInit() {
-    // this.token = JSON.parse(localStorage.getItem('token')).access_token;
-    // if (this.token) {
-    //   this.navCtrl.setRoot('page-home');
-    // }
+
     this.onLoginForm = this._fb.group({
       username: ['', Validators.compose([
         Validators.required
@@ -87,15 +83,6 @@ export class AuthPage implements OnInit {
     this.customerServicePro.login(this.onLoginForm.value).subscribe(
       (res: any) => {
         this.accessTokenHelperPro.SetAccessToken = res;
-        // this.httpHelperPro.get('/api/customer/get-info?customerId=' + res.CustomerId).subscribe(
-        //   (res: any) => {
-        //     if (res.result) {
-        //       // localStorage.setItem('UserInfo', res.data);
-        //       console.log(res);
-        //     }
-        //   },
-        //   (err) => console.log(err)
-        // );
         this.loadingHelperPro.dismissLoading();
         this.navCtrl.setRoot('page-home');
       },

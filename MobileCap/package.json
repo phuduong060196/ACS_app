@@ -57,6 +57,7 @@
         "ionic-angular": "3.9.2",
         "ionic-plugin-keyboard": "^2.2.1",
         "ionicons": "^4.4.4",
+        "moment": "^2.22.2",
         "promise-polyfill": "^8.1.0",
         "rxjs": "^6.3.3",
         "rxjs-compat": "^6.3.3",

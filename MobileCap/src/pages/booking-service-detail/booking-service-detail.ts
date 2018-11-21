@@ -5,6 +5,7 @@ import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection 
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
+import moment from 'moment';
 
 interface Post {
 	SeenBySupplier: any;
@@ -28,6 +29,12 @@ export class BookingServiceDetailPage implements OnInit {
 	postsCol: AngularFirestoreCollection<Post>;
 	posts: any;
 	private booking_path = 'booking';
+	currentTime: any;
+	currentDay: any;
+	maxMonth: any;
+	Note: any = 'a';
+	TimeWork: any = moment().format('HH:mm');
+	DayWork: any = moment().format('MM-DD-YYYY');
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public httpHelperPro: HttpHelperProvider, private alertCtrl: AlertController) {
 
@@ -42,6 +49,26 @@ export class BookingServiceDetailPage implements OnInit {
 				Name: el.Name
 			}
 		})
+		// console.log({
+		// 	'CurrentStatus': {
+		// 		'CreatedByCustomer': true,
+		// 		'Name': "Waiting for review",
+		// 		'UpdatedDate': new Date()
+		// 	},
+		// 	'CustomerId': this.customerId,
+		// 	'SupplierId': this.supplierId,
+		// 	'Order': {
+		// 		'OrderDetails': list
+		// 	},
+		// 	'SeenByCustomer': false,
+		// 	'Time': new Date(),
+		// 	'CustomerName': this.customer.FullName,
+		// 	'PhoneNumber': this.customer.PhoneNumber,
+		// 	'Address': this.customer.Address,
+		// 	'DayWork': this.DayWork,
+		// 	'TimeWork': this.TimeWork,
+		// 	'Note': this.Note
+		// });
 		if (list.length > 0) {
 			this.database.collection(this.booking_path).add({
 				'CurrentStatus': {
@@ -57,8 +84,11 @@ export class BookingServiceDetailPage implements OnInit {
 				'SeenByCustomer': false,
 				'Time': new Date(),
 				'CustomerName': this.customer.FullName,
+				'PhoneNumber': this.customer.PhoneNumber,
 				'Address': this.customer.Address,
-				'PhoneNumber': this.customer.PhoneNumber
+				'DayWork': this.DayWork,
+				'TimeWork': this.TimeWork,
+				'Note': this.Note
 			});
 			let alert = this.alertCtrl.create({
 				title: 'Thông báo',
@@ -82,6 +112,10 @@ export class BookingServiceDetailPage implements OnInit {
 	}
 
 	ngOnInit() {
+		this.currentTime = moment().format('HH:mm');
+		this.currentDay = moment().format('DDMMYYYY');
+		this.maxMonth = moment().add(1, 'M').format('DDMMYYYY');
+		console.log(this.currentDay + ' ' + this.maxMonth);
 		this.supplier = this.navParams.get('supplier');
 		if (!this.supplier) {
 			this.navCtrl.push('page-home');
@@ -91,6 +125,7 @@ export class BookingServiceDetailPage implements OnInit {
 		if (this.customerId) {
 			console.log(this.customerId);
 			this.getCustomer(this.customerId);
+			console.log(this.customer);
 		}
 		if (this.supplier) {
 			this.supplierId = this.supplier.SupplierId;
@@ -114,11 +149,9 @@ export class BookingServiceDetailPage implements OnInit {
 	}
 
 	getCustomer(CustomerId) {
-		console.log(CustomerId);
 		this.httpHelperPro.get('/api/customer/get-info?customerId=' + CustomerId).subscribe(
 			(res: any) => {
-				console.log(res);
-				this.customer = res.data;
+				this.customer = res;
 			},
 			(err) => {
 				console.log(err);

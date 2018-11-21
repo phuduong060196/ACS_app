@@ -7,6 +7,10 @@ import { FcmProvider } from '../providers/fcm/fcm';
 import { NotificationHelperProvider } from '../providers/notification-helper/notification-helper';
 import { NumberNotificationHelperProvider } from '../providers/number-notification-helper/number-notification-helper';
 import { AccessTokenHelperProvider } from '../providers/access-token-helper/access-token-helper';
+import { CustomerServiceProvider } from '../providers/customer-service/customer-service';
+import { LocalHelperProvider } from '../providers/local-helper/local-helper';
+import { LoadingHelperProvider } from '../providers/loading-helper/loading-helper';
+
 export interface MenuItem {
 	title: string;
 	component: any;
@@ -47,7 +51,7 @@ export class foodIonicApp {
 
 	userName: any;
 
-	constructor(public numberNotificationHelperPro: NumberNotificationHelperProvider, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private fcmPro: FcmProvider, private toastCtrl: ToastController, private notificationHelperPro: NotificationHelperProvider, private accessToken: AccessTokenHelperProvider) {
+	constructor(public loadingHelperPro: LoadingHelperProvider, public localHelperPro: LocalHelperProvider, public customerServicePro: CustomerServiceProvider, public numberNotificationHelperPro: NumberNotificationHelperProvider, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private fcmPro: FcmProvider, private toastCtrl: ToastController, private notificationHelperPro: NotificationHelperProvider, private accessToken: AccessTokenHelperProvider) {
 		this.initializeApp();
 		this.homeItem = { component: 'page-home' };
 		this.messagesItem = { component: 'page-message-list' };
@@ -59,9 +63,13 @@ export class foodIonicApp {
 			{ title: 'Tài khoản', component: 'page-my-account', icon: 'contact' },
 			{ title: 'Đăng xuất', component: 'page-auth', icon: 'log-out' },
 		];
+
 		this.accessToken.GetAccessToken.subscribe(
-			(res) => {
-				this.userName = JSON.parse(localStorage.getItem('token')).username;
+			(res: any) => {
+				if (JSON.parse(localStorage.getItem('token'))) {
+					this.userName = JSON.parse(localStorage.getItem('token')).username;
+					this.rootPage = 'page-home';
+				}
 			}
 		);
 	}
@@ -112,10 +120,14 @@ export class foodIonicApp {
 	}
 
 	openPage(page) {
-		if (page.component) {
+		if (page.title === 'Đăng xuất') {
+			this.loadingHelperPro.presentLoading('');
+			this.customerServicePro.logout();
+			this.localHelperPro.SetLocation = null;
+			this.loadingHelperPro.dismissLoading();
 			this.nav.setRoot(page.component);
 		} else {
-
+			this.nav.setRoot(page.component);
 		}
 	}
 }
