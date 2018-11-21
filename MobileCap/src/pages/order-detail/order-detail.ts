@@ -41,4 +41,8 @@ export class OrderDetailPage implements OnInit {
     }
   }
 
+  openCheckoutPage(param){
+  	this.navCtrl.push('page-checkout', {'order': param});
+  }
+
 }

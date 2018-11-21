@@ -1,0 +1,90 @@
+page-search {
+  .list-ios>.item-block:first-child {
+	border-top: 0;
+  }
+
+  .item-ios[detail-push] .item-inner,
+  button.item-ios:not([detail-none]) .item-inner,
+  a.item-ios:not([detail-none]) .item-inner {
+	background-image: none;
+	padding-right: 8px;
+	border-bottom-style: dashed;
+  }
+
+  button.item-md:not([detail-none]) .item-inner {
+	border-bottom-style: dashed;
+  }
+
+  .button-large-md,
+  .button-large-ios {
+	box-shadow: none;
+	height: 12rem;
+  }
+
+
+  // Special custom
+
+  .nearby-map {
+	agm-map {
+	  width: 100%;
+	  height: 200px;
+	}
+  }
+
+  .card-ios,
+  .card-md {
+	width: 100%;
+	border-radius: 0;
+	box-shadow: 0 0 1px rgba(color($colors, primary), .4);
+  }
+
+  .toolbar-ios-primary {
+	.searchbar-ios {
+	  .searchbar-input {
+		color: #fff;
+		background: rgba(255, 255, 255, .2);
+	  }
+	}
+  }
+
+  .footer {
+	&.footer-ios {
+	  box-shadow: 0 0 1px rgba(color($colors, primary), .4);
+	  // padding-right: 8px !important;
+	  // padding-left: 8px !important;
+	}
+
+	.btn-group {
+
+	  .button-ios,
+	  .button-md {
+		border-radius: 0;
+		border-right: 1px solid rgba(color($colors, dark), .4);
+
+		&:last-of-type {
+		  border-right: 0;
+		}
+	  }
+	}
+  }
+
+  .segment-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+  }
+
+  .segment-ios {
+	.segment-button {
+	  height: 3.6rem;
+	}
+  }
+
+  .segment-ios-light {
+	.segment-button {
+	  &.segment-activated {
+		color: color($colors, dark);
+	  }
+	}
+  }
+}

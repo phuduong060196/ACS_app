@@ -4,6 +4,7 @@ import {Storage} from '@ionic/storage';
 import {OrdersService} from '../../providers/orders-service-mock';
 import {CartService} from '../../providers/cart-service-mock';
 import {FormGroup, Validators, FormBuilder} from '@angular/forms';
+import { InAppBrowser, InAppBrowserOptions } from "@ionic-native/in-app-browser";
 
 @IonicPage({
 	name: 'page-checkout',
@@ -15,15 +16,16 @@ import {FormGroup, Validators, FormBuilder} from '@angular/forms';
 	templateUrl: 'checkout.html'
 })
 export class CheckoutPage implements OnInit {
-
+	order: any;
 	checkoutData: any;
 	totalVal: number = 0;
 	orderNumber: number = Math.floor(Math.random() * 10000);
 	checkoutOnline: boolean;
 	public onYourCheckoutForm: FormGroup;
 
-	constructor(public nav: NavController, public navParams: NavParams, private storage: Storage, public ordersService: OrdersService, public cartService: CartService, public loadingCtrl: LoadingController, public toastCtrl: ToastController, private _fb: FormBuilder) {
+	constructor(public nav: NavController, public navParams: NavParams, private storage: Storage, public ordersService: OrdersService, public cartService: CartService, public loadingCtrl: LoadingController, public toastCtrl: ToastController, private _fb: FormBuilder, private inAppBrowser: InAppBrowser) {
 		this.checkoutData = this.navParams.data.orders;
+		this.order = this.navParams.get('order');
 
 		// if (this.checkoutData) {
 		//   	this.checkoutData.forEach((val, i) => {
@@ -78,6 +80,16 @@ export class CheckoutPage implements OnInit {
 		return (
 			(form.get(field).touched && form.get(field).hasError('required'))
 		);
+	}
+
+	openNganluong(){
+		let url = 'https://www.nganluong.vn/button_payment.php?' +
+			'receiver=' + this.order.SupplierInfo.PaymentEmail +
+			'&product_name=' + this.order.OrderId +
+			'&price=' + this.order.PaymentPrice +
+			'&return_url=(URL thanh toán thành công)' +
+			'&comments=test ionic';
+		const browser = this.inAppBrowser.create(url, '_self')
 	}
 
 	ngOnInit(): void {

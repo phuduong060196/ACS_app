@@ -69,19 +69,18 @@ export class MyAccountPage implements OnInit {
   }
 
   sendData() {
-    if (this.onUpdateForm.valid) {
-      this.loadingHelperPro.presentLoading('Đang cập nhập...');
-      this.httpHelperPro.put('/api/customer/info', this.onUpdateForm.value).subscribe(
-        (res: any) => {
-          console.log(res);
-          this.loadingHelperPro.dismissLoading();
-          this.presentAlert(res.message);
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
-    }
+    this.loadingHelperPro.presentLoading('Đang cập nhập...');
+    console.log(this.onUpdateForm.value);
+    this.httpHelperPro.put('/api/customer/info', this.onUpdateForm.value).subscribe(
+      (res: any) => {
+        this.loadingHelperPro.dismissLoading();
+        this.presentAlert(res.message);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+    // this.navCtrl.setRoot('page-home');
   }
 
   presentAlert(subTitle) {

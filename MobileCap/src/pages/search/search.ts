@@ -1,57 +1,42 @@
 import {Component} from '@angular/core';
 import {
-	IonicPage,
-	NavController,
 	AlertController,
+	IonicPage,
 	MenuController,
-	ToastController,
-	PopoverController,
 	ModalController,
-	Platform
+	NavController, Platform,
+	PopoverController, ToastController
 } from 'ionic-angular';
-import {Geolocation} from '@ionic-native/geolocation';
-import {HttpClient} from '@angular/common/http';
-
-import {RestaurantService} from '../../providers/restaurant-service-mock';
-import {HttpHelperProvider} from '../../providers/http-helper/http-helper';
-import {SupplierServiceProvider} from '../../providers/supplier-service/supplier-service';
-import {LocalHelperProvider} from '../../providers/local-helper/local-helper';
-import {NotificationHelperProvider} from '../../providers/notification-helper/notification-helper';
-import {NumberNotificationHelperProvider} from '../../providers/number-notification-helper/number-notification-helper';
+import {RestaurantService} from "../../providers/restaurant-service-mock";
+import {HttpHelperProvider} from "../../providers/http-helper/http-helper";
+import {SupplierServiceProvider} from "../../providers/supplier-service/supplier-service";
+import {Geolocation} from "@ionic-native/geolocation";
+import {HttpClient} from "@angular/common/http";
+import {LocalHelperProvider} from "../../providers/local-helper/local-helper";
+import {NotificationHelperProvider} from "../../providers/notification-helper/notification-helper";
+import {NumberNotificationHelperProvider} from "../../providers/number-notification-helper/number-notification-helper";
 
 @IonicPage({
-	name: 'page-home',
-	segment: 'home',
-	priority: 'high'
+	name: 'page-search',
+	segment: 'search'
 })
-
 @Component({
-	selector: 'page-home',
-	templateUrl: 'home.html'
+	selector: 'page-search',
+	templateUrl: 'search.html',
 })
-
-export class HomePage {
-
+export class SearchPage {
 	restaurants: Array<any>;
 	suppliers: any;
 	suppliersNearby: any;
 	lat: number;
 	lng: number;
-	administrative_area_level_1: any;
-	administrative_area_level_2: any;
-
 	searchKey: string;
 	yourLocation: string;
 
-
-	notifications: any;
-	numberNotification: any;
-
-	constructor(public navCtrl: NavController, public menuCtrl: MenuController, public popoverCtrl: PopoverController,
-				public locationCtrl: AlertController, public modalCtrl: ModalController, public toastCtrl: ToastController,
-				public service: RestaurantService, public httpHelperPro: HttpHelperProvider, public supplierServicePro: SupplierServiceProvider,
+	constructor(public navCtrl: NavController, public menuCtrl: MenuController, public modalCtrl: ModalController, public toastCtrl: ToastController,
+				public service: RestaurantService, public httpHelperPro: HttpHelperProvider,
 				private platform: Platform, private geolocation: Geolocation, private http: HttpClient,
-				private localPro: LocalHelperProvider, private notificationHelperPro: NotificationHelperProvider, public numberNotificationHelperPro: NumberNotificationHelperProvider) {
+				private localPro: LocalHelperProvider) {
 		this.localPro.GetLocation.subscribe(val => {
 			if (val) {
 				this.lat = val.lat;
@@ -60,70 +45,16 @@ export class HomePage {
 			} else {
 				this.getCurentLocation();
 			}
-		})
-		this.notificationHelperPro.GetTestNotification.subscribe((val) => {
-			this.notifications = val;
-		})
-		this.numberNotificationHelperPro.GetTestNotification.subscribe((val) => {
-			this.numberNotification = val;
 		});
 		this.menuCtrl.swipeEnable(true, 'authenticated');
 		this.menuCtrl.enable(true);
 	}
 
-	openSupplierList() {
-		this.navCtrl.push('page-supplier-list');
-	}
-
-	openRestaurantFilterPage() {
-		let modal = this.modalCtrl.create('page-restaurant-filter');
-		modal.present();
-	}
-
-	openNearbyPage() {
-		this.navCtrl.push('page-nearby');
-	}
-
-	openOrders() {
-		this.navCtrl.push('page-orders');
-	}
-
-	openCart() {
-		this.navCtrl.push('page-cart');
-	}
-
 	openSupplierDetail(supplier: any) {
+		console.log(supplier);
 		this.navCtrl.push('page-supplier-detail', {
 			'supplier': supplier
 		});
-	}
-
-	openSettingsPage() {
-		this.navCtrl.push('page-settings');
-	}
-
-	openNotificationsPage() {
-		this.navCtrl.push('page-notifications');
-	}
-
-	openCategoryPage() {
-		this.navCtrl.push('page-category');
-	}
-
-	openCheckout() {
-		this.navCtrl.push('page-checkout');
-	}
-
-	openSearchPage(){
-		this.navCtrl.push('page-search');
-	}
-
-	onInput(event) {
-		console.log(event.data);
-	}
-
-	onCancel(event) {
-
 	}
 
 	getAllSuppliers() {
@@ -157,23 +88,6 @@ export class HomePage {
 	changeLocation() {
 		let modal = this.modalCtrl.create('page-change-location');
 		modal.present();
-	}
-
-	presentNotifications(myEvent) {
-		let numberNotification = {
-			'Number': 0,
-			'Tapped': true
-		};
-		this.numberNotificationHelperPro.SetTestNotification = numberNotification;
-		// console.log(myEvent);
-		let popover = this.popoverCtrl.create('page-notifications');
-		popover.present({
-			ev: myEvent
-		});
-	}
-
-	ionViewWillEnter() {
-		this.navCtrl.canSwipeBack();
 	}
 
 	getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
@@ -223,4 +137,17 @@ export class HomePage {
 			}
 		);
 	}
+
+	openRestaurantFilterPage() {
+		let modal = this.modalCtrl.create('page-restaurant-filter');
+		modal.present();
+	}
+
+	ionViewWillEnter() {
+		this.navCtrl.canSwipeBack();
+	}
+
+	ionViewDidLoad() {
+	}
+
 }

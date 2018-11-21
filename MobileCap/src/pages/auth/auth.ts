@@ -87,9 +87,9 @@ export class AuthPage implements OnInit {
         this.navCtrl.setRoot('page-home');
       },
       (err) => {
-        console.log(err);
+        // console.log(err.);
         this.loadingHelperPro.dismissLoading();
-        this.authMessage('Tên đăng nhập hoặc mật khẩu sai!');
+        this.authMessage(err.error.error_description);
       }
     )
   }
@@ -105,7 +105,7 @@ export class AuthPage implements OnInit {
           this.authMessage(resData.message);
         } else {
           this.authMessage(resData.message);
-          this.navCtrl.setRoot('page-home');
+          this.navCtrl.setRoot('page-auth');
         }
       },
       (err) => {

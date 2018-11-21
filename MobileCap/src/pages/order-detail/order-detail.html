@@ -122,6 +122,16 @@
 				</ion-grid>
 			</ion-card-content>
 		</ion-card>
+
+		<div text-center>
+			<button ion-button color="secondary" margin-top icon-right full tappable (click)="openCheckoutPage(order)">
+				Thanh toán
+				<ion-icon name="cash"></ion-icon>
+			</button>
+			<button ion-button color="dark" margin-top tappable (click)="send()">
+				<span style="color: white">Huỷ đơn hàng</span>
+			</button>
+		</div>
 	</ng-container>
 
 </ion-content>

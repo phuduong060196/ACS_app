@@ -28,7 +28,7 @@ interface Post {
 	templateUrl: 'supplier-detail.html',
 })
 export class SupplierDetailPage implements OnInit {
-	public param: number;
+	public param: any;
 	public supplier: any;
 	posts: any;
 	public feedbackFlag: boolean;
@@ -46,7 +46,7 @@ export class SupplierDetailPage implements OnInit {
 	}
 
 	// loadAllSuppliesById() {
-	// 	this.http.get(this.getUrlPro.getUrl + '/api/supplier/get-by-id?id=' + this.param)
+	// 	this.http.get(this.getUrlPro.getUrl + '/api/supplier/get-by-id?id=' + this.paramId)
 	// 		.subscribe((res: any) => {
 	// 			this.supplier = res.data;
 	// 			this.supplierAvatar = "http://web-capstone.azurewebsites.net/" + this.supplier.Avatar;
@@ -104,7 +104,9 @@ export class SupplierDetailPage implements OnInit {
 	}
 
 	openFeedbackDetail(param) {
-		this.navCtrl.push('page-feedback-detail', {'id': param});
+		let modal = this.modalCtrl.create('page-feedback-detail', {'id': param});
+		modal.present();
+		// this.navCtrl.push('page-feedback-detail', {'id': param});
 	}
 
 	ngOnInit(): void {
