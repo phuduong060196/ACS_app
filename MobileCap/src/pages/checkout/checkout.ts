@@ -16,7 +16,7 @@ import { InAppBrowser, InAppBrowserOptions } from "@ionic-native/in-app-browser"
 	templateUrl: 'checkout.html'
 })
 export class CheckoutPage implements OnInit {
-
+	order: any;
 	checkoutData: any;
 	totalVal: number = 0;
 	orderNumber: number = Math.floor(Math.random() * 10000);
@@ -25,6 +25,7 @@ export class CheckoutPage implements OnInit {
 
 	constructor(public nav: NavController, public navParams: NavParams, private storage: Storage, public ordersService: OrdersService, public cartService: CartService, public loadingCtrl: LoadingController, public toastCtrl: ToastController, private _fb: FormBuilder, private inAppBrowser: InAppBrowser) {
 		this.checkoutData = this.navParams.data.orders;
+		this.order = this.navParams.get('order');
 
 		// if (this.checkoutData) {
 		//   	this.checkoutData.forEach((val, i) => {
@@ -84,8 +85,8 @@ export class CheckoutPage implements OnInit {
 	openNganluong(){
 		let url = 'https://www.nganluong.vn/button_payment.php?' +
 			'receiver=jinnguyen1200@gmail.com' +
-			'&product_name=99' +
-			'&price=10000' +
+			'&product_name=' + this.order.OrderId +
+			'&price=' + this.order +
 			'&return_url=(URL thanh toán thành công)' +
 			'&comments=test ionic';
 		const browser = this.inAppBrowser.create(url, '_self')

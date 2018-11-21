@@ -18,20 +18,6 @@
 				<ion-card>
 					<ion-card-content class="checkout-info" no-padding>
 
-						<ion-list no-margin>
-							<div ion-item *ngFor="let order of checkoutData">
-								<!-- (click)="itemTapped(favorite)" -->
-								<ion-thumbnail item-left>
-									<img src="{{order.order.picture}}"/>
-								</ion-thumbnail>
-								<h2 ion-text color="dark" class="fw700">{{order.order.name}}</h2>
-								<p ion-text color="primary">{{order.order.ingredients}}</p>
-								<div item-right>
-									<ion-badge>{{ order.order.price * order.qtd | currency }}</ion-badge>
-								</div>
-							</div>
-						</ion-list>
-
 						<ion-grid padding>
 							<ion-row>
 								<ion-col col-8>
@@ -39,19 +25,18 @@
 									<ion-card class="green-bg" no-margin text-center>
 										<ion-card-content>
 											<span ion-text class="text-white">Tổng cộng</span>
-											<h2 ion-text no-margin class="fw700 text-white">{{ totalVal | currency
-												}}</h2>
+											<h2 ion-text no-margin class="fw700 text-white">{{order.Total}}</h2>
 										</ion-card-content>
 									</ion-card>
 								</ion-col>
 								<ion-col col-4 no-padding>
 									<span ion-text color="primary" class="text-11x">Mã đơn hàng:</span>
 									<br/>
-									<ion-badge color="light" class="text-primary">003454890</ion-badge>
+									<ion-badge color="light" class="text-primary">{{order.OrderId}}</ion-badge>
 									<div>
 										<span ion-text color="primary" class="text-11x">Ngày:</span>
 										<br/>
-										<ion-badge color="light" class="text-primary">30-30-30</ion-badge>
+										<ion-badge color="light" class="text-primary">{{order.CreatedDateDisplay}}</ion-badge>
 									</div>
 								</ion-col>
 							</ion-row>
@@ -106,12 +91,6 @@
 							<ion-icon name="cash"></ion-icon>
 						</button>
 					</div>
-
-					<!--submit button-->
-					<!--<button ion-button color="secondary" margin-top icon-right full tappable (click)="send()">-->
-					<!--Thanh toán-->
-					<!--<ion-icon name="cash"></ion-icon>-->
-					<!--</button>-->
 
 				</div>
 			</ion-col>
