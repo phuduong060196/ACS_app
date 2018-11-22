@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import {
 	AlertController,
 	IonicPage,
@@ -7,15 +7,15 @@ import {
 	NavController, Platform,
 	PopoverController, ToastController
 } from 'ionic-angular';
-import {RestaurantService} from "../../providers/restaurant-service-mock";
-import {HttpHelperProvider} from "../../providers/http-helper/http-helper";
-import {SupplierServiceProvider} from "../../providers/supplier-service/supplier-service";
-import {Geolocation} from "@ionic-native/geolocation";
-import {HttpClient} from "@angular/common/http";
-import {LocalHelperProvider} from "../../providers/local-helper/local-helper";
-import {NotificationHelperProvider} from "../../providers/notification-helper/notification-helper";
-import {NumberNotificationHelperProvider} from "../../providers/number-notification-helper/number-notification-helper";
-
+import { RestaurantService } from "../../providers/restaurant-service-mock";
+import { HttpHelperProvider } from "../../providers/http-helper/http-helper";
+import { SupplierServiceProvider } from "../../providers/supplier-service/supplier-service";
+import { Geolocation } from "@ionic-native/geolocation";
+import { HttpClient } from "@angular/common/http";
+import { LocalHelperProvider } from "../../providers/local-helper/local-helper";
+import { NotificationHelperProvider } from "../../providers/notification-helper/notification-helper";
+import { NumberNotificationHelperProvider } from "../../providers/number-notification-helper/number-notification-helper";
+import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
 @IonicPage({
 	name: 'page-search',
 	segment: 'search'
@@ -34,9 +34,9 @@ export class SearchPage {
 	yourLocation: string;
 
 	constructor(public navCtrl: NavController, public menuCtrl: MenuController, public modalCtrl: ModalController, public toastCtrl: ToastController,
-				public service: RestaurantService, public httpHelperPro: HttpHelperProvider,
-				private platform: Platform, private geolocation: Geolocation, private http: HttpClient,
-				private localPro: LocalHelperProvider) {
+		public service: RestaurantService, public httpHelperPro: HttpHelperProvider,
+		private platform: Platform, private geolocation: Geolocation, private http: HttpClient,
+		private localPro: LocalHelperProvider, private loadingHelperPro: LoadingHelperProvider) {
 		this.localPro.GetLocation.subscribe(val => {
 			if (val) {
 				this.lat = val.lat;
@@ -58,9 +58,11 @@ export class SearchPage {
 	}
 
 	getAllSuppliers() {
+		this.loadingHelperPro.presentLoading('Đang tải...');
 		this.httpHelperPro.get('/api/supplier/search?name=&searchBy=price&sort=desc').subscribe(
 			(res: any) => {
 				this.suppliers = res.data;
+				this.loadingHelperPro.dismissLoading();
 			},
 			(err) => {
 				console.log(err);
@@ -98,7 +100,7 @@ export class SearchPage {
 			Math.sin(dLat / 2) * Math.sin(dLat / 2) +
 			Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
 			Math.sin(dLon / 2) * Math.sin(dLon / 2)
-		;
+			;
 		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 		var d = R * c; // Distance in km
 		return d;
@@ -121,6 +123,7 @@ export class SearchPage {
 	getCurentLocation() {
 		this.platform.ready().then(
 			() => {
+				this.loadingHelperPro.presentLoading('');
 				this.geolocation.getCurrentPosition().then(
 					(ressult) => {
 						this.http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + ressult.coords.latitude + ',' + ressult.coords.longitude + '&key=AIzaSyDr5qwgemJp4LtodR8lvXg382V-cDFK3bY&sensor=false').subscribe(
@@ -130,6 +133,7 @@ export class SearchPage {
 									lng: ressult.coords.longitude,
 									yourLocation: res.results[1].formatted_address
 								};
+								this.loadingHelperPro.dismissLoading();
 							}
 						);
 					}

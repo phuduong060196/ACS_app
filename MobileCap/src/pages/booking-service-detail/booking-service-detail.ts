@@ -41,74 +41,55 @@ export class BookingServiceDetailPage implements OnInit {
 	}
 
 	sendBookingRequest() {
-		const list = this.services.filter(el => el.checked == true).map(el => {
-			return {
-				ServiceId: el.ServiceId,
-				Price: el.Price,
-				PriceDisplay: el.PriceDisplay,
-				Name: el.Name
-			}
-		})
-		// console.log({
-		// 	'CurrentStatus': {
-		// 		'CreatedByCustomer': true,
-		// 		'Name': "Waiting for review",
-		// 		'UpdatedDate': new Date()
-		// 	},
-		// 	'CustomerId': this.customerId,
-		// 	'SupplierId': this.supplierId,
-		// 	'Order': {
-		// 		'OrderDetails': list
-		// 	},
-		// 	'SeenByCustomer': false,
-		// 	'Time': new Date(),
-		// 	'CustomerName': this.customer.FullName,
-		// 	'PhoneNumber': this.customer.PhoneNumber,
-		// 	'Address': this.customer.Address,
-		// 	'DayWork': this.DayWork,
-		// 	'TimeWork': this.TimeWork,
-		// 	'Note': this.Note
-		// });
-		if (list.length > 0) {
-			this.database.collection(this.booking_path).add({
-				'CurrentStatus': {
-					'CreatedByCustomer': true,
-					'Name': "Waiting for review",
-					'UpdatedDate': new Date()
-				},
-				'CustomerId': this.customerId,
-				'SupplierId': this.supplierId,
-				'Order': {
-					'OrderDetails': list
-				},
-				'SeenByCustomer': false,
-				'Time': new Date(),
-				'CustomerName': this.customer.FullName,
-				'PhoneNumber': this.customer.PhoneNumber,
-				'Address': this.customer.Address,
-				'DayWork': this.DayWork,
-				'TimeWork': this.TimeWork,
-				'Note': this.Note
-			});
-			let alert = this.alertCtrl.create({
-				title: 'Thông báo',
-				message: 'Đặt dịch vụ thành công!',
-				buttons: [{
-					text: 'Xác nhận',
-					handler: () => {
-						this.closeModal();
-					}
-				}]
-			});
-			alert.present();
-		} else {
-			let alert = this.alertCtrl.create({
-				title: 'Thông báo',
-				message: 'Vui lòng chọn dịch vụ để đặt lịch!',
-				buttons: ['Xác nhận']
-			});
-			alert.present();
-		}
+		console.log(this.services);
+		// const list = this.services.filter(el => el.checked == true).map(el => {
+		// 	return {
+		// 		ServiceId: el.ServiceId,
+		// 		Price: el.Price,
+		// 		PriceDisplay: el.PriceDisplay,
+		// 		Name: el.Name
+		// 	}
+		// })
+		// if (list.length > 0) {
+		// 	this.database.collection(this.booking_path).add({
+		// 		'CurrentStatus': {
+		// 			'CreatedByCustomer': true,
+		// 			'Name': "Waiting for review",
+		// 			'UpdatedDate': new Date()
+		// 		},
+		// 		'CustomerId': this.customerId,
+		// 		'SupplierId': this.supplierId,
+		// 		'Order': {
+		// 			'OrderDetails': list
+		// 		},
+		// 		'SeenByCustomer': false,
+		// 		'Time': new Date(),
+		// 		'CustomerName': this.customer.FullName,
+		// 		'PhoneNumber': this.customer.PhoneNumber,
+		// 		'Address': this.customer.Address,
+		// 		'DayWork': this.DayWork,
+		// 		'TimeWork': this.TimeWork,
+		// 		'Note': this.Note
+		// 	});
+		// 	let alert = this.alertCtrl.create({
+		// 		title: 'Thông báo',
+		// 		message: 'Đặt dịch vụ thành công!',
+		// 		buttons: [{
+		// 			text: 'Xác nhận',
+		// 			handler: () => {
+		// 				this.closeModal();
+		// 			}
+		// 		}]
+		// 	});
+		// 	alert.present();
+		// } else {
+		// 	let alert = this.alertCtrl.create({
+		// 		title: 'Thông báo',
+		// 		message: 'Vui lòng chọn dịch vụ để đặt lịch!',
+		// 		buttons: ['Xác nhận']
+		// 	});
+		// 	alert.present();
+		// }
 	}
 
 	ngOnInit() {
@@ -136,11 +117,14 @@ export class BookingServiceDetailPage implements OnInit {
 	getServices(SupplierId) {
 		this.httpHelperPro.get('/api/supplier/search-all-service-by-supplierId?supplierId=' + SupplierId).subscribe(
 			(res: any) => {
-				console.log(res.data);
-				this.services = res.data.map(el => {
-					el.checked = false;
-					return el;
+				this.services = res.data.map(element1 => {
+					element1.isChecked = false;
+					element1.Services.map(element2 => {
+						element2.checked = false;
+					});
+					return element1;
 				});
+				console.log(this.services);
 			},
 			(err) => {
 				console.log(err);

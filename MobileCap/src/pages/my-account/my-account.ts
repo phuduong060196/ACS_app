@@ -38,17 +38,18 @@ export class MyAccountPage implements OnInit {
       (res: User) => {
         this.userInfor = res;
         this.onUpdateForm = this.fb.group({
-          CustomerId: [],
-          fullName: [this.userInfor.FullName, Validators.compose([
+          CustomerId: [0],
+          DateOfBirth: [''],
+          FullName: [this.userInfor.FullName, Validators.compose([
             Validators.required
           ])],
-          phoneNumber: [this.userInfor.PhoneNumber, Validators.compose([
+          PhoneNumber: [this.userInfor.PhoneNumber, Validators.compose([
             Validators.required
           ])],
-          email: [this.userInfor.Email, Validators.compose([
+          Email: [this.userInfor.Email, Validators.compose([
             Validators.required
           ])],
-          address: [this.userInfor.Address, Validators.compose([
+          Address: [this.userInfor.Address, Validators.compose([
             Validators.required
           ])]
         });
@@ -70,10 +71,12 @@ export class MyAccountPage implements OnInit {
 
   sendData() {
     this.loadingHelperPro.presentLoading('Đang cập nhập...');
+    console.log(this.userInfor);
     console.log(this.onUpdateForm.value);
     this.httpHelperPro.put('/api/customer/info', this.onUpdateForm.value).subscribe(
       (res: any) => {
         this.loadingHelperPro.dismissLoading();
+        console.log(res);
         this.presentAlert(res.message);
       },
       (err) => {

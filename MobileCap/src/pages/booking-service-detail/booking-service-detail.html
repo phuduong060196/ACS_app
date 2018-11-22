@@ -62,33 +62,37 @@
 			</ion-card-content>
 		</ion-card>
 
-		<ion-card>
-			<ion-card-header color="primary" style="text-align: center; background-color: #ebebe0">
-				<strong>
-					Dịch vụ
-				</strong>
-			</ion-card-header>
-			<ion-card-content>
-				<ng-container>
-					<ion-grid no-padding fixed>
-						<ion-row no-padding>
-							<ion-col>
-								<div>
-									<ion-list *ngFor="let service of services">
+		<ng-container *ngIf="services">
+			<ng-container *ngFor="let service of services">
+				<ion-card>
+					<ion-card-header color="primary" style="text-align: center; background-color: #ebebe0">
+						<strong>
+							{{service.Name}}
+						</strong>
+					</ion-card-header>
+					<ion-card-content>
+						<ng-container>
+							<ion-grid no-padding fixed>
+								<ion-row no-padding>
+									<ion-col>
+										<div>
+											<ion-list *ngFor="let el of service.Services">
 
-										<ion-item>
-											<ion-label> {{service.Name}} </ion-label>
-											<ion-checkbox name="services" [(ngModel)]="service.checked"></ion-checkbox>
-										</ion-item>
+												<ion-item>
+													<ion-label> {{el.Name}} </ion-label>
+													<ion-checkbox name="services" [(ngModel)]="el.checked"></ion-checkbox>
+												</ion-item>
 
-									</ion-list>
-								</div>
-							</ion-col>
-						</ion-row>
-					</ion-grid>
-				</ng-container>
-			</ion-card-content>
-		</ion-card>
+											</ion-list>
+										</div>
+									</ion-col>
+								</ion-row>
+							</ion-grid>
+						</ng-container>
+					</ion-card-content>
+				</ion-card>
+			</ng-container>
+		</ng-container>
 
 		<!-- <ion-list *ngFor="let service of services">
 
