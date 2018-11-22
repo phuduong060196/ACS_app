@@ -7,9 +7,11 @@
 <ion-header>
 
 	<ion-navbar color="primary">
-		<button ion-button menuToggle>
-			<ion-icon name="menu"></ion-icon>
-		</button>
+		<ion-buttons start>
+			<button ion-button round (click)="closeModal()">
+				<ion-icon name="close"></ion-icon>
+			</button>
+		</ion-buttons>
 		<ion-title>
 			<span ion-text>Đánh giá</span>
 		</ion-title>

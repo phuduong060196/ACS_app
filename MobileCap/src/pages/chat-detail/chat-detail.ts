@@ -1,7 +1,6 @@
 import {AfterViewChecked, Component, OnInit, ViewChild} from '@angular/core';
 import {Content, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection} from '@angular/fire/firestore';
-import {Observable} from 'rxjs';
 import 'rxjs/add/operator/map';
 import {HttpClient} from "@angular/common/http";
 import {GetUrlProvider} from "../../providers/get-url/get-url";

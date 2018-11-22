@@ -36,7 +36,8 @@
 									<div>
 										<span ion-text color="primary" class="text-11x">Ngày:</span>
 										<br/>
-										<ion-badge color="light" class="text-primary">{{order.CreatedDateDisplay}}</ion-badge>
+										<ion-badge color="light" class="text-primary">{{order.CreatedDateDisplay}}
+										</ion-badge>
 									</div>
 								</ion-col>
 							</ion-row>
@@ -45,7 +46,7 @@
 				</ion-card>
 
 				<!--payment info-->
-				<div padding>
+				<div *ngIf="order.PaymentPrice !== null" padding>
 					<h3>Phương thức thanh toán</h3>
 
 					<ion-list radio-group>
@@ -60,29 +61,13 @@
 					</ion-list>
 
 					<div *ngIf="checkoutOnline == true">
-
-						<!--<ion-card no-margin margin-vertical class="full-width">-->
-							<!--<ion-card-content>-->
-								<!--<form [formGroup]="onYourCheckoutForm" class="list-form">-->
-									<!--<ion-list margin-bottom>-->
-
-										<!--<ion-item>-->
-											<!--<ion-label color="primary" stacked>Nội dung:</ion-label>-->
-											<!--<ion-textarea type="text" maxLength="500" rows="8" placeholder="Nhấn vào đây..."-->
-														  <!--formControlName="feedbackContent"></ion-textarea>-->
-										<!--</ion-item>-->
-										<!--<p ion-text color="danger" class="text-1x has-error" *ngIf="isFieldInvalid('feedbackContent', onYourCheckoutForm)">Bắt buộc</p>-->
-
-										<!--<button ion-button block color="dark" (click)="sendData()" [disabled]="!onYourCheckoutForm.valid">Tiếp tục</button>-->
-									<!--</ion-list>-->
-								<!--</form>-->
-							<!--</ion-card-content>-->
-						<!--</ion-card>-->
-
-						<button ion-button color="secondary" margin-top icon-right full tappable (click)="openNganluong()">
-							Thanh toán
-							<ion-icon name="cash"></ion-icon>
-						</button>
+						<div *ngFor="let post of posts | async">
+							<button ion-button color="secondary" margin-top icon-right full tappable
+									(click)="openNganluong(post.id)">
+								Thanh toán {{post.id}}
+								<ion-icon name="cash"></ion-icon>
+							</button>
+						</div>
 					</div>
 
 					<div *ngIf="checkoutOnline != true">
@@ -92,6 +77,12 @@
 						</button>
 					</div>
 
+				</div>
+
+				<div *ngIf="order.PaymentPrice === null" padding>
+					<button ion-button color="secondary" margin-top icon-right full tappable (click)="send()">
+						Tiếp tục
+					</button>
 				</div>
 			</ion-col>
 		</ion-row>
