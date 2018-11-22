@@ -23,22 +23,24 @@
 
 <ion-content>
 
-	<div class="card-background-page">
+	<ng-container *ngIf="listType">
+		<div class="card-background-page" *ngFor="let type of listType">
 
-		<ion-grid no-padding>
-			<ion-row no-padding>
-				<ion-col col-12 col-md-6>
-					<ion-card tappable>
-						<img src="../../assets/img/pikachu.jpg" />
-						<div class="card-title">
-							Name
-						</div>
-						<div class="card-subtitle">Number of Supplier</div>
-					</ion-card>
-				</ion-col>
-			</ion-row>
-		</ion-grid>
+			<ion-grid no-padding>
+				<ion-row no-padding>
+					<ion-col col-12 col-md-6>
+						<ion-card tappable>
+							<img [src]="type.Avatar" />
+							<div class="card-title">
+								{{type.Name}}
+							</div>
+							<div class="card-subtitle">Number of Supplier</div>
+						</ion-card>
+					</ion-col>
+				</ion-row>
+			</ion-grid>
 
-	</div>
+		</div>
+	</ng-container>
 
 </ion-content>

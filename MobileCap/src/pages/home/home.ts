@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import {
 	IonicPage,
 	NavController,
@@ -9,15 +9,16 @@ import {
 	ModalController,
 	Platform
 } from 'ionic-angular';
-import {Geolocation} from '@ionic-native/geolocation';
-import {HttpClient} from '@angular/common/http';
+import { Geolocation } from '@ionic-native/geolocation';
+import { HttpClient } from '@angular/common/http';
 
-import {RestaurantService} from '../../providers/restaurant-service-mock';
-import {HttpHelperProvider} from '../../providers/http-helper/http-helper';
-import {SupplierServiceProvider} from '../../providers/supplier-service/supplier-service';
-import {LocalHelperProvider} from '../../providers/local-helper/local-helper';
-import {NotificationHelperProvider} from '../../providers/notification-helper/notification-helper';
-import {NumberNotificationHelperProvider} from '../../providers/number-notification-helper/number-notification-helper';
+import { RestaurantService } from '../../providers/restaurant-service-mock';
+import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
+import { SupplierServiceProvider } from '../../providers/supplier-service/supplier-service';
+import { LocalHelperProvider } from '../../providers/local-helper/local-helper';
+import { NotificationHelperProvider } from '../../providers/notification-helper/notification-helper';
+import { NumberNotificationHelperProvider } from '../../providers/number-notification-helper/number-notification-helper';
+import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
 
 @IonicPage({
 	name: 'page-home',
@@ -47,11 +48,15 @@ export class HomePage {
 	notifications: any;
 	numberNotification: any;
 
-	constructor(public navCtrl: NavController, public menuCtrl: MenuController, public popoverCtrl: PopoverController,
-				public locationCtrl: AlertController, public modalCtrl: ModalController, public toastCtrl: ToastController,
-				public service: RestaurantService, public httpHelperPro: HttpHelperProvider, public supplierServicePro: SupplierServiceProvider,
-				private platform: Platform, private geolocation: Geolocation, private http: HttpClient,
-				private localPro: LocalHelperProvider, private notificationHelperPro: NotificationHelperProvider, public numberNotificationHelperPro: NumberNotificationHelperProvider) {
+	listType: any;
+
+	constructor(
+		public loadingHelperPro: LoadingHelperProvider,
+		public navCtrl: NavController, public menuCtrl: MenuController, public popoverCtrl: PopoverController,
+		public locationCtrl: AlertController, public modalCtrl: ModalController, public toastCtrl: ToastController,
+		public service: RestaurantService, public httpHelperPro: HttpHelperProvider, public supplierServicePro: SupplierServiceProvider,
+		private platform: Platform, private geolocation: Geolocation, private http: HttpClient,
+		private localPro: LocalHelperProvider, private notificationHelperPro: NotificationHelperProvider, public numberNotificationHelperPro: NumberNotificationHelperProvider) {
 		this.localPro.GetLocation.subscribe(val => {
 			if (val) {
 				this.lat = val.lat;
@@ -67,6 +72,7 @@ export class HomePage {
 		this.numberNotificationHelperPro.GetTestNotification.subscribe((val) => {
 			this.numberNotification = val;
 		});
+		this.listType = this.getAllType();
 		this.menuCtrl.swipeEnable(true, 'authenticated');
 		this.menuCtrl.enable(true);
 	}
@@ -114,7 +120,7 @@ export class HomePage {
 		this.navCtrl.push('page-checkout');
 	}
 
-	openSearchPage(){
+	openSearchPage() {
 		this.navCtrl.push('page-search');
 	}
 
@@ -137,7 +143,8 @@ export class HomePage {
 		);
 	}
 
-	search(event) {
+	search() {
+		this.loadingHelperPro.presentLoading('Đang tải...');
 		this.httpHelperPro.get('/api/location/search-location-with-lat-long?latitude=' + this.lat + '&longitude=' + this.lng + '&service=' + this.searchKey).subscribe(
 			(res: any) => {
 				this.suppliersNearby = res;
@@ -147,9 +154,11 @@ export class HomePage {
 					let distance = this.getDistanceFromLatLonInKm(this.lat, this.lng, supplier.Branches[0].Latitude, supplier.Branches[0].Longitude);
 					supplier.distance = distance.toFixed(2);
 				});
+				this.loadingHelperPro.dismissLoading();
 			},
 			(err) => {
 				console.log(err);
+				this.loadingHelperPro.dismissLoading();
 			}
 		);
 	}
@@ -184,7 +193,7 @@ export class HomePage {
 			Math.sin(dLat / 2) * Math.sin(dLat / 2) +
 			Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
 			Math.sin(dLon / 2) * Math.sin(dLon / 2)
-		;
+			;
 		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 		var d = R * c; // Distance in km
 		return d;
@@ -209,6 +218,7 @@ export class HomePage {
 			() => {
 				this.geolocation.getCurrentPosition().then(
 					(ressult) => {
+						this.loadingHelperPro.presentLoading('');
 						this.http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + ressult.coords.latitude + ',' + ressult.coords.longitude + '&key=AIzaSyDr5qwgemJp4LtodR8lvXg382V-cDFK3bY&sensor=false').subscribe(
 							(res: any) => {
 								this.localPro.SetLocation = {
@@ -216,10 +226,26 @@ export class HomePage {
 									lng: ressult.coords.longitude,
 									yourLocation: res.results[1].formatted_address
 								};
+								this.loadingHelperPro.dismissLoading();
 							}
 						);
 					}
 				);
+			}
+		);
+	}
+
+	getAllType() {
+		this.loadingHelperPro.presentLoading('');
+		this.httpHelperPro.get('/api/service/all-serivce-type').subscribe(
+			(res: any) => {
+				console.log(res);
+				this.listType = res;
+				this.loadingHelperPro.dismissLoading();
+			},
+			(err) => {
+				console.log(err);
+				this.loadingHelperPro.dismissLoading();
 			}
 		);
 	}

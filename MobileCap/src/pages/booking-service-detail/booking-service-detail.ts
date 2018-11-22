@@ -5,6 +5,7 @@ import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection 
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
+import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
 import moment from 'moment';
 
 interface Post {
@@ -36,7 +37,7 @@ export class BookingServiceDetailPage implements OnInit {
 	TimeWork: any = moment().format('HH:mm');
 	DayWork: any = moment().format('MM-DD-YYYY');
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public httpHelperPro: HttpHelperProvider, private alertCtrl: AlertController) {
+	constructor(private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public httpHelperPro: HttpHelperProvider, private alertCtrl: AlertController) {
 
 	}
 
@@ -50,6 +51,24 @@ export class BookingServiceDetailPage implements OnInit {
 		// 		Name: el.Name
 		// 	}
 		// })
+
+		let listTest: any;
+
+		this.services.forEach(element => {
+			listTest = element.Services.filter(el => {
+				el.checked == true;
+			}).map(el => {
+				return {
+					ServiceId: el.ServiceId,
+					Price: el.Price,
+					PriceDisplay: el.PriceDisplay,
+					Name: el.Name
+				}
+			})
+		});
+
+		console.log(listTest);
+
 		// if (list.length > 0) {
 		// 	this.database.collection(this.booking_path).add({
 		// 		'CurrentStatus': {
@@ -115,30 +134,35 @@ export class BookingServiceDetailPage implements OnInit {
 	}
 
 	getServices(SupplierId) {
+		this.loadingHelperPro.presentLoading('');
 		this.httpHelperPro.get('/api/supplier/search-all-service-by-supplierId?supplierId=' + SupplierId).subscribe(
 			(res: any) => {
 				this.services = res.data.map(element1 => {
-					element1.isChecked = false;
 					element1.Services.map(element2 => {
 						element2.checked = false;
 					});
 					return element1;
 				});
 				console.log(this.services);
+				this.loadingHelperPro.dismissLoading();
 			},
 			(err) => {
 				console.log(err);
+				this.loadingHelperPro.dismissLoading();
 			}
 		);
 	}
 
 	getCustomer(CustomerId) {
+		this.loadingHelperPro.presentLoading('');
 		this.httpHelperPro.get('/api/customer/get-info?customerId=' + CustomerId).subscribe(
 			(res: any) => {
 				this.customer = res;
+				this.loadingHelperPro.presentLoading('');
 			},
 			(err) => {
 				console.log(err);
+				this.loadingHelperPro.presentLoading('');
 			}
 		);
 	}
