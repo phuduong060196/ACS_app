@@ -38,6 +38,7 @@ import {LocalHelperProvider} from '../providers/local-helper/local-helper';
 import {FcmProvider} from '../providers/fcm/fcm';
 import {NotificationHelperProvider} from '../providers/notification-helper/notification-helper';
 import {NumberNotificationHelperProvider} from '../providers/number-notification-helper/number-notification-helper';
+import { ControlMessagesComponent } from '../components/control-messages/control-messages';
 
 var config = {
 	apiKey: "AIzaSyCxm0jQrorq3-dCoiwwTchjaIe_H6OX2H0",
@@ -51,6 +52,7 @@ var config = {
 @NgModule({
 	declarations: [
 		foodIonicApp,
+		ControlMessagesComponent
 	],
 	imports: [
 		BrowserModule,

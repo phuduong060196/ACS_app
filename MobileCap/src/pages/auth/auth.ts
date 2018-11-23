@@ -8,6 +8,8 @@ import { CustomerServiceProvider } from '../../providers/customer-service/custom
 import { AccessTokenHelperProvider } from '../../providers/access-token-helper/access-token-helper';
 import { GetUrlProvider } from '../../providers/get-url/get-url';
 import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
+import { ValidationService } from '../../providers/validation.service';
+import { FcmProvider } from '../../providers/fcm/fcm';
 
 @IonicPage({
   name: 'page-auth',
@@ -25,7 +27,16 @@ export class AuthPage implements OnInit {
 
   auth: string = "login";
 
-  constructor(private _fb: FormBuilder, public navCtrl: NavController, public alertCtrl: AlertController, public menu: MenuController, public http: HttpClient, public loadingHelperPro: LoadingHelperProvider, public customerServicePro: CustomerServiceProvider, public accessTokenHelperPro: AccessTokenHelperProvider, public getUrlPro: GetUrlProvider, public httpHelperPro: HttpHelperProvider) {
+  constructor(private fcmPro: FcmProvider, private _fb: FormBuilder, public navCtrl: NavController, public alertCtrl: AlertController, public menu: MenuController, public http: HttpClient, public loadingHelperPro: LoadingHelperProvider, public customerServicePro: CustomerServiceProvider, public accessTokenHelperPro: AccessTokenHelperProvider, public getUrlPro: GetUrlProvider, public httpHelperPro: HttpHelperProvider) {
+
+    this.onRegisterForm = this._fb.group({
+      'username': ['', [Validators.required, ValidationService.usernameValidator]],
+      'password': ['', [Validators.required, ValidationService.passwordValidator]],
+      'repassword': ['', Validators.required],
+      'fullname': ['', [Validators.required, ValidationService.fullNameValidator]],
+      'email': ['', [Validators.required, ValidationService.emailFormatValidator]]
+    });
+
     this.menu.swipeEnable(false);
     this.menu.enable(false);
   }
@@ -41,23 +52,7 @@ export class AuthPage implements OnInit {
       ])]
     });
 
-    this.onRegisterForm = this._fb.group({
-      username: ['', Validators.compose([
-        Validators.required
-      ])],
-      password: ['', Validators.compose([
-        Validators.required
-      ])],
-      repassword: ['', Validators.compose([
-        Validators.required
-      ])],
-      fullname: ['', Validators.compose([
-        Validators.required
-      ])],
-      email: ['', Validators.compose([
-        Validators.required
-      ])]
-    });
+
   }
 
   isFieldInvalid(field: string, form: FormGroup) {
@@ -83,6 +78,7 @@ export class AuthPage implements OnInit {
     this.customerServicePro.login(this.onLoginForm.value).subscribe(
       (res: any) => {
         this.accessTokenHelperPro.SetAccessToken = res;
+        this.fcmPro.getToken();
         this.loadingHelperPro.dismissLoading();
         this.navCtrl.setRoot('page-home');
       },

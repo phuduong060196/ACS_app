@@ -42,7 +42,7 @@ export class BookingServiceDetailPage implements OnInit {
 	}
 
 	sendBookingRequest() {
-		console.log(this.services);
+		// console.log(this.services);
 		// const list = this.services.filter(el => el.checked == true).map(el => {
 		// 	return {
 		// 		ServiceId: el.ServiceId,
@@ -52,63 +52,61 @@ export class BookingServiceDetailPage implements OnInit {
 		// 	}
 		// })
 
-		let listTest: any;
+		let list: any = [];
 
-		this.services.forEach(element => {
-			listTest = element.Services.filter(el => {
-				el.checked == true;
-			}).map(el => {
-				return {
-					ServiceId: el.ServiceId,
-					Price: el.Price,
-					PriceDisplay: el.PriceDisplay,
-					Name: el.Name
+		this.services.forEach(element1 => {
+			element1.Services.forEach(element2 => {
+				if (element2.checked == true) {
+					list.push({
+						ServiceId: element2.ServiceId,
+						Price: element2.Price,
+						PriceDisplay: element2.PriceDisplay,
+						Name: element2.Name
+					});
 				}
-			})
+			});
 		});
 
-		console.log(listTest);
-
-		// if (list.length > 0) {
-		// 	this.database.collection(this.booking_path).add({
-		// 		'CurrentStatus': {
-		// 			'CreatedByCustomer': true,
-		// 			'Name': "Waiting for review",
-		// 			'UpdatedDate': new Date()
-		// 		},
-		// 		'CustomerId': this.customerId,
-		// 		'SupplierId': this.supplierId,
-		// 		'Order': {
-		// 			'OrderDetails': list
-		// 		},
-		// 		'SeenByCustomer': false,
-		// 		'Time': new Date(),
-		// 		'CustomerName': this.customer.FullName,
-		// 		'PhoneNumber': this.customer.PhoneNumber,
-		// 		'Address': this.customer.Address,
-		// 		'DayWork': this.DayWork,
-		// 		'TimeWork': this.TimeWork,
-		// 		'Note': this.Note
-		// 	});
-		// 	let alert = this.alertCtrl.create({
-		// 		title: 'Thông báo',
-		// 		message: 'Đặt dịch vụ thành công!',
-		// 		buttons: [{
-		// 			text: 'Xác nhận',
-		// 			handler: () => {
-		// 				this.closeModal();
-		// 			}
-		// 		}]
-		// 	});
-		// 	alert.present();
-		// } else {
-		// 	let alert = this.alertCtrl.create({
-		// 		title: 'Thông báo',
-		// 		message: 'Vui lòng chọn dịch vụ để đặt lịch!',
-		// 		buttons: ['Xác nhận']
-		// 	});
-		// 	alert.present();
-		// }
+		if (list.length > 0) {
+			this.database.collection(this.booking_path).add({
+				'CurrentStatus': {
+					'CreatedByCustomer': true,
+					'Name': "Waiting for review",
+					'UpdatedDate': new Date()
+				},
+				'CustomerId': this.customerId,
+				'SupplierId': this.supplierId,
+				'Order': {
+					'OrderDetails': list
+				},
+				'SeenByCustomer': false,
+				'Time': new Date(),
+				'CustomerName': this.customer.FullName,
+				'PhoneNumber': this.customer.PhoneNumber,
+				'Address': this.customer.Address,
+				'DayWork': this.DayWork,
+				'TimeWork': this.TimeWork,
+				'Note': this.Note
+			});
+			let alert = this.alertCtrl.create({
+				title: 'Thông báo',
+				message: 'Đặt dịch vụ thành công!',
+				buttons: [{
+					text: 'Xác nhận',
+					handler: () => {
+						this.closeModal();
+					}
+				}]
+			});
+			alert.present();
+		} else {
+			let alert = this.alertCtrl.create({
+				title: 'Thông báo',
+				message: 'Vui lòng chọn dịch vụ để đặt lịch!',
+				buttons: ['Xác nhận']
+			});
+			alert.present();
+		}
 	}
 
 	ngOnInit() {

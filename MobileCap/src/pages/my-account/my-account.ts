@@ -38,18 +38,18 @@ export class MyAccountPage implements OnInit {
       (res: User) => {
         this.userInfor = res;
         this.onUpdateForm = this.fb.group({
-          CustomerId: [0],
-          DateOfBirth: [''],
-          FullName: [this.userInfor.FullName, Validators.compose([
+          'CustomerId': [0],
+          'DateOfBirth': [''],
+          'FullName': [this.userInfor.FullName, Validators.compose([
             Validators.required
           ])],
-          PhoneNumber: [this.userInfor.PhoneNumber, Validators.compose([
+          'PhoneNumber': [this.userInfor.PhoneNumber, Validators.compose([
             Validators.required
           ])],
-          Email: [this.userInfor.Email, Validators.compose([
+          'Email': [this.userInfor.Email, Validators.compose([
             Validators.required
           ])],
-          Address: [this.userInfor.Address, Validators.compose([
+          'Address': [this.userInfor.Address, Validators.compose([
             Validators.required
           ])]
         });
@@ -71,9 +71,11 @@ export class MyAccountPage implements OnInit {
 
   sendData() {
     this.loadingHelperPro.presentLoading('Đang cập nhập...');
-    console.log(this.userInfor);
-    console.log(this.onUpdateForm.value);
-    this.httpHelperPro.put('/api/customer/info', this.onUpdateForm.value).subscribe(
+    this.userInfor.FullName = this.onUpdateForm.value.FullName;
+    this.userInfor.PhoneNumber = this.onUpdateForm.value.PhoneNumber;
+    this.userInfor.Email = this.onUpdateForm.value.Email;
+    this.userInfor.Address = this.onUpdateForm.value.Address;
+    this.httpHelperPro.put('/api/customer/info', this.userInfor).subscribe(
       (res: any) => {
         this.loadingHelperPro.dismissLoading();
         console.log(res);
