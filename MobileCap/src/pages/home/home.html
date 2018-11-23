@@ -13,9 +13,6 @@
 					{{numberNotification.Number}}
 				</ion-badge>
 			</button>
-			<!-- <button ion-button (click)="openCart()">
-				<ion-icon name="cart"></ion-icon>
-			</button> -->
 		</ion-buttons>
 	</ion-navbar>
 
@@ -25,54 +22,25 @@
 </ion-header>
 
 <ion-content>
-	<!--<ion-grid no-padding fixed>-->
-	<!--<ion-row no-padding>-->
-	<!--<ion-col>-->
-	<!--<ion-card no-margin margin-bottom>-->
-	<!--<ion-item class="lightest-bg">-->
-	<!--<button ion-button round item-end color="primary" (click)="getCurentLocation()">-->
-	<!--<ion-icon name="locate"></ion-icon>-->
-	<!--</button>-->
-	<!--<h3 ion-text no-margin color="dark" class="fw500 no-margin">Vị trí hiện tại:</h3>-->
-	<!--<span ion-text class="text-11x no-margin" color="primary">{{yourLocation}}</span>-->
-	<!--<button ion-button outline round item-end icon-right color="primary"-->
-	<!--(click)=" changeLocation()">-->
-	<!--Đổi vị trí-->
-	<!--<ion-icon name="locate"></ion-icon>-->
-	<!--</button>-->
-	<!--</ion-item>-->
-	<!--</ion-card>-->
-	<!--</ion-col>-->
-	<!--</ion-row>-->
 
-	<!--<div id="nearby-map" class="nearby-map">-->
-	<!--<agm-map [latitude]="lat" [longitude]="lng" [zoom]="12">-->
-	<!--<div *ngFor="let supplier of suppliersNearby">-->
-	<!--<agm-marker *ngFor="let branch of supplier.Branches" [latitude]="branch.Latitude"-->
-	<!--[longitude]='branch.Longitude'>-->
-	<!--</agm-marker>-->
-	<!--</div>-->
-	<!--</agm-map>-->
-	<!--</div>-->
+	<ng-container *ngIf="listType">
+		<div class="card-background-page" *ngFor="let type of listType">
 
-	<!--<ion-list ion-row padding-horizontal>-->
-	<!--<button ion-item ion-col *ngFor="let supplier of suppliersNearby" col-12 col-md-6-->
-	<!--(click)="openSupplierDetail(supplier)">-->
-	<!--<ion-thumbnail item-start>-->
-	<!--<img src="https://dienlanhhoanggia.com/getattachment/d5ec3649-e3f1-4c91-8c5f-e57cf512210f//trang-chu/logo/dien-may-viet-long.aspx?width=&height=">-->
-	<!--</ion-thumbnail>-->
-	<!--<h3 ion-text color="dark" class="fw500">{{supplier.Name}}</h3>-->
-				<!-- <ion-badge class="white-bg text-secondary" item-end>
-					<ion-icon name="star"></ion-icon>
-					5
-				</ion-badge> -->
-				<!--<h3>-->
-					<!--<ion-icon name="pin"></ion-icon> {{supplier.distance}} km-->
-				<!--</h3>-->
-			<!--</button>-->
-		<!--</ion-list>-->
-	<!--</ion-grid>-->
-	<button ion-button (click)="openCheckout()">
-		Thanh toan
-	</button>
+			<ion-grid no-padding>
+				<ion-row no-padding>
+					<ion-col col-12 col-md-6>
+						<ion-card tappable>
+							<img [src]="type.Avatar" />
+							<div class="card-title">
+								{{type.Name}}
+							</div>
+							<div class="card-subtitle">Number of Supplier</div>
+						</ion-card>
+					</ion-col>
+				</ion-row>
+			</ion-grid>
+
+		</div>
+	</ng-container>
+
 </ion-content>

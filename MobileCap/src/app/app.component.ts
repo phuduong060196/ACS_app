@@ -79,8 +79,6 @@ export class foodIonicApp {
 			this.statusBar.overlaysWebView(false);
 			this.splashScreen.hide();
 
-			this.fcmPro.getToken();
-
 			this.fcmPro.listenToNotifications().subscribe((res) => {
 				if (!res.tap) {
 					this.toastCtrl.create({

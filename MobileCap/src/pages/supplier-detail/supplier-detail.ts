@@ -1,18 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, ActionSheetController, NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
-import {HttpClient} from "@angular/common/http";
-import {GetUrlProvider} from "../../providers/get-url/get-url";
+import { HttpClient } from "@angular/common/http";
+import { GetUrlProvider } from "../../providers/get-url/get-url";
 import 'rxjs/add/operator/map';
-import { RestaurantService } from '../../providers/restaurant-service-mock';
-import { DishService } from '../../providers/dish-service-mock';
 import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
-
-/**
- * Generated class for the SupplierDetailPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
 
 interface Post {
 	isAccept: any;
@@ -38,7 +30,7 @@ export class SupplierDetailPage implements OnInit {
 	feedbacks: any;
 	supplieropts: String = 'menu';
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpClient, public getUrlPro: GetUrlProvider, public toastCtrl: ToastController, public httpHelperPro: HttpHelperProvider, public modalCtrl: ModalController) {
+	constructor(private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams, public http: HttpClient, public getUrlPro: GetUrlProvider, public toastCtrl: ToastController, public httpHelperPro: HttpHelperProvider, public modalCtrl: ModalController) {
 		this.param = this.navParams.get('supplier');
 		this.supplier = this.param;
 		this.supplierAvatar = "http://web-capstone.azurewebsites.net/" + this.supplier.Avatar;
@@ -70,24 +62,30 @@ export class SupplierDetailPage implements OnInit {
 	}
 
 	getServices(SupplierId) {
+		this.loadingHelperPro.presentLoading('');
 		this.httpHelperPro.get('/api/supplier/search-all-service-by-supplierId?supplierId=' + SupplierId).subscribe(
 			(res: any) => {
 				console.log(res.data);
 				this.services = res.data;
+				this.loadingHelperPro.dismissLoading();
 			},
 			(err) => {
 				console.log(err);
+				this.loadingHelperPro.dismissLoading();
 			}
 		);
 	}
 
 	getFeedback(SupplierId) {
+		this.loadingHelperPro.presentLoading('');
 		this.httpHelperPro.get('/api/supplier/feedback?supplierId=' + SupplierId).subscribe(
 			(res: any) => {
 				this.feedbacks = res.feedbacks;
+				this.loadingHelperPro.dismissLoading();
 			},
 			(err) => {
 				console.log(err);
+				this.loadingHelperPro.dismissLoading();
 			}
 		);
 	}
@@ -100,11 +98,11 @@ export class SupplierDetailPage implements OnInit {
 	}
 
 	openChatDetail(param) {
-		this.navCtrl.push('page-chat-detail', {'id': param});
+		this.navCtrl.push('page-chat-detail', { 'id': param });
 	}
 
 	openFeedbackDetail(param) {
-		let modal = this.modalCtrl.create('page-feedback-detail', {'id': param});
+		let modal = this.modalCtrl.create('page-feedback-detail', { 'id': param });
 		modal.present();
 		// this.navCtrl.push('page-feedback-detail', {'id': param});
 	}

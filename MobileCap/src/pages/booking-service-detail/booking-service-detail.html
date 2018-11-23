@@ -30,28 +30,28 @@
 								<div>
 									<ion-list>
 										<ion-item>
-											<ion-label color="dark" stacked>Họ tên:</ion-label>
+											<ion-label color="dark" stacked>*Họ tên:</ion-label>
 											<ion-input type="text" [(ngModel)]="customer.FullName" name='FullName'></ion-input>
 										</ion-item>
 										<ion-item>
-											<ion-label color="dark" stacked>Số điện thoại:</ion-label>
+											<ion-label color="dark" stacked>*Số điện thoại:</ion-label>
 											<ion-input type="text" [(ngModel)]="customer.PhoneNumber" name='PhoneNumber'></ion-input>
 										</ion-item>
 										<ion-item>
-											<ion-label color="dark" stacked>Địa chỉ:</ion-label>
+											<ion-label color="dark" stacked>*Địa chỉ:</ion-label>
 											<ion-textarea [(ngModel)]="customer.Address" name='Address'></ion-textarea>
 										</ion-item>
 										<ion-item>
-											<ion-label color="dark" stacked>Ngày đến sửa:</ion-label>
+											<ion-label color="dark" stacked>*Ngày đến sửa:</ion-label>
 											<ion-datetime displayFormat="MM-DD-YYYY" [(ngModel)]="DayWork" name='DayWork'></ion-datetime>
 										</ion-item>
 										<ion-item>
-											<ion-label color="dark" stacked>Thời gian đến sửa:</ion-label>
+											<ion-label color="dark" stacked>*Thời gian đến sửa:</ion-label>
 											<ion-datetime displayFormat="HH:mm" [(ngModel)]="TimeWork" name='TimeWork'></ion-datetime>
 										</ion-item>
 										<ion-item>
-											<ion-label color="dark" stacked [(ngModel)]="Note" name='Note'>Ghi chú:</ion-label>
-											<ion-textarea></ion-textarea>
+											<ion-label color="dark" stacked>Ghi chú:</ion-label>
+											<ion-textarea [(ngModel)]="Note" name='Note'></ion-textarea>
 										</ion-item>
 									</ion-list>
 								</div>
@@ -62,33 +62,37 @@
 			</ion-card-content>
 		</ion-card>
 
-		<ion-card>
-			<ion-card-header color="primary" style="text-align: center; background-color: #ebebe0">
-				<strong>
-					Dịch vụ
-				</strong>
-			</ion-card-header>
-			<ion-card-content>
-				<ng-container>
-					<ion-grid no-padding fixed>
-						<ion-row no-padding>
-							<ion-col>
-								<div>
-									<ion-list *ngFor="let service of services">
+		<ng-container *ngIf="services">
+			<ng-container *ngFor="let service of services">
+				<ion-card>
+					<ion-card-header color="primary" style="text-align: center; background-color: #ebebe0">
+						<strong>
+							{{service.Name}}
+						</strong>
+					</ion-card-header>
+					<ion-card-content>
+						<ng-container>
+							<ion-grid no-padding fixed>
+								<ion-row no-padding>
+									<ion-col>
+										<div>
+											<ion-list *ngFor="let el of service.Services">
 
-										<ion-item>
-											<ion-label> {{service.Name}} </ion-label>
-											<ion-checkbox name="services" [(ngModel)]="service.checked"></ion-checkbox>
-										</ion-item>
+												<ion-item>
+													<ion-label> {{el.Name}} </ion-label>
+													<ion-checkbox name="services" [(ngModel)]="el.checked"></ion-checkbox>
+												</ion-item>
 
-									</ion-list>
-								</div>
-							</ion-col>
-						</ion-row>
-					</ion-grid>
-				</ng-container>
-			</ion-card-content>
-		</ion-card>
+											</ion-list>
+										</div>
+									</ion-col>
+								</ion-row>
+							</ion-grid>
+						</ng-container>
+					</ion-card-content>
+				</ion-card>
+			</ng-container>
+		</ng-container>
 
 		<!-- <ion-list *ngFor="let service of services">
 

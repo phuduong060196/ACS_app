@@ -5,6 +5,7 @@ import { LoadingHelperProvider } from '../../providers/loading-helper/loading-he
 import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
 import { AccessTokenHelperProvider } from '../../providers/access-token-helper/access-token-helper';
 import { User } from '../../modal/user';
+import { ValidationService } from '../../providers/validation.service';
 
 @IonicPage({
   name: 'page-my-account',
@@ -38,19 +39,12 @@ export class MyAccountPage implements OnInit {
       (res: User) => {
         this.userInfor = res;
         this.onUpdateForm = this.fb.group({
-          CustomerId: [],
-          fullName: [this.userInfor.FullName, Validators.compose([
-            Validators.required
-          ])],
-          phoneNumber: [this.userInfor.PhoneNumber, Validators.compose([
-            Validators.required
-          ])],
-          email: [this.userInfor.Email, Validators.compose([
-            Validators.required
-          ])],
-          address: [this.userInfor.Address, Validators.compose([
-            Validators.required
-          ])]
+          'CustomerId': [0],
+          'DateOfBirth': [''],
+          'FullName': [this.userInfor.FullName, Validators.required],
+          'PhoneNumber': [this.userInfor.PhoneNumber, [Validators.required, ValidationService.phoneNumberValidator]],
+          'Email': [this.userInfor.Email, [Validators.required, ValidationService.emailFormatValidator]],
+          'Address': [this.userInfor.Address, Validators.required]
         });
         this.loadingHelperPro.dismissLoading();
       },
@@ -70,10 +64,14 @@ export class MyAccountPage implements OnInit {
 
   sendData() {
     this.loadingHelperPro.presentLoading('Đang cập nhập...');
-    console.log(this.onUpdateForm.value);
-    this.httpHelperPro.put('/api/customer/info', this.onUpdateForm.value).subscribe(
+    this.userInfor.FullName = this.onUpdateForm.value.FullName;
+    this.userInfor.PhoneNumber = this.onUpdateForm.value.PhoneNumber;
+    this.userInfor.Email = this.onUpdateForm.value.Email;
+    this.userInfor.Address = this.onUpdateForm.value.Address;
+    this.httpHelperPro.put('/api/customer/info', this.userInfor).subscribe(
       (res: any) => {
         this.loadingHelperPro.dismissLoading();
+        console.log(res);
         this.presentAlert(res.message);
       },
       (err) => {

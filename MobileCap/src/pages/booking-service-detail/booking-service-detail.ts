@@ -5,6 +5,7 @@ import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection 
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
+import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
 import moment from 'moment';
 
 interface Post {
@@ -32,79 +33,85 @@ export class BookingServiceDetailPage implements OnInit {
 	currentTime: any;
 	currentDay: any;
 	maxMonth: any;
-	Note: any = 'a';
+	Note: any = '';
 	TimeWork: any = moment().format('HH:mm');
 	DayWork: any = moment().format('MM-DD-YYYY');
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public httpHelperPro: HttpHelperProvider, private alertCtrl: AlertController) {
+	constructor(private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public httpHelperPro: HttpHelperProvider, private alertCtrl: AlertController) {
 
 	}
 
 	sendBookingRequest() {
-		const list = this.services.filter(el => el.checked == true).map(el => {
-			return {
-				ServiceId: el.ServiceId,
-				Price: el.Price,
-				PriceDisplay: el.PriceDisplay,
-				Name: el.Name
+		// console.log(this.services);
+		// const list = this.services.filter(el => el.checked == true).map(el => {
+		// 	return {
+		// 		ServiceId: el.ServiceId,
+		// 		Price: el.Price,
+		// 		PriceDisplay: el.PriceDisplay,
+		// 		Name: el.Name
+		// 	}
+		// })
+
+		let list: any = [];
+
+		this.services.forEach(element1 => {
+			element1.Services.forEach(element2 => {
+				if (element2.checked == true) {
+					list.push({
+						ServiceId: element2.ServiceId,
+						Price: element2.Price,
+						PriceDisplay: element2.PriceDisplay,
+						Name: element2.Name
+					});
+				}
+			});
+		});
+
+		if (this.customer.FullName != '' && this.customer.PhoneNumber != '' && this.customer.Address != '' && this.DayWork != '' && this.TimeWork != '') {
+			if (list.length > 0) {
+				this.database.collection(this.booking_path).add({
+					'CurrentStatus': {
+						'CreatedByCustomer': true,
+						'Name': "Waiting for review",
+						'UpdatedDate': new Date()
+					},
+					'CustomerId': this.customerId,
+					'SupplierId': this.supplierId,
+					'Order': {
+						'OrderDetails': list
+					},
+					'SeenByCustomer': false,
+					'Time': new Date(),
+					'CustomerName': this.customer.FullName,
+					'PhoneNumber': this.customer.PhoneNumber,
+					'Address': this.customer.Address,
+					'DayWork': this.DayWork,
+					'TimeWork': this.TimeWork,
+					'Note': this.Note
+				});
+				let alert = this.alertCtrl.create({
+					title: 'Thông báo',
+					message: 'Đặt dịch vụ thành công!',
+					buttons: [{
+						text: 'Xác nhận',
+						handler: () => {
+							this.closeModal();
+						}
+					}]
+				});
+				alert.present();
+			} else {
+				let alert = this.alertCtrl.create({
+					title: 'Thông báo',
+					message: 'Vui lòng chọn dịch vụ để đặt lịch!',
+					buttons: ['Xác nhận']
+				});
+				alert.present();
 			}
-		})
-		// console.log({
-		// 	'CurrentStatus': {
-		// 		'CreatedByCustomer': true,
-		// 		'Name': "Waiting for review",
-		// 		'UpdatedDate': new Date()
-		// 	},
-		// 	'CustomerId': this.customerId,
-		// 	'SupplierId': this.supplierId,
-		// 	'Order': {
-		// 		'OrderDetails': list
-		// 	},
-		// 	'SeenByCustomer': false,
-		// 	'Time': new Date(),
-		// 	'CustomerName': this.customer.FullName,
-		// 	'PhoneNumber': this.customer.PhoneNumber,
-		// 	'Address': this.customer.Address,
-		// 	'DayWork': this.DayWork,
-		// 	'TimeWork': this.TimeWork,
-		// 	'Note': this.Note
-		// });
-		if (list.length > 0) {
-			this.database.collection(this.booking_path).add({
-				'CurrentStatus': {
-					'CreatedByCustomer': true,
-					'Name': "Waiting for review",
-					'UpdatedDate': new Date()
-				},
-				'CustomerId': this.customerId,
-				'SupplierId': this.supplierId,
-				'Order': {
-					'OrderDetails': list
-				},
-				'SeenByCustomer': false,
-				'Time': new Date(),
-				'CustomerName': this.customer.FullName,
-				'PhoneNumber': this.customer.PhoneNumber,
-				'Address': this.customer.Address,
-				'DayWork': this.DayWork,
-				'TimeWork': this.TimeWork,
-				'Note': this.Note
-			});
+		}else{
 			let alert = this.alertCtrl.create({
 				title: 'Thông báo',
-				message: 'Đặt dịch vụ thành công!',
-				buttons: [{
-					text: 'Xác nhận',
-					handler: () => {
-						this.closeModal();
-					}
-				}]
-			});
-			alert.present();
-		} else {
-			let alert = this.alertCtrl.create({
-				title: 'Thông báo',
-				message: 'Vui lòng chọn dịch vụ để đặt lịch!',
+				message: 'Vui lòng nhập đầy đủ thông tin mục có *!',
 				buttons: ['Xác nhận']
 			});
 			alert.present();
@@ -134,27 +141,35 @@ export class BookingServiceDetailPage implements OnInit {
 	}
 
 	getServices(SupplierId) {
+		this.loadingHelperPro.presentLoading('');
 		this.httpHelperPro.get('/api/supplier/search-all-service-by-supplierId?supplierId=' + SupplierId).subscribe(
 			(res: any) => {
-				console.log(res.data);
-				this.services = res.data.map(el => {
-					el.checked = false;
-					return el;
+				this.services = res.data.map(element1 => {
+					element1.Services.map(element2 => {
+						element2.checked = false;
+					});
+					return element1;
 				});
+				console.log(this.services);
+				this.loadingHelperPro.dismissLoading();
 			},
 			(err) => {
 				console.log(err);
+				this.loadingHelperPro.dismissLoading();
 			}
 		);
 	}
 
 	getCustomer(CustomerId) {
+		this.loadingHelperPro.presentLoading('');
 		this.httpHelperPro.get('/api/customer/get-info?customerId=' + CustomerId).subscribe(
 			(res: any) => {
 				this.customer = res;
+				this.loadingHelperPro.presentLoading('');
 			},
 			(err) => {
 				console.log(err);
+				this.loadingHelperPro.presentLoading('');
 			}
 		);
 	}

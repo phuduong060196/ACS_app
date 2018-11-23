@@ -57,51 +57,41 @@
 							<ion-icon name="person" item-start class="text-white"></ion-icon>
 							Tên đăng nhập:
 						</ion-label>
-						<ion-input type="text" formControlName="username"></ion-input>
+						<ion-input type="text" formControlName="username" id="username"></ion-input>
 					</ion-item>
-					<p ion-text color="danger" class="text-12x has-error" *ngIf="isFieldInvalid('username', onRegisterForm)">
-						Tên đăng nhập không được để trống
-					</p>
+					<control-messages [control]="onRegisterForm.controls.username"></control-messages>
 					<ion-item>
 						<ion-label floating>
 							<ion-icon name="lock" item-start class="text-white"></ion-icon>
 							Mật khẩu:
 						</ion-label>
-						<ion-input type="password" formControlName="password"></ion-input>
+						<ion-input type="password" formControlName="password" id="password"></ion-input>
 					</ion-item>
-					<p ion-text color="danger" class="text-12x has-error" *ngIf="isFieldInvalid('password', onRegisterForm)">
-						Mật khẩu không được để trống
-					</p>
+					<control-messages [control]="onRegisterForm.controls.password"></control-messages>
 					<ion-item>
 						<ion-label floating>
 							<ion-icon name="lock" item-start class="text-white"></ion-icon>
 							Nhập lại mật khẩu:
 						</ion-label>
-						<ion-input type="password" formControlName="repassword"></ion-input>
+						<ion-input type="password" formControlName="repassword" id="repassword"></ion-input>
 					</ion-item>
-					<p ion-text color="danger" class="text-12x has-error" *ngIf="isFieldInvalid('repassword', onRegisterForm)">
-						Mật khẩu không được để trống
-					</p>
+					<control-messages [control]="onRegisterForm.controls.repassword"></control-messages>
 					<ion-item>
 						<ion-label floating>
 							<ion-icon name="brush" item-start class="text-white"></ion-icon>
 							Họ tên:
 						</ion-label>
-						<ion-input type="text" formControlName="fullname"></ion-input>
+						<ion-input type="text" formControlName="fullname" id="fullname"></ion-input>
 					</ion-item>
-					<p ion-text color="danger" class="text-12x has-error" *ngIf="isFieldInvalid('fullname', onRegisterForm)">
-						Họ tên không được để trống
-					</p>
+					<control-messages [control]="onRegisterForm.controls.fullname"></control-messages>
 					<ion-item>
 						<ion-label floating>
 							<ion-icon name="mail" item-start class="text-white"></ion-icon>
 							Email:
 						</ion-label>
-						<ion-input type="email" formControlName="email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"></ion-input>
+						<ion-input type="text" formControlName="email" id="email"></ion-input>
 					</ion-item>
-					<p ion-text color="danger" class="text-12x has-error" *ngIf="isFieldInvalid('email', onRegisterForm)">
-						Email không được để trống
-					</p>
+					<control-messages [control]="onRegisterForm.controls.email"></control-messages>
 				</form>
 				<div margin-top>
 					<button ion-button block color="secondary" (click)="register()" [disabled]="!onRegisterForm.valid">

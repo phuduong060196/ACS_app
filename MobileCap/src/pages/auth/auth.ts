@@ -8,6 +8,8 @@ import { CustomerServiceProvider } from '../../providers/customer-service/custom
 import { AccessTokenHelperProvider } from '../../providers/access-token-helper/access-token-helper';
 import { GetUrlProvider } from '../../providers/get-url/get-url';
 import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
+import { ValidationService } from '../../providers/validation.service';
+import { FcmProvider } from '../../providers/fcm/fcm';
 
 @IonicPage({
   name: 'page-auth',
@@ -25,7 +27,16 @@ export class AuthPage implements OnInit {
 
   auth: string = "login";
 
-  constructor(private _fb: FormBuilder, public navCtrl: NavController, public alertCtrl: AlertController, public menu: MenuController, public http: HttpClient, public loadingHelperPro: LoadingHelperProvider, public customerServicePro: CustomerServiceProvider, public accessTokenHelperPro: AccessTokenHelperProvider, public getUrlPro: GetUrlProvider, public httpHelperPro: HttpHelperProvider) {
+  constructor(private fcmPro: FcmProvider, private _fb: FormBuilder, public navCtrl: NavController, public alertCtrl: AlertController, public menu: MenuController, public http: HttpClient, public loadingHelperPro: LoadingHelperProvider, public customerServicePro: CustomerServiceProvider, public accessTokenHelperPro: AccessTokenHelperProvider, public getUrlPro: GetUrlProvider, public httpHelperPro: HttpHelperProvider) {
+
+    this.onRegisterForm = this._fb.group({
+      'username': ['', [Validators.required, ValidationService.usernameValidator]],
+      'password': ['', [Validators.required, ValidationService.passwordValidator]],
+      'repassword': ['', Validators.required],
+      'fullname': ['', [Validators.required, ValidationService.fullNameValidator]],
+      'email': ['', [Validators.required, ValidationService.emailFormatValidator]]
+    });
+
     this.menu.swipeEnable(false);
     this.menu.enable(false);
   }
@@ -41,23 +52,7 @@ export class AuthPage implements OnInit {
       ])]
     });
 
-    this.onRegisterForm = this._fb.group({
-      username: ['', Validators.compose([
-        Validators.required
-      ])],
-      password: ['', Validators.compose([
-        Validators.required
-      ])],
-      repassword: ['', Validators.compose([
-        Validators.required
-      ])],
-      fullname: ['', Validators.compose([
-        Validators.required
-      ])],
-      email: ['', Validators.compose([
-        Validators.required
-      ])]
-    });
+
   }
 
   isFieldInvalid(field: string, form: FormGroup) {
@@ -82,7 +77,9 @@ export class AuthPage implements OnInit {
     this.loadingHelperPro.presentLoading('Đang đăng nhập...');
     this.customerServicePro.login(this.onLoginForm.value).subscribe(
       (res: any) => {
+        console.log(res);
         this.accessTokenHelperPro.SetAccessToken = res;
+        this.fcmPro.getToken();
         this.loadingHelperPro.dismissLoading();
         this.navCtrl.setRoot('page-home');
       },
@@ -95,21 +92,29 @@ export class AuthPage implements OnInit {
   }
 
   register() {
-    this.loadingHelperPro.presentLoading('Đang gửi yêu cầu...');
-    this.http.post(this.getUrlPro.getUrl + '/api/customer/register', this.onRegisterForm.value, { responseType: 'text' }).subscribe(
-      (res) => {
-        console.log(res);
-        this.loadingHelperPro.dismissLoading();
-        let resData = JSON.parse(res);
-        if (!resData.result) {
-          this.authMessage(resData.message);
-        } else {
-          this.authMessage(resData.message);
-          this.navCtrl.setRoot('page-auth');
-        }
-      },
-      (err) => {
-        console.log(err);
-      });
+    if (this.onRegisterForm.value.password === this.onRegisterForm.value.repassword) {
+      this.loadingHelperPro.presentLoading('Đang gửi yêu cầu...');
+      this.http.post(this.getUrlPro.getUrl + '/api/customer/register', this.onRegisterForm.value, { responseType: 'text' }).subscribe(
+        (res) => {
+          console.log(res);
+          this.loadingHelperPro.dismissLoading();
+          let resData = JSON.parse(res);
+          if (!resData.result) {
+            this.authMessage(resData.message);
+          } else {
+            this.authMessage(resData.message);
+            this.navCtrl.setRoot('page-auth');
+          }
+        },
+        (err) => {
+          console.log(err);
+        });
+    } else {
+      this.alertCtrl.create({
+        title: 'Thông báo',
+        message: 'Mật khẩu nhập lại không trùng khớp!',
+        buttons: ['Xác nhận']
+      }).present();
+    }
   }
 }
