@@ -239,8 +239,12 @@ export class HomePage {
 		this.loadingHelperPro.presentLoading('');
 		this.httpHelperPro.get('/api/service/all-serivce-type').subscribe(
 			(res: any) => {
-				console.log(res);
+				res.forEach(element => {
+					let oldUrl = element.Avatar;
+					element.Avatar = 'http://web-capstone.azurewebsites.net' + oldUrl;
+				});
 				this.listType = res;
+				console.log(this.listType);
 				this.loadingHelperPro.dismissLoading();
 			},
 			(err) => {
