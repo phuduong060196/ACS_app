@@ -39,33 +39,25 @@
 										<ion-label color="dark" stacked>Họ và tên:</ion-label>
 										<ion-input type="text" formControlName="FullName"></ion-input>
 									</ion-item>
-									<p ion-text color="danger" class="text-12x has-error" *ngIf="isFieldInvalid('FullName', onUpdateForm)">
-										Họ và tên không được để trống
-									</p>
+									<control-messages [control]="onUpdateForm.controls.FullName"></control-messages>
 									<ion-item>
 										<ion-label color="dark" stacked>Số điện thoại:</ion-label>
-										<ion-input type="email" formControlName="PhoneNumber"></ion-input>
+										<ion-input type="text" formControlName="PhoneNumber"></ion-input>
 									</ion-item>
-									<p ion-text color="danger" class="text-12x has-error" *ngIf="isFieldInvalid('PhoneNumber', onUpdateForm)">
-										Số điện thoại không được để trống
-									</p>
+									<control-messages [control]="onUpdateForm.controls.PhoneNumber"></control-messages>
 									<ion-item>
 										<ion-label color="dark" stacked>Email:</ion-label>
 										<ion-input type="email" formControlName="Email"></ion-input>
 									</ion-item>
-									<p ion-text color="danger" class="text-12x has-error" *ngIf="isFieldInvalid('Email', onUpdateForm)">
-										Email không được để trống
-									</p>
+									<control-messages [control]="onUpdateForm.controls.Email"></control-messages>
 									<ion-item>
 										<ion-label color="dark" stacked>Địa chỉ:</ion-label>
 										<ion-textarea formControlName="Address"></ion-textarea>
 									</ion-item>
-									<p ion-text color="danger" class="text-12x has-error" *ngIf="isFieldInvalid('Address', onUpdateForm)">
-										Địa chỉ không được để trống
-									</p>
+									<control-messages [control]="onUpdateForm.controls.Address"></control-messages>
 								</ion-list>
 							</div>
-							<button ion-button large full color="dark" (click)="sendData()">Cập nhật</button>
+							<button ion-button large full color="dark" (click)="sendData()" [disabled]="!onUpdateForm.valid">Cập nhật</button>
 						</ion-col>
 					</ion-row>
 				</ion-grid>

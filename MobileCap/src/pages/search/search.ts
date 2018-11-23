@@ -71,6 +71,7 @@ export class SearchPage {
 	}
 
 	search(event) {
+		this.loadingHelperPro.presentLoading('Đang tải...');
 		this.httpHelperPro.get('/api/location/search-location-with-lat-long?latitude=' + this.lat + '&longitude=' + this.lng + '&service=' + this.searchKey).subscribe(
 			(res: any) => {
 				this.suppliersNearby = res;
@@ -80,9 +81,11 @@ export class SearchPage {
 					let distance = this.getDistanceFromLatLonInKm(this.lat, this.lng, supplier.Branches[0].Latitude, supplier.Branches[0].Longitude);
 					supplier.distance = distance.toFixed(2);
 				});
+				this.loadingHelperPro.dismissLoading();
 			},
 			(err) => {
 				console.log(err);
+				this.loadingHelperPro.dismissLoading();
 			}
 		);
 	}

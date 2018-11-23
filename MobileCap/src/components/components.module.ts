@@ -1,11 +1,18 @@
 import { NgModule } from '@angular/core';
 import { ServiceCartComponent } from './service-cart/service-cart';
 import { ControlMessagesComponent } from './control-messages/control-messages';
+import { CommonModule } from '@angular/common';
 @NgModule({
-	declarations: [ServiceCartComponent,
-    ControlMessagesComponent],
-	imports: [],
-	exports: [ServiceCartComponent,
-    ControlMessagesComponent]
+	imports: [
+		CommonModule
+	],
+	declarations: [
+		ServiceCartComponent,
+		ControlMessagesComponent
+	],
+	exports: [
+		ServiceCartComponent,
+		ControlMessagesComponent
+	]
 })
-export class ComponentsModule {}
+export class ComponentModule { }

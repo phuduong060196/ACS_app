@@ -6,7 +6,8 @@ export class ValidationService {
             'invalidPassword': 'Mật khẩu tối thiểu 6 ký tự, tối đa 12 ký tự!',
             'invalidMatchedPassword': 'Mật khẩu không trùng khớp!',
             'invalidFullName': 'Họ tên không có số, không có ký tự đặc biệt!',
-            'invalidEmailFormat': 'Email không hợp lệ!'
+            'invalidEmailFormat': 'Email không hợp lệ!',
+            'invalidPhonenumber': 'Số điện thoại không hợp lệ'
         };
         return config[validatorName];
     }
@@ -36,7 +37,7 @@ export class ValidationService {
     // }
 
     static fullNameValidator(control) {
-        if (control.value.match(/^(?=.*[a-zA-Z])[a-zA-Z]{1,50}$/)) {
+        if (control.value.match(/^[a-zA-Z]{1,100}$/)) {
             return null;
         } else {
             return { 'invalidFullName': true };
@@ -48,6 +49,14 @@ export class ValidationService {
             return null;
         } else {
             return { 'invalidEmailFormat': true };
+        }
+    }
+
+    static phoneNumberValidator(control) {
+        if (control.value.match(/^[0-9]{10,11}$/)) {
+            return null;
+        } else {
+            return { 'invalidPhonenumber': true };
         }
     }
 }

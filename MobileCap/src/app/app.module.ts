@@ -1,44 +1,43 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http';
-import {ErrorHandler, NgModule} from '@angular/core';
-import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
-import {IonicStorageModule} from '@ionic/storage';
-import {AgmCoreModule} from '@agm/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { ErrorHandler, NgModule } from '@angular/core';
+import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { IonicStorageModule } from '@ionic/storage';
+import { AgmCoreModule } from '@agm/core';
 
 
-import {NativeGeocoder} from '@ionic-native/native-geocoder';
-import {Geolocation} from '@ionic-native/geolocation';
-import {InAppBrowser} from '@ionic-native/in-app-browser';
+import { NativeGeocoder } from '@ionic-native/native-geocoder';
+import { Geolocation } from '@ionic-native/geolocation';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
-import {foodIonicApp} from './app.component';
+import { foodIonicApp } from './app.component';
 
-import {PipesModule} from '../pipes/pipes.module';
-import {AngularFireModule} from '@angular/fire';
-import {AngularFirestoreModule} from '@angular/fire/firestore';
-import {FormsModule} from '@angular/forms';
-import {Firebase} from '@ionic-native/firebase';
+import { PipesModule } from '../pipes/pipes.module';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Firebase } from '@ionic-native/firebase';
 
-import {MessageService} from "../providers/message-service-mock";
-import {RestaurantService} from "../providers/restaurant-service-mock";
-import {DishService} from "../providers/dish-service-mock";
-import {CategoryService} from "../providers/category-service-mock";
-import {CartService} from "../providers/cart-service-mock";
-import {OrdersService} from "../providers/orders-service-mock";
+import { MessageService } from "../providers/message-service-mock";
+import { RestaurantService } from "../providers/restaurant-service-mock";
+import { DishService } from "../providers/dish-service-mock";
+import { CategoryService } from "../providers/category-service-mock";
+import { CartService } from "../providers/cart-service-mock";
+import { OrdersService } from "../providers/orders-service-mock";
 
-import {StatusBar} from '@ionic-native/status-bar';
-import {SplashScreen} from '@ionic-native/splash-screen';
-import {Keyboard} from '@ionic-native/keyboard';
-import {AccessTokenHelperProvider} from '../providers/access-token-helper/access-token-helper';
-import {GetUrlProvider} from '../providers/get-url/get-url';
-import {HttpHelperProvider} from '../providers/http-helper/http-helper';
-import {LoadingHelperProvider} from '../providers/loading-helper/loading-helper';
-import {CustomerServiceProvider} from '../providers/customer-service/customer-service';
-import {SupplierServiceProvider} from '../providers/supplier-service/supplier-service';
-import {LocalHelperProvider} from '../providers/local-helper/local-helper';
-import {FcmProvider} from '../providers/fcm/fcm';
-import {NotificationHelperProvider} from '../providers/notification-helper/notification-helper';
-import {NumberNotificationHelperProvider} from '../providers/number-notification-helper/number-notification-helper';
-import { ControlMessagesComponent } from '../components/control-messages/control-messages';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { Keyboard } from '@ionic-native/keyboard';
+import { AccessTokenHelperProvider } from '../providers/access-token-helper/access-token-helper';
+import { GetUrlProvider } from '../providers/get-url/get-url';
+import { HttpHelperProvider } from '../providers/http-helper/http-helper';
+import { LoadingHelperProvider } from '../providers/loading-helper/loading-helper';
+import { CustomerServiceProvider } from '../providers/customer-service/customer-service';
+import { SupplierServiceProvider } from '../providers/supplier-service/supplier-service';
+import { LocalHelperProvider } from '../providers/local-helper/local-helper';
+import { FcmProvider } from '../providers/fcm/fcm';
+import { NotificationHelperProvider } from '../providers/notification-helper/notification-helper';
+import { NumberNotificationHelperProvider } from '../providers/number-notification-helper/number-notification-helper';
 
 var config = {
 	apiKey: "AIzaSyCxm0jQrorq3-dCoiwwTchjaIe_H6OX2H0",
@@ -52,7 +51,6 @@ var config = {
 @NgModule({
 	declarations: [
 		foodIonicApp,
-		ControlMessagesComponent
 	],
 	imports: [
 		BrowserModule,
@@ -72,8 +70,7 @@ var config = {
 		}),
 		PipesModule,
 		AngularFireModule.initializeApp(config),
-		AngularFirestoreModule,
-		FormsModule
+		AngularFirestoreModule
 	],
 	bootstrap: [IonicApp],
 	entryComponents: [
@@ -89,7 +86,7 @@ var config = {
 		MessageService,
 		CartService,
 		OrdersService,
-		{provide: ErrorHandler, useClass: IonicErrorHandler},
+		{ provide: ErrorHandler, useClass: IonicErrorHandler },
 		AccessTokenHelperProvider,
 		GetUrlProvider,
 		HttpHelperProvider,

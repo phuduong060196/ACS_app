@@ -77,6 +77,7 @@ export class AuthPage implements OnInit {
     this.loadingHelperPro.presentLoading('Đang đăng nhập...');
     this.customerServicePro.login(this.onLoginForm.value).subscribe(
       (res: any) => {
+        console.log(res);
         this.accessTokenHelperPro.SetAccessToken = res;
         this.fcmPro.getToken();
         this.loadingHelperPro.dismissLoading();
@@ -91,21 +92,29 @@ export class AuthPage implements OnInit {
   }
 
   register() {
-    this.loadingHelperPro.presentLoading('Đang gửi yêu cầu...');
-    this.http.post(this.getUrlPro.getUrl + '/api/customer/register', this.onRegisterForm.value, { responseType: 'text' }).subscribe(
-      (res) => {
-        console.log(res);
-        this.loadingHelperPro.dismissLoading();
-        let resData = JSON.parse(res);
-        if (!resData.result) {
-          this.authMessage(resData.message);
-        } else {
-          this.authMessage(resData.message);
-          this.navCtrl.setRoot('page-auth');
-        }
-      },
-      (err) => {
-        console.log(err);
-      });
+    if (this.onRegisterForm.value.password === this.onRegisterForm.value.repassword) {
+      this.loadingHelperPro.presentLoading('Đang gửi yêu cầu...');
+      this.http.post(this.getUrlPro.getUrl + '/api/customer/register', this.onRegisterForm.value, { responseType: 'text' }).subscribe(
+        (res) => {
+          console.log(res);
+          this.loadingHelperPro.dismissLoading();
+          let resData = JSON.parse(res);
+          if (!resData.result) {
+            this.authMessage(resData.message);
+          } else {
+            this.authMessage(resData.message);
+            this.navCtrl.setRoot('page-auth');
+          }
+        },
+        (err) => {
+          console.log(err);
+        });
+    } else {
+      this.alertCtrl.create({
+        title: 'Thông báo',
+        message: 'Mật khẩu nhập lại không trùng khớp!',
+        buttons: ['Xác nhận']
+      }).present();
+    }
   }
 }

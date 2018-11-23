@@ -5,6 +5,7 @@ import { LoadingHelperProvider } from '../../providers/loading-helper/loading-he
 import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
 import { AccessTokenHelperProvider } from '../../providers/access-token-helper/access-token-helper';
 import { User } from '../../modal/user';
+import { ValidationService } from '../../providers/validation.service';
 
 @IonicPage({
   name: 'page-my-account',
@@ -40,18 +41,10 @@ export class MyAccountPage implements OnInit {
         this.onUpdateForm = this.fb.group({
           'CustomerId': [0],
           'DateOfBirth': [''],
-          'FullName': [this.userInfor.FullName, Validators.compose([
-            Validators.required
-          ])],
-          'PhoneNumber': [this.userInfor.PhoneNumber, Validators.compose([
-            Validators.required
-          ])],
-          'Email': [this.userInfor.Email, Validators.compose([
-            Validators.required
-          ])],
-          'Address': [this.userInfor.Address, Validators.compose([
-            Validators.required
-          ])]
+          'FullName': [this.userInfor.FullName, Validators.required],
+          'PhoneNumber': [this.userInfor.PhoneNumber, [Validators.required, ValidationService.phoneNumberValidator]],
+          'Email': [this.userInfor.Email, [Validators.required, ValidationService.emailFormatValidator]],
+          'Address': [this.userInfor.Address, Validators.required]
         });
         this.loadingHelperPro.dismissLoading();
       },

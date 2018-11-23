@@ -33,7 +33,7 @@ export class BookingServiceDetailPage implements OnInit {
 	currentTime: any;
 	currentDay: any;
 	maxMonth: any;
-	Note: any = 'a';
+	Note: any = '';
 	TimeWork: any = moment().format('HH:mm');
 	DayWork: any = moment().format('MM-DD-YYYY');
 
@@ -67,42 +67,51 @@ export class BookingServiceDetailPage implements OnInit {
 			});
 		});
 
-		if (list.length > 0) {
-			this.database.collection(this.booking_path).add({
-				'CurrentStatus': {
-					'CreatedByCustomer': true,
-					'Name': "Waiting for review",
-					'UpdatedDate': new Date()
-				},
-				'CustomerId': this.customerId,
-				'SupplierId': this.supplierId,
-				'Order': {
-					'OrderDetails': list
-				},
-				'SeenByCustomer': false,
-				'Time': new Date(),
-				'CustomerName': this.customer.FullName,
-				'PhoneNumber': this.customer.PhoneNumber,
-				'Address': this.customer.Address,
-				'DayWork': this.DayWork,
-				'TimeWork': this.TimeWork,
-				'Note': this.Note
-			});
+		if (this.customer.FullName != '' && this.customer.PhoneNumber != '' && this.customer.Address != '' && this.DayWork != '' && this.TimeWork != '') {
+			if (list.length > 0) {
+				this.database.collection(this.booking_path).add({
+					'CurrentStatus': {
+						'CreatedByCustomer': true,
+						'Name': "Waiting for review",
+						'UpdatedDate': new Date()
+					},
+					'CustomerId': this.customerId,
+					'SupplierId': this.supplierId,
+					'Order': {
+						'OrderDetails': list
+					},
+					'SeenByCustomer': false,
+					'Time': new Date(),
+					'CustomerName': this.customer.FullName,
+					'PhoneNumber': this.customer.PhoneNumber,
+					'Address': this.customer.Address,
+					'DayWork': this.DayWork,
+					'TimeWork': this.TimeWork,
+					'Note': this.Note
+				});
+				let alert = this.alertCtrl.create({
+					title: 'Thông báo',
+					message: 'Đặt dịch vụ thành công!',
+					buttons: [{
+						text: 'Xác nhận',
+						handler: () => {
+							this.closeModal();
+						}
+					}]
+				});
+				alert.present();
+			} else {
+				let alert = this.alertCtrl.create({
+					title: 'Thông báo',
+					message: 'Vui lòng chọn dịch vụ để đặt lịch!',
+					buttons: ['Xác nhận']
+				});
+				alert.present();
+			}
+		}else{
 			let alert = this.alertCtrl.create({
 				title: 'Thông báo',
-				message: 'Đặt dịch vụ thành công!',
-				buttons: [{
-					text: 'Xác nhận',
-					handler: () => {
-						this.closeModal();
-					}
-				}]
-			});
-			alert.present();
-		} else {
-			let alert = this.alertCtrl.create({
-				title: 'Thông báo',
-				message: 'Vui lòng chọn dịch vụ để đặt lịch!',
+				message: 'Vui lòng nhập đầy đủ thông tin mục có *!',
 				buttons: ['Xác nhận']
 			});
 			alert.present();
