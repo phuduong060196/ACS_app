@@ -1,78 +1,15 @@
 <ion-header>
-    <ion-navbar color="primary">
-        <button ion-button menuToggle>
-            <ion-icon name="menu"></ion-icon>
-        </button>
-        <ion-title>
-        	<span ion-text>Lịch sử</span>
-        </ion-title>
-    </ion-navbar>
+	<ion-navbar color="primary">
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>
+			<span ion-text>Lịch sử</span>
+		</ion-title>
+	</ion-navbar>
 </ion-header>
 
 
 <ion-content class="lightest-bg">
 
-	<ion-grid no-padding fixed>
-		<ion-row no-padding>
-			<ion-col>
-				<ion-card *ngIf="!orders.length" class="primary-bg" margin-top>
-					<ion-card-content>
-						<p text-center class="text-white">You still haven't any item.</p>
-					</ion-card-content>
-				</ion-card>
-
-				<ion-list no-margin>
-					<ion-item-sliding *ngFor="let order of orders">
-							<div ion-item>
-								<!-- (click)="itemTapped(favorite)" -->
-									<ion-thumbnail item-left>
-											<img src="{{order.order.picture}}"/>
-									</ion-thumbnail>
-										<h2 ion-text color="dark" class="fw700">{{order.order.name}}</h2>
-										<ion-grid class="filters" no-padding>
-											<ion-row>
-												<ion-col text-center col-2>
-													<ion-icon name="remove-circle" class="text-22x" tappable (click)="minusQtd(order)" [hidden]="order.qtd < 2"
-																		color="secondary"></ion-icon>
-												</ion-col>
-												<ion-col text-center col-3>
-													<h2 ion-text color="primary" class="text-18x">
-														<span>{{ order.qtd }}</span>
-													</h2>
-												</ion-col>
-												<ion-col text-center col-2>
-													<ion-icon name="add-circle" class="text-22x" tappable (click)="plusQtd(order)" color="secondary"></ion-icon>
-												</ion-col>
-											</ion-row>
-										</ion-grid>
-									<div item-right>
-										<ion-badge>{{ order.order.price * order.qtd | currency }}</ion-badge>
-									</div>
-							</div>
-							<ion-item-options>
-									<button ion-button color="danger" (click)="removeOrder(order)">Delete</button>
-							</ion-item-options>
-					</ion-item-sliding>
-				</ion-list>
-
-				<ion-card class="primary-bg" *ngIf="orders.length">
-					<ion-card-content>
-						<p ion-text color="light">Delivery Tax (30 - 60min): <span class="fw700">FREE</span></p>
-
-						<hr>
-
-						<p ion-text color="light">Total Order Value</p>
-						<h2 ion-text class="text-white fw700">{{ totalVal | currency }}</h2>
-					</ion-card-content>
-				</ion-card>
-			</ion-col>
-		</ion-row>
-	</ion-grid>
 </ion-content>
-
-<ion-footer *ngIf="orders.length" class="no-padding">
-	<button ion-button full large color="dark" no-margin icon-right (click)="openCheckout()">
-		Checkout
-		<ion-icon name="card"></ion-icon>
-	</button>
-</ion-footer>
