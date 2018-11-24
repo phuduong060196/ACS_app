@@ -118,12 +118,11 @@
 									</button>
 								</div>
 								<ion-item no-padding *ngFor="let service of services">
-									<div class="lightest-bg" style="background: #ffd1d7; height: 30px" text-center>
-										<h2 ion-text no-margin color="dark" class="fw500 page-header'">
-											<!--Tên dịch vụ-->
+									<ion-card-header class="lightest-bg" color="dark" style="text-align: center">
+										<strong>
 											{{ service.Name }}
-										</h2>
-									</div>
+										</strong>
+									</ion-card-header>
 									<div *ngFor="let subService of service.Services">
 										<p ion-text color="dark">
 											<!--Tên loại dịch vụ-->
