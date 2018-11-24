@@ -34,23 +34,14 @@ export class BookingServiceDetailPage implements OnInit {
 	currentDay: any;
 	maxMonth: any;
 	Note: any = '';
-	TimeWork: any = moment().format('HH:mm');
-	DayWork: any = moment().format('MM-DD-YYYY');
+	TimeWork: any = '';
+	DayWork: any = '';
 
 	constructor(private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public httpHelperPro: HttpHelperProvider, private alertCtrl: AlertController) {
 
 	}
 
 	sendBookingRequest() {
-		// console.log(this.services);
-		// const list = this.services.filter(el => el.checked == true).map(el => {
-		// 	return {
-		// 		ServiceId: el.ServiceId,
-		// 		Price: el.Price,
-		// 		PriceDisplay: el.PriceDisplay,
-		// 		Name: el.Name
-		// 	}
-		// })
 
 		let list: any = [];
 
@@ -108,7 +99,7 @@ export class BookingServiceDetailPage implements OnInit {
 				});
 				alert.present();
 			}
-		}else{
+		} else {
 			let alert = this.alertCtrl.create({
 				title: 'Thông báo',
 				message: 'Vui lòng nhập đầy đủ thông tin mục có *!',
