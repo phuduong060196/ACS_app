@@ -126,7 +126,7 @@ export class SearchPage {
 	getCurentLocation() {
 		this.platform.ready().then(
 			() => {
-				this.loadingHelperPro.presentLoading('');
+				this.loadingHelperPro.presentLoading('Đang tải...');
 				this.geolocation.getCurrentPosition().then(
 					(ressult) => {
 						this.http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + ressult.coords.latitude + ',' + ressult.coords.longitude + '&key=AIzaSyDr5qwgemJp4LtodR8lvXg382V-cDFK3bY&sensor=false').subscribe(

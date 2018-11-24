@@ -218,7 +218,7 @@ export class HomePage {
 			() => {
 				this.geolocation.getCurrentPosition().then(
 					(ressult) => {
-						this.loadingHelperPro.presentLoading('');
+						this.loadingHelperPro.presentLoading('Đang tải...');
 						this.http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + ressult.coords.latitude + ',' + ressult.coords.longitude + '&key=AIzaSyDr5qwgemJp4LtodR8lvXg382V-cDFK3bY&sensor=false').subscribe(
 							(res: any) => {
 								this.localPro.SetLocation = {
@@ -236,7 +236,7 @@ export class HomePage {
 	}
 
 	getAllType() {
-		this.loadingHelperPro.presentLoading('');
+		this.loadingHelperPro.presentLoading('Đang tải...');
 		this.httpHelperPro.get('/api/service/all-serivce-type').subscribe(
 			(res: any) => {
 				res.forEach(element => {

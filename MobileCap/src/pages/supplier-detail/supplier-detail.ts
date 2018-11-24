@@ -62,7 +62,7 @@ export class SupplierDetailPage implements OnInit {
 	}
 
 	getServices(SupplierId) {
-		this.loadingHelperPro.presentLoading('');
+		this.loadingHelperPro.presentLoading('Đang tải...');
 		this.httpHelperPro.get('/api/supplier/search-all-service-by-supplierId?supplierId=' + SupplierId).subscribe(
 			(res: any) => {
 				console.log(res.data);
@@ -77,7 +77,7 @@ export class SupplierDetailPage implements OnInit {
 	}
 
 	getFeedback(SupplierId) {
-		this.loadingHelperPro.presentLoading('');
+		this.loadingHelperPro.presentLoading('Đang tải...');
 		this.httpHelperPro.get('/api/supplier/feedback?supplierId=' + SupplierId).subscribe(
 			(res: any) => {
 				this.feedbacks = res.feedbacks;

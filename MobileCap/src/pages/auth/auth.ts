@@ -33,7 +33,7 @@ export class AuthPage implements OnInit {
       'username': ['', [Validators.required, ValidationService.usernameValidator]],
       'password': ['', [Validators.required, ValidationService.passwordValidator]],
       'repassword': ['', Validators.required],
-      'fullname': ['', [Validators.required, ValidationService.fullNameValidator]],
+      'fullname': ['', [Validators.required]],
       'email': ['', [Validators.required, ValidationService.emailFormatValidator]]
     });
 

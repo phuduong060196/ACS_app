@@ -165,11 +165,11 @@ export class BookingServiceDetailPage implements OnInit {
 		this.httpHelperPro.get('/api/customer/get-info?customerId=' + CustomerId).subscribe(
 			(res: any) => {
 				this.customer = res;
-				this.loadingHelperPro.presentLoading('');
+				this.loadingHelperPro.presentLoading('Đang tải...');
 			},
 			(err) => {
 				console.log(err);
-				this.loadingHelperPro.presentLoading('');
+				this.loadingHelperPro.dismissLoading();
 			}
 		);
 	}

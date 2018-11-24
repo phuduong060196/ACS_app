@@ -12,6 +12,8 @@ import {GetUrlProvider} from '../../providers/get-url/get-url';
 import {HttpHelperProvider} from '../../providers/http-helper/http-helper';
 import {HttpClient} from "@angular/common/http";
 import {LoadingHelperProvider} from "../../providers/loading-helper/loading-helper";
+import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/firestore";
+import {InAppBrowser, InAppBrowserObject, InAppBrowserOptions} from "@ionic-native/in-app-browser";
 
 
 /**
@@ -20,7 +22,9 @@ import {LoadingHelperProvider} from "../../providers/loading-helper/loading-help
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
+interface Post {
+	CurrentStatus: any;
+}
 @IonicPage({
 	name: 'page-feedback-detail',
 	segment: 'feedback-detail'
@@ -34,8 +38,10 @@ export class FeedbackDetailPage implements OnInit {
 	starRating: number = 0;
 	openCloseAnim: string;
 	paramId: any;
+	posts1: any;
+	postsCol1: AngularFirestoreCollection<Post>;
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, private _fb: FormBuilder, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public http: HttpClient, public getUrlPro: GetUrlProvider, public loadingHelperPro: LoadingHelperProvider, public alertCtrl: AlertController, public httpHelperPro: HttpHelperProvider) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, private _fb: FormBuilder, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public http: HttpClient, public getUrlPro: GetUrlProvider, public loadingHelperPro: LoadingHelperProvider, public alertCtrl: AlertController, public httpHelperPro: HttpHelperProvider, public database: AngularFirestore, private inAppBrowser: InAppBrowser) {
 		this.paramId = this.navParams.get('id');
 	}
 
@@ -137,8 +143,47 @@ export class FeedbackDetailPage implements OnInit {
 				Validators.required
 			])]
 		});
+		this.openSuccessPage();
+		// if(this.testID){
+		// 	console.log(this.testID);
+		// }
+	}
+
+	openSuccessPage(){
+		this.postsCol1 = this.database.collection('booking', ref => ref.where('OrderId', '==', 101));
+		this.posts1 = this.postsCol1.snapshotChanges()
+			.map(actions => {
+				return actions.map(a => {
+					const data = a.payload.doc.data();
+					const id = a.payload.doc.id;
+					if (data.CurrentStatus.Name === 'Customer paid'){
+						console.log('cc');
+					}
+					return {data, id};
+				});
+			});
 
 	}
+
+	closeBrowser(){
+		// this.httpHelperPro.get('/api/notify-finish-payment?orderId=101&bookingId=' + id).subscribe(
+		// 	(res:any) =>{
+		// 	}
+		// );
+		let url = 'https://www.google.com.vn/';
+		const browserOpt: InAppBrowserOptions ={
+			hideurlbar: 'yes'
+		};
+		const browser = this.inAppBrowser.create(url, '_self', browserOpt);
+		// browser.on('loadstop').subscribe(event => {
+		// 	browser.close();
+		// });
+
+	}
+
+	// openCheckoutPage(){
+	// 	this.navCtrl.push('page-checkout');
+	// }
 
 	closeModal() {
 		this.navCtrl.pop();
