@@ -2,27 +2,32 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
- * Generated class for the PaymentSuccessPage page.
+ * Generated class for the CancelReasonPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
 
 @IonicPage({
-	name: 'page-payment-success',
-	segment: 'payment-success'
+	name: 'page-cancel-reason',
+	segment: 'cancel-reason'
 })
 @Component({
-  selector: 'page-payment-success',
-  templateUrl: 'payment-success.html',
+  selector: 'page-cancel-reason',
+  templateUrl: 'cancel-reason.html',
 })
-export class PaymentSuccessPage {
+export class CancelReasonPage {
+	private order:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+  	this.order = this.navParams.get('order');
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PaymentSuccessPage');
+  }
+
+  closeModal(){
+  	this.navCtrl.pop();
   }
 
 }

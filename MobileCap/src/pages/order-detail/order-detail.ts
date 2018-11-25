@@ -1,48 +1,142 @@
-import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component, OnInit} from '@angular/core';
+import {
+	AlertController,
+	IonicPage,
+	LoadingController,
+	ModalController,
+	NavController,
+	NavParams,
+	ToastController
+} from 'ionic-angular';
 
-import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
-import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
+import {LoadingHelperProvider} from '../../providers/loading-helper/loading-helper';
+import {HttpHelperProvider} from '../../providers/http-helper/http-helper';
+
+interface Post {
+	CurrentStatus: any;
+}
 
 @IonicPage({
-  name: 'page-order-detail',
-  segment: 'order-detail'
+	name: 'page-order-detail',
+	segment: 'order-detail'
 })
 @Component({
-  selector: 'page-order-detail',
-  templateUrl: 'order-detail.html',
+	selector: 'page-order-detail',
+	templateUrl: 'order-detail.html',
 })
 export class OrderDetailPage implements OnInit {
 
-  message: any;
-  order: any;
-  services: any;
-  customerInfo: any;
-  flagDis = true;
+	message: any;
+	order: any;
+	services: any;
+	customerInfo: any;
 
-  constructor(private httpHelperPro: HttpHelperProvider, private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams) {
-    this.message = this.navParams.get('message');
-  }
+	constructor(private httpHelperPro: HttpHelperProvider, private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public alertCtrl: AlertController, public toastCtrl: ToastController, public loadingCtrl: LoadingController) {
+		this.message = this.navParams.get('message');
+	}
 
-  ngOnInit() {
-    if (this.message) {
-      this.loadingHelperPro.presentLoading('');
-      this.httpHelperPro.get('/api/order/order-detail?orderId=' + this.message.OrderId).subscribe(
-        (res: any) => {
-          this.loadingHelperPro.dismissLoading();
-          this.order = res.order;
-          this.services = this.order.OrderDetails;
-          this.customerInfo = res.customerInfo;
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
-    }
-  }
+	ngOnInit() {
+		this.loadOrderDetail();
+	}
 
-  openCheckoutPage(param){
-  	this.navCtrl.push('page-checkout', {'order': param});
-  }
+	loadOrderDetail() {
+		if (this.message) {
+			this.loadingHelperPro.presentLoading('Đang tải...');
+			this.httpHelperPro.get('/api/order/order-detail?orderId=' + this.message.OrderId).subscribe(
+				(res: any) => {
+					this.loadingHelperPro.dismissLoading();
+					this.order = res.order;
+					this.services = this.order.OrderDetails;
+					this.customerInfo = res.customerInfo;
+				},
+				(err) => {
+					console.log(err);
+				}
+			);
+		}
+	}
+
+	cancelOrder(order) {
+		let reason = this.alertCtrl.create({
+			title: 'Lý do',
+			message: "Hãy điền lý do bạn huỷ đơn hàng",
+			inputs: [
+				{
+					name: 'reason',
+					placeholder: 'Nhấn vào đây',
+					type: 'text',
+					max: 100
+				},
+			],
+			buttons: [
+				{
+					text: 'Đồng ý',
+					handler: data => {
+						if (data.reason != null && data.reason != '') {
+							this.loadingHelperPro.presentLoading('Đang tải...');
+							let objCancel = {
+								'OrderId': order.OrderId,
+								'Reason': data.reason
+							}
+							this.httpHelperPro.post('/api/cancel-order', objCancel).subscribe(
+								(res: any) => {
+									if (JSON.parse(res).result == true) {
+										// show message
+										let toast = this.toastCtrl.create({
+											showCloseButton: true,
+											closeButtonText: 'OK',
+											cssClass: 'profiles-bg',
+											message: JSON.parse(res).message,
+											duration: 2000,
+											position: 'bottom'
+										});
+										//Turn off message and return to homepage
+										setTimeout(() => {
+											this.loadingHelperPro.dismissLoading();
+											toast.present();
+											this.navCtrl.setRoot('page-home');
+
+										}, 2000)
+										toast.present();
+									}
+									if (JSON.parse(res).result == false) {
+										// show message
+										let toast = this.toastCtrl.create({
+											showCloseButton: true,
+											closeButtonText: 'OK',
+											cssClass: 'profiles-bg',
+											message: JSON.parse(res).message,
+											duration: 5000,
+											position: 'bottom'
+										});
+										this.loadingHelperPro.dismissLoading();
+										toast.present();
+										return;
+									}
+								}
+							)
+						} else {
+							let toast = this.toastCtrl.create({
+								message: 'Vui lòng điền lý do',
+								duration: 2000,
+								position: 'top',
+								closeButtonText: 'OK',
+								showCloseButton: true
+							});
+							toast.present();
+							return;
+						}
+
+					}
+				}
+			]
+		});
+		reason.present();
+	}
+
+
+	openCheckoutPage(param) {
+		this.navCtrl.push('page-checkout', {'order': param});
+	}
 
 }

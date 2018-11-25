@@ -145,4 +145,5 @@ export class FeedbackDetailPage implements OnInit {
 		this.navCtrl.pop();
 	}
 
+
 }

@@ -32,6 +32,7 @@ export class CheckoutPage implements OnInit {
 	flagPaid: boolean;
 	postsCol1: AngularFirestoreCollection<Post>;
 	browser: any;
+	private booking_path = 'booking';
 
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, public ordersService: OrdersService, public cartService: CartService, public loadingCtrl: LoadingController, public toastCtrl: ToastController, private inAppBrowser: InAppBrowser, public database: AngularFirestore) {
@@ -42,7 +43,7 @@ export class CheckoutPage implements OnInit {
 	getRadioValue(number) {
 		if (number == 2) {
 			this.checkoutOnline = true;
-		}else {
+		} else {
 			this.checkoutOnline = false;
 		}
 	}
@@ -56,18 +57,15 @@ export class CheckoutPage implements OnInit {
 				return actions.map(a => {
 					const data = a.payload.doc.data();
 					const id = a.payload.doc.id;
-					if (data.CurrentStatus.Name === 'Customer paid'){
-
-					}
 					return {data, id};
 				});
 			});
 	}
 
-	closeBrowser(id){
+	closeBrowser(id) {
 	}
 
-	openNganluong(bookingId){
+	openNganluong(bookingId) {
 		let url = "https://www.nganluong.vn/button_payment.php?" +
 			"receiver=" + this.order.SupplierInfo.PaymentEmail +
 			"&product_name=" + this.order.OrderId +
@@ -75,17 +73,17 @@ export class CheckoutPage implements OnInit {
 			"&comments=test ionic" +
 			"&return_url=http://web-capstone.azurewebsites.net/api/notify-finish-payment?orderId=" + this.order.OrderId +
 			"," + bookingId;
-		const browserOpt: InAppBrowserOptions ={
+		const browserOpt: InAppBrowserOptions = {
 			hideurlbar: 'yes'
 		};
 		const browser = this.inAppBrowser.create(url, '_self', browserOpt);
-		this.postsCol = this.database.collection('booking', ref => ref.where('OrderId', '==', this.order.OrderId));
+		this.postsCol = this.database.collection(this.booking_path, ref => ref.where('OrderId', '==', this.order.OrderId));
 		this.posts = this.postsCol.snapshotChanges()
 			.map(actions => {
 				return actions.map(a => {
 					const data = a.payload.doc.data();
 					const id = a.payload.doc.id;
-					if (data.CurrentStatus.Name === 'Customer paid'){
+					if (data.CurrentStatus.Name === 'Customer paid') {
 						browser.close();
 						this.navCtrl.setRoot('page-home');
 					}

@@ -11,9 +11,9 @@
 	</ion-navbar>
 </ion-header>
 
-<ion-content padding>
-	<ion-toolbar color="primary">
-		<ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Nhập vị trí"></ion-searchbar>
+<ion-content>
+	<ion-toolbar>
+		<ion-searchbar style="border: #96071a !important;" [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Nhập vị trí"></ion-searchbar>
 	</ion-toolbar>
 	<ion-list [hidden]="autocompleteItems.length == 0">
 		<ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">

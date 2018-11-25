@@ -36,7 +36,7 @@ export class MyAccountPage implements OnInit {
 			}
 		);
 
-		if (!this.onUpdateForm) {
+		// if (!this.onUpdateForm) {
 			this.httpHelperPro.get('/api/customer/get-info?customerId=' + JSON.parse(localStorage.getItem('token')).CustomerId).subscribe(
 				(res: User) => {
 					this.userInfor = res;
@@ -55,7 +55,7 @@ export class MyAccountPage implements OnInit {
 					this.loadingHelperPro.dismissLoading();
 				}
 			);
-		};
+		// };
 	}
 
 	isFieldInvalid(field: string, form: FormGroup) {

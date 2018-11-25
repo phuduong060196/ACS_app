@@ -80,13 +80,7 @@ export class ChatDetailPage {
 		//get SupplierID
 		let supplierId = this.paramId.supId;
 		let dateTime = new Date();
-		this.database.collection('chat').doc(supplierId + '-' + customerId).set({
-			'supId': supplierId,
-			'cusId': customerId,
-			'lastTime': dateTime,
-			'isCustomer': true,
-			'supName': this.paramId.supName,
-			'supAvatar': this.paramId.supAvatar,
+		this.database.collection('chat').doc(supplierId + '-' + customerId).update({
 			'seenBySup': true,
 			'seenByCus': true,
 		});
