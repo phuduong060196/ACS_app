@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, DateTime } from 'ionic-angular';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
@@ -58,8 +58,34 @@ export class BookingServiceDetailPage implements OnInit {
 			});
 		});
 
+		// let dayTime: any = moment(this.DayWork + ' ' + this.TimeWork, 'YYYY-MM-DD HH:mm');
+		// console.log({
+		// 	'CurrentStatus': {
+		// 		'CreatedByCustomer': true,
+		// 		'Name': "Waiting for review",
+		// 		'UpdatedDate': new Date()
+		// 	},
+		// 	'CustomerId': this.customerId,
+		// 	'SupplierId': this.supplierId,
+		// 	'Order': {
+		// 		'OrderDetails': list
+		// 	},
+		// 	'SeenByCustomer': false,
+		// 	'Time': new Date(),
+		// 	'CustomerName': this.customer.FullName,
+		// 	'PhoneNumber': this.customer.PhoneNumber,
+		// 	'Address': this.customer.Address,
+		// 	'DayWork': dayTime._d,
+		// 	'TimeWork': this.TimeWork,
+		// 	'test': moment("2010-10-20 4:30", "YYYY-MM-DD HH:mm"),
+		// 	'Note': this.Note
+		// });
+
 		if (this.customer.FullName != '' && this.customer.PhoneNumber != '' && this.customer.Address != '' && this.DayWork != '' && this.TimeWork != '') {
 			if (list.length > 0) {
+				
+				let dayTime: any = moment(this.DayWork + ' ' + this.TimeWork, 'YYYY-MM-DD HH:mm');
+
 				this.database.collection(this.booking_path).add({
 					'CurrentStatus': {
 						'CreatedByCustomer': true,
@@ -76,8 +102,7 @@ export class BookingServiceDetailPage implements OnInit {
 					'CustomerName': this.customer.FullName,
 					'PhoneNumber': this.customer.PhoneNumber,
 					'Address': this.customer.Address,
-					'DayWork': this.DayWork,
-					'TimeWork': this.TimeWork,
+					'DayWork': dayTime._d,
 					'Note': this.Note
 				});
 				let alert = this.alertCtrl.create({
@@ -110,10 +135,6 @@ export class BookingServiceDetailPage implements OnInit {
 	}
 
 	ngOnInit() {
-		this.currentTime = moment().format('HH:mm');
-		this.currentDay = moment().format('DDMMYYYY');
-		this.maxMonth = moment().add(1, 'M').format('DDMMYYYY');
-		console.log(this.currentDay + ' ' + this.maxMonth);
 		this.supplier = this.navParams.get('supplier');
 		if (!this.supplier) {
 			this.navCtrl.push('page-home');

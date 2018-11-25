@@ -12,4 +12,51 @@
 
 <ion-content class="lightest-bg">
 
+	<div padding-vertical>
+		<ion-segment [(ngModel)]="currentType">
+			<ion-segment-button value="Pending">
+				Đang xử lý
+			</ion-segment-button>
+			<ion-segment-button value="Finished">
+				Đã hoàn thành
+			</ion-segment-button>
+		</ion-segment>
+	</div>
+
+	<div [ngSwitch]="currentType">
+
+		<div id="pending" *ngSwitchCase="'Pending'">
+
+			<ion-card>
+
+				<ion-card-header text-right>
+					Status
+				</ion-card-header>
+
+				<ion-card-content>
+					<!-- Add card content here! -->
+				</ion-card-content>
+
+			</ion-card>
+
+		</div>
+
+		<div id="finished" *ngSwitchCase="'Finished'">
+
+			<ion-card>
+
+				<ion-card-header text-center>
+					Card Header
+				</ion-card-header>
+
+				<ion-card-content>
+					<!-- Add card content here! -->
+				</ion-card-content>
+
+			</ion-card>
+
+		</div>
+
+	</div>
+
 </ion-content>
