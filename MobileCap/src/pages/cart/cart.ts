@@ -1,65 +1,46 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-import { CartService } from '../../providers/cart-service-mock';
+import { AccessTokenHelperProvider } from '../../providers/access-token-helper/access-token-helper';
+import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
+import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
 
 @IonicPage({
-	name: 'page-cart',
-	segment: 'cart'
+    name: 'page-cart',
+    segment: 'cart'
 })
 
 @Component({
-  selector: 'page-cart',
-  templateUrl: 'cart.html',
+    selector: 'page-cart',
+    templateUrl: 'cart.html',
 })
 
-export class CartPage {
+export class CartPage implements OnInit {
 
-	orders: Array<any> = [];
-	totalVal: number = 0;
+    currentType: string = 'Pending';
+    customerId: any;
+    history: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public cartService: CartService) {
-    this.getOrders();
-  }
+    constructor(private httpHelperPro: HttpHelperProvider, private loadingHelperPro: LoadingHelperProvider, private accessTokenHelperPro: AccessTokenHelperProvider, public navCtrl: NavController, public navParams: NavParams) {
 
-  removeOrder (order) {
-    this.cartService.removefromCart(order)
-        .then(() => {
-            this.getOrders();
-        })
-        .catch(error => alert(JSON.stringify(error)));
-  }
+    }
 
-  getOrders () {
-    this.cartService.getOrders().then(orders => {
-    	this.orders = orders
-    	this.totalVal = 0;
-    	this.orders.forEach((val, i) => {
-    		this.totalVal = this.totalVal + (val.order.price * val.qtd)
-    	});
-    });
-  }
-
-  // minus adult when click minus button
-  minusQtd(order) {
-		this.cartService.editQtdOrder(order, 'minus')
-      .then(() => {
-          this.getOrders();
-      })
-      .catch(error => alert(JSON.stringify(error)));
-  }
-
-  // plus adult when click plus button
-  plusQtd(order) {
-		this.cartService.editQtdOrder(order, 'plus')
-      .then(() => {
-          this.getOrders();
-      })
-      .catch(error => alert(JSON.stringify(error)));
-  }
-
-  openCheckout() {
-      this.navCtrl.push('page-checkout');
-  }
+    ngOnInit() {
+        this.accessTokenHelperPro.GetAccessToken.subscribe(val => {
+            if (localStorage.getItem('token')) {
+                this.customerId = JSON.parse(localStorage.getItem('token')).CustomerId;
+                this.loadingHelperPro.presentLoading('');
+                this.httpHelperPro.get('/api/order/get-all-order?customerId=' + this.customerId).subscribe(
+                    (res: any) => {
+                        console.log(res);
+                        this.loadingHelperPro.dismissLoading();
+                    },
+                    (err) => {
+                        console.log(err);
+                        this.loadingHelperPro.dismissLoading();
+                    }
+                );
+            }
+        });
+    }
 
 }
