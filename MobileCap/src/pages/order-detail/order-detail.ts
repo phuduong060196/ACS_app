@@ -11,6 +11,7 @@ import {
 
 import {LoadingHelperProvider} from '../../providers/loading-helper/loading-helper';
 import {HttpHelperProvider} from '../../providers/http-helper/http-helper';
+import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/firestore";
 
 interface Post {
 	CurrentStatus: any;
@@ -30,13 +31,17 @@ export class OrderDetailPage implements OnInit {
 	order: any;
 	services: any;
 	customerInfo: any;
+	posts: any;
+	postsCol: AngularFirestoreCollection<Post>;
+	private booking_path = 'booking';
 
-	constructor(private httpHelperPro: HttpHelperProvider, private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public alertCtrl: AlertController, public toastCtrl: ToastController, public loadingCtrl: LoadingController) {
+	constructor(private httpHelperPro: HttpHelperProvider, private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public alertCtrl: AlertController, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public database: AngularFirestore) {
 		this.message = this.navParams.get('message');
 	}
 
 	ngOnInit() {
 		this.loadOrderDetail();
+		this.loadDocument();
 	}
 
 	loadOrderDetail() {
@@ -56,7 +61,19 @@ export class OrderDetailPage implements OnInit {
 		}
 	}
 
-	cancelOrder(order) {
+	loadDocument() {
+		//get Order Information
+		this.postsCol = this.database.collection(this.booking_path, ref => ref.where('OrderId', '==', this.order.OrderId));
+		this.posts = this.postsCol.snapshotChanges()
+			.map(actions => {
+				return actions.map(a => {
+					const id = a.payload.doc.id;
+					return id;
+				});
+			});
+	}
+
+	cancelOrder(booking) {
 		let reason = this.alertCtrl.create({
 			title: 'Lý do',
 			message: "Hãy điền lý do bạn huỷ đơn hàng",
@@ -75,8 +92,9 @@ export class OrderDetailPage implements OnInit {
 						if (data.reason != null && data.reason != '') {
 							this.loadingHelperPro.presentLoading('Đang tải...');
 							let objCancel = {
-								'OrderId': order.OrderId,
-								'Reason': data.reason
+								'OrderId': this.order.OrderId,
+								'Reason': data.reason,
+								'BookingId': booking
 							}
 							this.httpHelperPro.post('/api/cancel-order', objCancel).subscribe(
 								(res: any) => {
@@ -94,7 +112,7 @@ export class OrderDetailPage implements OnInit {
 										setTimeout(() => {
 											this.loadingHelperPro.dismissLoading();
 											toast.present();
-											this.navCtrl.setRoot('page-home');
+											this.navCtrl.push('page-home');
 
 										}, 2000)
 										toast.present();

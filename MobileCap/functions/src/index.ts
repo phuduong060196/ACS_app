@@ -5,13 +5,14 @@ admin.initializeApp();
 exports.getChangedBooking = functions.firestore.document('booking/{bookingId}').onUpdate(async (updated) => {
 	const document = updated.after.data();
 	const CustomerId = document.CustomerId;
-	const contentWasChanged = document.CurrentStatus.Name;
+	const contentWasChangedName = document.CurrentStatus.Name;
+	const contentWasChangedByCustomer = document.CurrentStatus.CreatedByCustomer;
 	let messageBody = '';
 	let orderId = 0;
-	if (contentWasChanged === 'Created order') {
+	if (contentWasChangedName === 'Created order' && contentWasChangedByCustomer === false) {
 		messageBody = 'Yêu cầu được chấp nhận';
 		orderId = document.OrderId;
-	} else {
+	} else if (contentWasChangedName === 'Cancel' && contentWasChangedByCustomer === false) {
 		messageBody = 'Yêu cầu không được chấp nhận';
 	}
 	const payload = {

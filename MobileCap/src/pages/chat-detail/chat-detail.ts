@@ -108,8 +108,11 @@ export class ChatDetailPage {
 	loadSupplier() {
 		this.http.get(this.getUrlPro.getUrl + '/api/supplier/get-by-id?id=' + this.paramId.supId)
 			.subscribe((res: any) => {
+				let oldUrl = res.data.Avatar;
+				if (res.data.Avatar) {
+					res.data.Avatar = 'http://web-capstone.azurewebsites.net' + oldUrl;
+				}
 				this.supplier = res.data;
-				console.log(this.supplier);
 			}, (err) => {
 				console.log(err);
 			});
