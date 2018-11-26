@@ -109,7 +109,7 @@ export class ChatDetailPage {
 		this.http.get(this.getUrlPro.getUrl + '/api/supplier/get-by-id?id=' + this.paramId.supId)
 			.subscribe((res: any) => {
 				this.supplier = res.data;
-				console.log(this.supplier);
+				// console.log(this.supplier);
 			}, (err) => {
 				console.log(err);
 			});
