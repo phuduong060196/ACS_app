@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 
-import { MessageService } from '../../providers/message-service-mock';
 import { NotificationHelperProvider } from '../../providers/notification-helper/notification-helper';
 
 @IonicPage({
@@ -17,8 +16,7 @@ export class MessageListPage {
 
     messages: any;
 
-    constructor(private notificationHelperPro: NotificationHelperProvider, public navCtrl: NavController, public service: MessageService) {
-        this.getMessages();
+    constructor(private notificationHelperPro: NotificationHelperProvider, public navCtrl: NavController) {
         this.notificationHelperPro.GetTestNotification.subscribe((val) => {
             this.messages = val;
         });
@@ -30,6 +28,7 @@ export class MessageListPage {
             notifications[notifications.indexOf(message)].tap = true;
             this.notificationHelperPro.SetTestNotification(notifications);
         });
+        // chuyen trang can chinh
         this.navCtrl.push('page-order-detail', {
             'message': message
         });
@@ -41,10 +40,6 @@ export class MessageListPage {
             notifications.splice(notifications.indexOf(message), 1);
             this.notificationHelperPro.SetTestNotification(notifications);
         });
-    }
-
-    getMessages() {
-        this.messages = this.service.getMessages();
     }
 
 }

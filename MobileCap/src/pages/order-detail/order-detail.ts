@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
 	AlertController,
 	IonicPage,
@@ -9,9 +9,9 @@ import {
 	ToastController
 } from 'ionic-angular';
 
-import {LoadingHelperProvider} from '../../providers/loading-helper/loading-helper';
-import {HttpHelperProvider} from '../../providers/http-helper/http-helper';
-import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/firestore";
+import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
+import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
+import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/firestore";
 
 interface Post {
 	CurrentStatus: any;
@@ -49,13 +49,15 @@ export class OrderDetailPage implements OnInit {
 			this.loadingHelperPro.presentLoading('Đang tải...');
 			this.httpHelperPro.get('/api/order/order-detail?orderId=' + this.message.OrderId).subscribe(
 				(res: any) => {
-					this.loadingHelperPro.dismissLoading();
+					console.log(res);
 					this.order = res.order;
 					this.services = this.order.OrderDetails;
 					this.customerInfo = res.customerInfo;
+					this.loadingHelperPro.dismissLoading();
 				},
 				(err) => {
 					console.log(err);
+					this.loadingHelperPro.dismissLoading();
 				}
 			);
 		}
@@ -63,7 +65,7 @@ export class OrderDetailPage implements OnInit {
 
 	loadDocument() {
 		//get Order Information
-		this.postsCol = this.database.collection(this.booking_path, ref => ref.where('OrderId', '==', this.order.OrderId));
+		this.postsCol = this.database.collection(this.booking_path, ref => ref.where('OrderId', '==', this.message.OrderId));
 		this.posts = this.postsCol.snapshotChanges()
 			.map(actions => {
 				return actions.map(a => {
@@ -154,7 +156,7 @@ export class OrderDetailPage implements OnInit {
 
 
 	openCheckoutPage(param) {
-		this.navCtrl.push('page-checkout', {'order': param});
+		this.navCtrl.push('page-checkout', { 'order': param });
 	}
 
 }
