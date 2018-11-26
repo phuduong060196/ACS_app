@@ -12,7 +12,11 @@ export class AccessTokenHelperProvider {
   }
 
   set SetAccessToken(res) {
-    localStorage.setItem('token', JSON.stringify(res));
+    if(res){
+      localStorage.setItem('token', JSON.stringify(res));
+    }else{
+      localStorage.removeItem('token');
+    }
     this.AccessToken.next(res);
   }
 

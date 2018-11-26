@@ -74,6 +74,12 @@ export class SearchPage {
 		this.loadingHelperPro.presentLoading('Đang tải...');
 		this.httpHelperPro.get('/api/location/search-location-with-lat-long?latitude=' + this.lat + '&longitude=' + this.lng + '&service=' + this.searchKey).subscribe(
 			(res: any) => {
+				res.forEach(element => {
+					let oldUrl = element.Avatar;
+					if (element.Avatar) {
+						element.Avatar = 'http://web-capstone.azurewebsites.net' + oldUrl;
+					}
+				});
 				this.suppliersNearby = res;
 				this.suppliersNearby.forEach(supplier => {
 					supplier.Branches[0].Latitude = parseFloat(supplier.Branches[0].Latitude);
@@ -81,6 +87,7 @@ export class SearchPage {
 					let distance = this.getDistanceFromLatLonInKm(this.lat, this.lng, supplier.Branches[0].Latitude, supplier.Branches[0].Longitude);
 					supplier.distance = distance.toFixed(2);
 				});
+				console.log(res);
 				this.loadingHelperPro.dismissLoading();
 			},
 			(err) => {
