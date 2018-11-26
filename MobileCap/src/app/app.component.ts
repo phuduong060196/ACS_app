@@ -66,7 +66,7 @@ export class foodIonicApp {
 
 		this.accessToken.GetAccessToken.subscribe(
 			(res: any) => {
-				if (JSON.parse(localStorage.getItem('token'))) {
+				if (localStorage.getItem('token')) {
 					this.userName = JSON.parse(localStorage.getItem('token')).username;
 					this.rootPage = 'page-home';
 				}

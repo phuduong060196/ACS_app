@@ -53,9 +53,12 @@
 			<ion-slides class="to-top primary-bg" pager>
 				<!-- <ion-slide *ngFor="let image of restaurant.images"> -->
 				<!-- <img src="{{ image }}" alt=""> -->
-				<img src="https://dienlanhhoanggia.com/getattachment/d5ec3649-e3f1-4c91-8c5f-e57cf512210f//trang-chu/logo/dien-may-viet-long.aspx?width=&height="
-					 alt="">
-
+				<ng-container *ngIf="supplier.Avatar">
+					<img [src]="supplier.Avatar">
+				</ng-container>
+				<ng-container *ngIf="!supplier.Avatar">
+					<img src="https://dienlanhhoanggia.com/getattachment/d5ec3649-e3f1-4c91-8c5f-e57cf512210f//trang-chu/logo/dien-may-viet-long.aspx?width=&height=">
+				</ng-container>
 				<!-- </ion-slide> -->
 			</ion-slides>
 		</div>
@@ -86,8 +89,7 @@
 							&nbsp;&nbsp;Gọi
 						</button>
 					</a>
-					<button ion-button
-							(click)="openChatDetail({'supId': supplier.SupplierId, 'supName': supplier.Name, 'supAvatar': supplierAvatar})">
+					<button ion-button (click)="openChatDetail({'supId': supplier.SupplierId, 'supName': supplier.Name, 'supAvatar': supplierAvatar})">
 						<ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp;Nhắn tin
 					</button>
 				</ion-buttons>
@@ -128,8 +130,7 @@
 											<!--Tên loại dịch vụ-->
 											{{ subService.Name }}
 										</p>
-										<ng-container
-												*ngIf="subService.PromotionPercent === 0 || subService.Price === 0">
+										<ng-container *ngIf="subService.PromotionPercent === 0 || subService.Price === 0">
 											<button ion-button clear class="green-bg text-white" item-end>
 												<ng-container *ngIf="subService.Price > 0">
 													{{ subService.PriceDisplay }}
@@ -141,8 +142,7 @@
 											</button>
 										</ng-container>
 										<ng-container *ngIf="subService.PromotionPercent > 0 && subService.Price > 0">
-											<button ion-button clear class="green-bg text-white"
-													style="text-decoration: line-through" item-end>
+											<button ion-button clear class="green-bg text-white" style="text-decoration: line-through" item-end>
 												{{subService.OriginalPriceDisplay}}
 											</button>
 											<button ion-button clear class="dark-bg text-white" item-end>
@@ -166,8 +166,7 @@
 							<div class="container" *ngIf="feedbacks">
 								<ion-list class="list-full-border">
 									<div *ngIf="feedbackFlag == true" text-center>
-										<button ion-button full
-												(click)="openFeedbackDetail({'supId': supplier.SupplierId, 'supName': supplier.Name})">
+										<button ion-button full (click)="openFeedbackDetail({'supId': supplier.SupplierId, 'supName': supplier.Name})">
 											<ion-icon name="text"></ion-icon>&nbsp;&nbsp;Đánh giá
 										</button>
 									</div>
@@ -215,7 +214,7 @@
 									<agm-marker [latitude]="branch.Latitude" [longitude]="branch.Longitude">
 									</agm-marker>
 								</agm-map>
-								<br/>
+								<br />
 								<p ion-text text-center color="dark" class="fw700">{{branch.Address}},&nbsp;{{branch.District}},&nbsp;{{branch.City}}</p>
 							</div>
 

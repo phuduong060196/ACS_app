@@ -18,7 +18,7 @@
 				Đang xử lý
 			</ion-segment-button>
 			<ion-segment-button value="Finished">
-				Đã hoàn thành
+				Hoàn tất
 			</ion-segment-button>
 		</ion-segment>
 	</div>
@@ -27,33 +27,140 @@
 
 		<div id="pending" *ngSwitchCase="'Pending'">
 
-			<ion-card>
+			<ng-container *ngIf="listPending">
+				<ng-container *ngFor="let history of listPending">
+					<ion-card>
 
-				<ion-card-header text-right>
-					Status
-				</ion-card-header>
+						<ion-card-header>
+							<div>
+								<ion-grid>
+									<ion-row>
+										<ion-col text-left>
+											Mã: {{history.OrderId}}
+										</ion-col>
+										<ion-col text-right style="color: #007BFF">
+											{{history.OrderStatus}}
+										</ion-col>
+									</ion-row>
+								</ion-grid>
+							</div>
+						</ion-card-header>
 
-				<ion-card-content>
-					<!-- Add card content here! -->
-				</ion-card-content>
+						<ion-card-content>
+							<ion-grid style="font-size: 11px; color: black">
+								<ion-row>
+									<ion-col text-left>
+										Nhà cung cấp:
+									</ion-col>
+									<ion-col text-left>
+										Điện lạnh Hùng Cường
+									</ion-col>
+								</ion-row>
+								<ion-row>
+									<ion-col text-left>
+										Thời gian đến sửa:
+									</ion-col>
+									<ion-col text-left>
+										25-11-2018 13:30
+									</ion-col>
+								</ion-row>
+								<ion-row>
+									<ion-col text-left>
+										Tổng tiền:
+									</ion-col>
+									<ion-col text-left>
+										{{history.Total}}
+									</ion-col>
+								</ion-row>
+							</ion-grid>
+							<ng-container *ngIf="!history.IsPaid">
+								<div text-center style="color: #DC3545; margin-top: 5px">
+									Chưa thanh toán
+								</div>
+							</ng-container>
+							<ng-container *ngIf="history.IsPaid">
+								<div text-center style="color: #28A745; margin-top: 5px">
+									Đã thanh toán
+								</div>
+							</ng-container>
+						</ion-card-content>
 
-			</ion-card>
+					</ion-card>
+				</ng-container>
+			</ng-container>
 
 		</div>
 
 		<div id="finished" *ngSwitchCase="'Finished'">
 
-			<ion-card>
+			<ng-container *ngIf="listFinished">
+				<ng-container *ngFor="let history of listFinished">
+					<ion-card>
 
-				<ion-card-header text-center>
-					Card Header
-				</ion-card-header>
+						<ion-card-header>
+							<div>
+								<ion-grid>
+									<ion-row>
+										<ion-col text-left>
+											Mã: {{history.OrderId}}
+										</ion-col>
+										<ng-container *ngIf="history.OrderStatus === 'Hủy'">
+											<ion-col text-right style="color: #DC3545">
+												{{history.OrderStatus}}
+											</ion-col>
+										</ng-container>
+										<ng-container *ngIf="history.OrderStatus === 'Hoàn tất'">
+											<ion-col text-right style="color: #28A745">
+												{{history.OrderStatus}}
+											</ion-col>
+										</ng-container>
+									</ion-row>
+								</ion-grid>
+							</div>
+						</ion-card-header>
 
-				<ion-card-content>
-					<!-- Add card content here! -->
-				</ion-card-content>
+						<ion-card-content>
+							<ion-grid style="font-size: 11px; color: black">
+								<ion-row>
+									<ion-col text-left>
+										Nhà cung cấp:
+									</ion-col>
+									<ion-col text-left>
+										Điện lạnh Hùng Cường
+									</ion-col>
+								</ion-row>
+								<ion-row>
+									<ion-col text-left>
+										Thời gian đến sửa:
+									</ion-col>
+									<ion-col text-left>
+										25-11-2018 13:30
+									</ion-col>
+								</ion-row>
+								<ion-row>
+									<ion-col text-left>
+										Tổng tiền:
+									</ion-col>
+									<ion-col text-left>
+										{{history.Total}}
+									</ion-col>
+								</ion-row>
+							</ion-grid>
+							<ng-container *ngIf="!history.IsPaid">
+								<div text-center style="color: #DC3545; margin-top: 5px">
+									Chưa thanh toán
+								</div>
+							</ng-container>
+							<ng-container *ngIf="history.IsPaid">
+								<div text-center style="color: #28A745; margin-top: 5px">
+									Đã thanh toán
+								</div>
+							</ng-container>
+						</ion-card-content>
 
-			</ion-card>
+					</ion-card>
+				</ng-container>
+			</ng-container>
 
 		</div>
 

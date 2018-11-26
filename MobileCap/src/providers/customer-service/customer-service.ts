@@ -20,7 +20,6 @@ export class CustomerServiceProvider {
   }
 
   logout() {
-    localStorage.removeItem('token');
     this.accessTokenHelperPro.SetAccessToken = null;
   }
 

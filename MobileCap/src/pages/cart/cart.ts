@@ -19,6 +19,8 @@ export class CartPage implements OnInit {
     currentType: string = 'Pending';
     customerId: any;
     history: any;
+    listPending: any;
+    listFinished: any;
 
     constructor(private httpHelperPro: HttpHelperProvider, private loadingHelperPro: LoadingHelperProvider, private accessTokenHelperPro: AccessTokenHelperProvider, public navCtrl: NavController, public navParams: NavParams) {
 
@@ -26,12 +28,22 @@ export class CartPage implements OnInit {
 
     ngOnInit() {
         this.accessTokenHelperPro.GetAccessToken.subscribe(val => {
-            if (localStorage.getItem('token')) {
-                this.customerId = JSON.parse(localStorage.getItem('token')).CustomerId;
+            const token = localStorage.getItem('token');
+            if (token) {
+                this.customerId = JSON.parse(token).CustomerId;
                 this.loadingHelperPro.presentLoading('');
                 this.httpHelperPro.get('/api/order/get-all-order?customerId=' + this.customerId).subscribe(
                     (res: any) => {
                         console.log(res);
+                        this.history = res.data;
+                        this.listPending = this.history
+                            .filter(el => el.OrderStatus === 'Đang xử lí')
+                            .map(el => { return el; });
+                        this.listFinished = this.history
+                            .filter(el => (el.OrderStatus === 'Hoàn tất' || el.OrderStatus === 'Hủy'))
+                            .map(el => { return el; });
+                        console.log(this.listPending);
+                        console.log(this.listFinished);
                         this.loadingHelperPro.dismissLoading();
                     },
                     (err) => {
