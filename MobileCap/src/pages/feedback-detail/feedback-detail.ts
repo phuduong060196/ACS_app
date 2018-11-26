@@ -145,5 +145,84 @@ export class FeedbackDetailPage implements OnInit {
 		this.navCtrl.pop();
 	}
 
+	cancelOrder() {
+		let reason = this.alertCtrl.create({
+			title: 'Lý do',
+			message: "Hãy điền lý do bạn huỷ đơn hàng",
+			inputs: [
+				{
+					name: 'reason',
+					placeholder: 'Nhấn vào đây',
+					type: 'text',
+					max: 100
+				},
+			],
+			buttons: [
+				{
+					text: 'Đồng ý',
+					handler: data => {
+						if (data.reason != null && data.reason != '') {
+							this.loadingHelperPro.presentLoading('Đang tải...');
+							let objCancel = {
+								'OrderId': 145,
+								'Reason': data.reason
+							}
+							this.httpHelperPro.post('/api/cancel-order', objCancel).subscribe(
+								(res: any) => {
+									if (JSON.parse(res).result == true) {
+										// show message
+										let toast = this.toastCtrl.create({
+											showCloseButton: true,
+											closeButtonText: 'OK',
+											cssClass: 'profiles-bg',
+											message: JSON.parse(res).message,
+											duration: 2000,
+											position: 'bottom'
+										});
+										//Turn off message and return to homepage
+										setTimeout(() => {
+											this.loadingHelperPro.dismissLoading();
+											toast.present();
+											this.navCtrl.setRoot('page-home');
+
+										}, 2000)
+										toast.present();
+									}
+									if (JSON.parse(res).result == false) {
+										// show message
+										let toast = this.toastCtrl.create({
+											showCloseButton: true,
+											closeButtonText: 'OK',
+											cssClass: 'profiles-bg',
+											message: JSON.parse(res).message,
+											duration: 5000,
+											position: 'bottom'
+										});
+										this.loadingHelperPro.dismissLoading();
+										toast.present();
+										return;
+									}
+								}
+							)
+						} else {
+							let toast = this.toastCtrl.create({
+								message: 'Vui lòng điền lý do',
+								duration: 2000,
+								position: 'top',
+								closeButtonText: 'OK',
+								showCloseButton: true
+							});
+							toast.present();
+							return;
+						}
+
+					}
+				}
+			]
+		});
+		reason.present();
+	}
+
+
 
 }

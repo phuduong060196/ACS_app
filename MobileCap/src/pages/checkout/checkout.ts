@@ -29,8 +29,6 @@ export class CheckoutPage implements OnInit {
 	checkoutOnline: boolean;
 	posts: any;
 	postsCol: AngularFirestoreCollection<Post>;
-	flagPaid: boolean;
-	postsCol1: AngularFirestoreCollection<Post>;
 	browser: any;
 	private booking_path = 'booking';
 
@@ -51,7 +49,7 @@ export class CheckoutPage implements OnInit {
 	loadDocument() {
 		// this.loadingPro.presentLoading('Đang tải...');
 		//get Order Information
-		this.postsCol = this.database.collection('booking', ref => ref.where('OrderId', '==', this.order.OrderId));
+		this.postsCol = this.database.collection(this.booking_path, ref => ref.where('OrderId', '==', this.order.OrderId));
 		this.posts = this.postsCol.snapshotChanges()
 			.map(actions => {
 				return actions.map(a => {
