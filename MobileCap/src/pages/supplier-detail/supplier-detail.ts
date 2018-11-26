@@ -33,7 +33,6 @@ export class SupplierDetailPage implements OnInit {
 	constructor(private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams, public http: HttpClient, public getUrlPro: GetUrlProvider, public toastCtrl: ToastController, public httpHelperPro: HttpHelperProvider, public modalCtrl: ModalController) {
 		this.param = this.navParams.get('supplier');
 		this.supplier = this.param;
-		this.supplierAvatar = "http://web-capstone.azurewebsites.net/" + this.supplier.Avatar;
 
 	}
 
