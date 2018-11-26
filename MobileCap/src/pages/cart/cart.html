@@ -52,8 +52,8 @@
 									<ion-col text-left>
 										Nhà cung cấp:
 									</ion-col>
-									<ion-col text-left>
-										Điện lạnh Hùng Cường
+									<ion-col text-left *ngIf="history.SupplierInfo">
+										{{history.SupplierInfo.Name}}
 									</ion-col>
 								</ion-row>
 								<ion-row>
@@ -61,7 +61,7 @@
 										Thời gian đến sửa:
 									</ion-col>
 									<ion-col text-left>
-										25-11-2018 13:30
+										{{history.WorkDate}}
 									</ion-col>
 								</ion-row>
 								<ion-row>
