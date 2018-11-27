@@ -1,6 +1,6 @@
-import {AfterViewChecked, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {Content, IonicPage, NavController, NavParams} from 'ionic-angular';
-import {AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection} from '@angular/fire/firestore';
+import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 import 'rxjs/add/operator/map';
 import {HttpClient} from "@angular/common/http";
 import {GetUrlProvider} from "../../providers/get-url/get-url";
@@ -38,7 +38,6 @@ export class ChatDetailPage {
 	posts: any;
 	message: string;
 	supplier: any;
-	supplierAvatar: String;
 	@ViewChild(Content) content: Content;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public http: HttpClient, public getUrlPro: GetUrlProvider) {

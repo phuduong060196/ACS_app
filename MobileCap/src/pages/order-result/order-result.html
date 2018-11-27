@@ -20,6 +20,155 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+	<ion-card>
+		<ion-card-header class="lightest-bg">
+				<span color="dark" text-center>
+					<h1 style="color: #96071a">Xác nhận đơn hàng</h1>
+				</span>
+		</ion-card-header>
+
+		<ng-container *ngIf="order">
+			<!--Dang xu ly, da thanh toan-->
+			<div *ngIf="order.OrderStatusId == 1 && order.IsPaid == true">
+				<ion-card-content text-center padding>
+					<ion-grid no-padding fixed>
+						<ion-row text-center no-padding>
+							<ion-col>
+								<h2><b>Mã đơn hàng</b></h2>
+								{{result.orderId}}
+							</ion-col>
+						</ion-row>
+						<br/><br/>
+						<ion-row no-padding>
+							<ion-col>
+								<h2><b>Tình trạng đơn hàng</b></h2>
+								<ion-icon color="green" style="font-size: 80px" name="checkmark"></ion-icon>
+								<br/>
+								{{order.OrderStatus}}
+							</ion-col>
+						</ion-row>
+						<br/><br/>
+						<ion-row no-padding>
+							<ion-col>
+								<h2><b>Tình trạng thanh toán</b></h2>
+								Đã thanh toán&nbsp;<ion-icon color="green" name="checkmark-circle"></ion-icon>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</ion-card-content>
+			</div>
+
+			<!--Dang xu ly, chua thanh toan-->
+			<div *ngIf="order.OrderStatusId == 1 && order.IsPaid == false">
+				<ion-card-content text-center padding>
+					<ion-grid no-padding fixed>
+						<ion-row text-center no-padding>
+							<ion-col>
+								<h2><b>Mã đơn hàng</b></h2>
+								{{result.orderId}}
+							</ion-col>
+						</ion-row>
+						<br/><br/>
+						<ion-row no-padding>
+							<ion-col>
+								<h2><b>Tình trạng đơn hàng</b></h2>
+								<ion-icon color="green" style="font-size: 80px" name="checkmark"></ion-icon>
+								<br/>
+								{{order.OrderStatus}}
+							</ion-col>
+						</ion-row>
+						<br/><br/>
+						<ion-row no-padding>
+							<ion-col>
+								<h2><b>Tình trạng thanh toán</b></h2>
+								Chưa thanh toán
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</ion-card-content>
+			</div>
+
+			<!--Da huy, chua thanh toan-->
+			<div *ngIf="order.OrderStatusId == 3 && order.IsPaid == false">
+				<ion-card-content text-center padding>
+					<ion-grid no-padding fixed>
+						<ion-row text-center no-padding>
+							<ion-col>
+								<h2><b>Mã đơn hàng</b></h2>
+								{{result.orderId}}
+							</ion-col>
+						</ion-row>
+						<br/><br/>
+						<ion-row no-padding>
+							<ion-col>
+								<h2><b>Tình trạng đơn hàng</b></h2>
+								<ion-icon color="red" style="font-size: 80px" name="close"></ion-icon>
+								<br/>
+								{{order.OrderStatus}}
+							</ion-col>
+						</ion-row>
+						<br/><br/>
+						<ion-row no-padding>
+							<ion-col>
+								<h2><b>Tình trạng thanh toán</b></h2>
+								Chưa thanh toán
+							</ion-col>
+						</ion-row>
+						<br/><br/>
+						<ion-row no-padding>
+							<ion-col>
+								<h2><b>Lý do huỷ</b></h2>
+								{{result.cancelReason}}
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</ion-card-content>
+			</div>
+
+			<!--Da huy, da thanh toan-->
+			<div *ngIf="order.OrderStatusId == 4 && order.IsPaid == true">
+				<ion-card-content text-center padding>
+					<ion-grid no-padding fixed>
+						<ion-row text-center no-padding>
+							<ion-col>
+								<h2><b>Mã đơn hàng</b></h2>
+								{{result.orderId}}
+							</ion-col>
+						</ion-row>
+						<br/><br/>
+						<ion-row no-padding>
+							<ion-col>
+								<h2><b>Tình trạng đơn hàng</b></h2>
+								<ion-icon color="red" style="font-size: 80px" name="close"></ion-icon>
+								<br/>
+								{{order.OrderStatus}}
+							</ion-col>
+						</ion-row>
+						<br/><br/>
+						<ion-row no-padding>
+							<ion-col>
+								<h2><b>Tình trạng thanh toán</b></h2>
+								Đã thanh toán&nbsp;<ion-icon color="green" name="checkmark-circle"></ion-icon>
+							</ion-col>
+						</ion-row>
+						<br/><br/>
+						<ion-row no-padding>
+							<ion-col>
+								<h2><b>Lý do huỷ</b></h2>
+								{{result.cancelReason}}
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</ion-card-content>
+			</div>
+		</ng-container>
+	</ion-card>
+	<div text-center>
+		<button ion-button (click)="closeModal()">
+			Xác nhận
+		</button>
+	</div>
+	<br/>
 
 </ion-content>

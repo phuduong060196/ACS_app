@@ -1,15 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, ActionSheetController, NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
 import { HttpClient } from "@angular/common/http";
 import { GetUrlProvider } from "../../providers/get-url/get-url";
-import 'rxjs/add/operator/map';
 import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
 import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
-
-interface Post {
-	isAccept: any;
-	message: string;
-}
 
 @IonicPage({
 	name: 'page-supplier-detail',
@@ -64,7 +58,6 @@ export class SupplierDetailPage implements OnInit {
 		this.loadingHelperPro.presentLoading('Đang tải...');
 		this.httpHelperPro.get('/api/supplier/search-all-service-by-supplierId?supplierId=' + SupplierId).subscribe(
 			(res: any) => {
-				console.log(res.data);
 				this.services = res.data;
 				this.loadingHelperPro.dismissLoading();
 			},

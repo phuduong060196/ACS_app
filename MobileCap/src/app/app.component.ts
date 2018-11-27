@@ -88,25 +88,27 @@ export class foodIonicApp {
 						closeButtonText: 'Đóng'
 					}).present();
 				}
-				this.notificationHelperPro.GetTestNotification.subscribe((val) => {
-					let listNewNotification = val;
-					listNewNotification.unshift({
-						'OrderId': parseInt(res.OrderId),
-						'MessageBody': res.MessageBody,
-						'tap': false,
-						'date': new Date()
+				if(res.Document !== '1'){
+					this.notificationHelperPro.GetTestNotification.subscribe((val) => {
+						let listNewNotification = val;
+						listNewNotification.unshift({
+							'OrderId': parseInt(res.OrderId),
+							'MessageBody': res.MessageBody,
+							'tap': false,
+							'date': new Date()
+						});
+						this.notificationHelperPro.SetTestNotification(listNewNotification);
 					});
-					this.notificationHelperPro.SetTestNotification(listNewNotification);
-				});
-				this.numberNotificationHelperPro.GetTestNotification.subscribe((val) => {
-					let numberNotification = val;
-					let number = numberNotification.Number++;
-					numberNotification = {
-						'Number': number,
-						'Tapped': false
-					}
-					this.numberNotificationHelperPro.SetTestNotification = numberNotification;
-				});
+					this.numberNotificationHelperPro.GetTestNotification.subscribe((val) => {
+						let numberNotification = val;
+						let number = numberNotification.Number++;
+						numberNotification = {
+							'Number': number,
+							'Tapped': false
+						}
+						this.numberNotificationHelperPro.SetTestNotification = numberNotification;
+					});
+				}
 			});
 
 		});

@@ -1,20 +1,14 @@
 import { Component } from '@angular/core';
 import {
-	AlertController,
 	IonicPage,
 	MenuController,
 	ModalController,
-	NavController, Platform,
-	PopoverController, ToastController
+	NavController, Platform, ToastController
 } from 'ionic-angular';
-import { RestaurantService } from "../../providers/restaurant-service-mock";
 import { HttpHelperProvider } from "../../providers/http-helper/http-helper";
-import { SupplierServiceProvider } from "../../providers/supplier-service/supplier-service";
 import { Geolocation } from "@ionic-native/geolocation";
 import { HttpClient } from "@angular/common/http";
 import { LocalHelperProvider } from "../../providers/local-helper/local-helper";
-import { NotificationHelperProvider } from "../../providers/notification-helper/notification-helper";
-import { NumberNotificationHelperProvider } from "../../providers/number-notification-helper/number-notification-helper";
 import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
 @IonicPage({
 	name: 'page-search',
@@ -33,8 +27,7 @@ export class SearchPage {
 	searchKey: string;
 	yourLocation: string;
 
-	constructor(public navCtrl: NavController, public menuCtrl: MenuController, public modalCtrl: ModalController, public toastCtrl: ToastController,
-		public service: RestaurantService, public httpHelperPro: HttpHelperProvider,
+	constructor(public navCtrl: NavController, public menuCtrl: MenuController, public modalCtrl: ModalController, public toastCtrl: ToastController, public httpHelperPro: HttpHelperProvider,
 		private platform: Platform, private geolocation: Geolocation, private http: HttpClient,
 		private localPro: LocalHelperProvider, private loadingHelperPro: LoadingHelperProvider) {
 		this.localPro.GetLocation.subscribe(val => {
@@ -162,6 +155,13 @@ export class SearchPage {
 	}
 
 	ionViewDidLoad() {
+	}
+
+	testFunction(){
+		const result = {'orderId': 119, 'cancelReason': "Tao thich"};
+		this.navCtrl.setRoot('page-cart', {
+			'result': result
+		});
 	}
 
 }

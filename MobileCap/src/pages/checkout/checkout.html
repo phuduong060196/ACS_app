@@ -71,7 +71,7 @@
 					</div>
 
 					<div *ngIf="checkoutOnline != true">
-						<button ion-button color="secondary" margin-top icon-right full tappable (click)="send()">
+						<button ion-button color="secondary" margin-top icon-right full tappable (click)="openOrderResult(order.OrderId)">
 							Tiếp tục
 							<ion-icon name="cash"></ion-icon>
 						</button>
@@ -80,7 +80,7 @@
 				</div>
 
 				<div *ngIf="order.PaymentPrice === null" padding>
-					<button ion-button color="secondary" margin-top icon-right full tappable (click)="send()">
+					<button ion-button color="secondary" margin-top icon-right full tappable (click)="openOrderResult()">
 						Tiếp tục
 					</button>
 				</div>

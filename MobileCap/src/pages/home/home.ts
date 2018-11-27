@@ -7,12 +7,11 @@ import {
 	ToastController,
 	PopoverController,
 	ModalController,
-	Platform
+	Platform, NavParams
 } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { HttpClient } from '@angular/common/http';
 
-import { RestaurantService } from '../../providers/restaurant-service-mock';
 import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
 import { SupplierServiceProvider } from '../../providers/supplier-service/supplier-service';
 import { LocalHelperProvider } from '../../providers/local-helper/local-helper';
@@ -33,28 +32,21 @@ import { LoadingHelperProvider } from '../../providers/loading-helper/loading-he
 
 export class HomePage {
 
-	restaurants: Array<any>;
 	suppliers: any;
 	suppliersNearby: any;
 	lat: number;
 	lng: number;
-	administrative_area_level_1: any;
-	administrative_area_level_2: any;
-
 	searchKey: string;
 	yourLocation: string;
-
-
 	notifications: any;
 	numberNotification: any;
-
 	listType: any;
 
 	constructor(
-		public loadingHelperPro: LoadingHelperProvider,
+		public loadingHelperPro: LoadingHelperProvider, public navParams: NavParams,
 		public navCtrl: NavController, public menuCtrl: MenuController, public popoverCtrl: PopoverController,
 		public locationCtrl: AlertController, public modalCtrl: ModalController, public toastCtrl: ToastController,
-		public service: RestaurantService, public httpHelperPro: HttpHelperProvider, public supplierServicePro: SupplierServiceProvider,
+		public httpHelperPro: HttpHelperProvider, public supplierServicePro: SupplierServiceProvider,
 		private platform: Platform, private geolocation: Geolocation, private http: HttpClient,
 		private localPro: LocalHelperProvider, private notificationHelperPro: NotificationHelperProvider, public numberNotificationHelperPro: NumberNotificationHelperProvider) {
 		this.localPro.GetLocation.subscribe(val => {
