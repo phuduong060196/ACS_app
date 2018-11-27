@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, ToastController } from 'ionic-angular';
+import { Nav, Platform, ToastController, App } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -51,7 +51,9 @@ export class foodIonicApp {
 
 	userName: any;
 
-	constructor(public loadingHelperPro: LoadingHelperProvider, public localHelperPro: LocalHelperProvider, public customerServicePro: CustomerServiceProvider, public numberNotificationHelperPro: NumberNotificationHelperProvider, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private fcmPro: FcmProvider, private toastCtrl: ToastController, private notificationHelperPro: NotificationHelperProvider, private accessToken: AccessTokenHelperProvider) {
+	lastBack = 0;
+
+	constructor(private app: App, public loadingHelperPro: LoadingHelperProvider, public localHelperPro: LocalHelperProvider, public customerServicePro: CustomerServiceProvider, public numberNotificationHelperPro: NumberNotificationHelperProvider, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private fcmPro: FcmProvider, private toastCtrl: ToastController, private notificationHelperPro: NotificationHelperProvider, private accessToken: AccessTokenHelperProvider) {
 		this.initializeApp();
 		this.homeItem = { component: 'page-home' };
 		this.messagesItem = { component: 'page-message-list' };
@@ -108,6 +110,28 @@ export class foodIonicApp {
 					this.numberNotificationHelperPro.SetTestNotification = numberNotification;
 				});
 			});
+
+			this.platform.registerBackButtonAction(
+				() => {
+					const overlay = this.app._appRoot._overlayPortal.getActive();
+					const nav = this.app.getActiveNav();
+
+					if (overlay && overlay.dismiss) {
+						overlay.dismiss();
+					} else if (nav.canGoBack()) {
+						nav.pop();
+					} else if ((Date.now() - this.lastBack) < 2000) {
+						this.platform.exitApp();
+					} else if ((Date.now() - this.lastBack) > 2000) {
+						this.toastCtrl.create({
+							message: 'Press back again to exit app',
+							position: 'bottom',
+							duration: 2000
+						}).present();
+					}
+					this.lastBack = Date.now();
+				}
+			);
 
 		});
 
