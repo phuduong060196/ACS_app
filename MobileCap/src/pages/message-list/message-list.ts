@@ -28,6 +28,7 @@ export class MessageListPage {
             notifications[notifications.indexOf(message)].tap = true;
             this.notificationHelperPro.SetTestNotification(notifications);
         });
+        // chuyen trang can chinh
         this.navCtrl.push('page-order-detail', {
             'message': message
         });

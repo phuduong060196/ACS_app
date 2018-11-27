@@ -27,67 +27,69 @@
 
 		<div id="pending" *ngSwitchCase="'Pending'">
 
-			<ng-container *ngIf="listPending">
-				<ng-container *ngFor="let history of listPending">
-					<ion-card>
+			<ion-list>
+				<ng-container *ngIf="listPending">
+					<ng-container *ngFor="let history of listPending">
+						<ion-card tappable (click)="openHistoryDetail(history)">
 
-						<ion-card-header>
-							<div>
-								<ion-grid>
+							<ion-card-header>
+								<div>
+									<ion-grid>
+										<ion-row>
+											<ion-col text-left>
+												Mã: {{history.OrderId}}
+											</ion-col>
+											<ion-col text-right style="color: #007BFF">
+												{{history.OrderStatus}}
+											</ion-col>
+										</ion-row>
+									</ion-grid>
+								</div>
+							</ion-card-header>
+
+							<ion-card-content>
+								<ion-grid style="font-size: 11px; color: black">
 									<ion-row>
 										<ion-col text-left>
-											Mã: {{history.OrderId}}
+											Nhà cung cấp:
 										</ion-col>
-										<ion-col text-right style="color: #007BFF">
-											{{history.OrderStatus}}
+										<ion-col text-left *ngIf="history.SupplierInfo">
+											{{history.SupplierInfo.Name}}
+										</ion-col>
+									</ion-row>
+									<ion-row>
+										<ion-col text-left>
+											Thời gian đến sửa:
+										</ion-col>
+										<ion-col text-left>
+											{{history.WorkDate}}
+										</ion-col>
+									</ion-row>
+									<ion-row>
+										<ion-col text-left>
+											Tổng tiền:
+										</ion-col>
+										<ion-col text-left>
+											{{history.Total}}
 										</ion-col>
 									</ion-row>
 								</ion-grid>
-							</div>
-						</ion-card-header>
+								<ng-container *ngIf="!history.IsPaid">
+									<div text-center style="color: #DC3545; margin-top: 5px">
+										Chưa thanh toán
+									</div>
+								</ng-container>
+								<ng-container *ngIf="history.IsPaid">
+									<div text-center style="color: #28A745; margin-top: 5px">
+										Đã thanh toán
+									</div>
+								</ng-container>
+							</ion-card-content>
 
-						<ion-card-content>
-							<ion-grid style="font-size: 11px; color: black">
-								<ion-row>
-									<ion-col text-left>
-										Nhà cung cấp:
-									</ion-col>
-									<ion-col text-left *ngIf="history.SupplierInfo">
-										{{history.SupplierInfo.Name}}
-									</ion-col>
-								</ion-row>
-								<ion-row>
-									<ion-col text-left>
-										Thời gian đến sửa:
-									</ion-col>
-									<ion-col text-left>
-										{{history.WorkDate}}
-									</ion-col>
-								</ion-row>
-								<ion-row>
-									<ion-col text-left>
-										Tổng tiền:
-									</ion-col>
-									<ion-col text-left>
-										{{history.Total}}
-									</ion-col>
-								</ion-row>
-							</ion-grid>
-							<ng-container *ngIf="!history.IsPaid">
-								<div text-center style="color: #DC3545; margin-top: 5px">
-									Chưa thanh toán
-								</div>
-							</ng-container>
-							<ng-container *ngIf="history.IsPaid">
-								<div text-center style="color: #28A745; margin-top: 5px">
-									Đã thanh toán
-								</div>
-							</ng-container>
-						</ion-card-content>
-
-					</ion-card>
+						</ion-card>
+					</ng-container>
 				</ng-container>
-			</ng-container>
+			</ion-list>
 
 		</div>
 
@@ -95,7 +97,7 @@
 
 			<ng-container *ngIf="listFinished">
 				<ng-container *ngFor="let history of listFinished">
-					<ion-card>
+					<ion-card tappable (click)="openHistoryDetail(history)">
 
 						<ion-card-header>
 							<div>

@@ -65,4 +65,11 @@ export class CartPage implements OnInit {
         this.openOrderResult();
     }
 
+    openHistoryDetail(history) {
+        console.log(history);
+        this.navCtrl.push('page-order-detail', {
+            'message': history
+        });
+    }
+
 }
