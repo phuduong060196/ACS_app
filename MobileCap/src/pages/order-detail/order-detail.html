@@ -134,14 +134,19 @@
 		</ion-card>
 
 		<div text-center *ngFor="let post of posts | async">
-			<button ion-button color="secondary" margin-top icon-right full tappable (click)="openCheckoutPage(order)">
-				Tiếp tục
-				<ion-icon name="cash"></ion-icon>
-			</button>
-			<button ion-button color="dark" margin-top tappable (click)="cancelOrder(post.id)">
-				<span style="color: white">Huỷ đơn hàng</span>
-			</button>
+			<ng-container *ngIf="order.IsPaid === false">
+				<button ion-button color="secondary" margin-top icon-right full tappable (click)="openCheckoutPage(order)">
+					Tiếp tục
+					<ion-icon name="cash"></ion-icon>
+				</button>
+			</ng-container>
+			<ng-container *ngIf="order.OrderStatusId === 1">
+				<button ion-button color="dark" margin-top tappable (click)="cancelOrder(post)">
+					<span style="color: white">Huỷ đơn hàng</span>
+				</button>
+			</ng-container>
 		</div>
+		<br/>
 	</ng-container>
 
 </ion-content>

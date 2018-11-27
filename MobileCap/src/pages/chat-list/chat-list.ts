@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {HttpClient} from "@angular/common/http";
 import {GetUrlProvider} from "../../providers/get-url/get-url";
-import {AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection} from '@angular/fire/firestore';
+import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs';
 import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
@@ -25,7 +25,6 @@ export class ChatListPage implements OnInit{
 	public supplier: any;
 	posts: any;
 	postsCol: AngularFirestoreCollection<Post>;
-	postDoc: AngularFirestoreDocument<Post>;
 	post: Observable<Post>;
 	flagExist: boolean;
 

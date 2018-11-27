@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
 	AlertController,
 	IonicPage,
@@ -9,9 +9,10 @@ import {
 	ToastController
 } from 'ionic-angular';
 
-import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
-import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
-import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/firestore";
+import {LoadingHelperProvider} from '../../providers/loading-helper/loading-helper';
+import {HttpHelperProvider} from '../../providers/http-helper/http-helper';
+import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/firestore";
+import 'rxjs/add/operator/map';
 
 interface Post {
 	CurrentStatus: any;
@@ -93,11 +94,13 @@ export class OrderDetailPage implements OnInit {
 					handler: data => {
 						if (data.reason != null && data.reason != '') {
 							this.loadingHelperPro.presentLoading('Đang tải...');
+							//Khoi tao object dua vao API
 							let objCancel = {
-								'OrderId': this.order.OrderId,
+								'OrderId': this.message.OrderId,
 								'Reason': data.reason,
-								'BookingId': booking
+								'BookingId': booking.bookingId
 							}
+							//Goi API de huy
 							this.httpHelperPro.post('/api/cancel-order', objCancel).subscribe(
 								(res: any) => {
 									if (JSON.parse(res).result == true) {
@@ -114,7 +117,14 @@ export class OrderDetailPage implements OnInit {
 										setTimeout(() => {
 											this.loadingHelperPro.dismissLoading();
 											toast.present();
-											this.navCtrl.push('page-home');
+											//Go to result page
+											const result = {
+												'orderId': this.message.OrderId,
+												'cancelReason': data.reason
+											};
+											this.navCtrl.setRoot('page-cart', {
+												'result': result
+											});
 
 										}, 2000)
 										toast.present();
@@ -154,9 +164,8 @@ export class OrderDetailPage implements OnInit {
 		reason.present();
 	}
 
-
 	openCheckoutPage(param) {
-		this.navCtrl.push('page-checkout', { 'order': param });
+		this.navCtrl.push('page-checkout', {'order': param});
 	}
 
 }
