@@ -40,3 +40,35 @@ exports.getChangedBooking = functions.firestore.document('booking/{bookingId}').
 	}
 
 });
+
+exports.getChangedChat = functions.firestore.document('chat/{chatId}').onUpdate(async (updated) => {
+	const document = updated.after.data();
+	const CustomerId = document.cusId;
+	const supplierName = document.supName;
+	const seenByCus = document.seenByCus;
+	let messageBodyChat = '';
+
+	if (seenByCus === false) {
+		messageBodyChat = 'Đã gửi tin nhắn cho bạn';
+		const payloadChat = {
+			notification: {
+				title: supplierName,
+				body: `${messageBodyChat}`
+			},
+			data: {
+				'MessageBody': "Bạn có tin nhắn mới",
+				'Document': '1'
+			}
+		};
+		const devicesRef = admin.firestore().collection('devices').where('CustomerId', '==', CustomerId);
+		const devices = await devicesRef.get();
+		const tokens = [];
+		devices.forEach(device => {
+			const token = device.data().token;
+			tokens.push(token);
+		});
+		return admin.messaging().sendToDevice(tokens, payloadChat);
+	} else {
+		return null;
+	}
+});

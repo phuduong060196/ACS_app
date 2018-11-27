@@ -59,6 +59,12 @@
 				</ion-thumbnail>
 				<h3 ion-text color="dark" class="fw500">{{supplier.Name}}</h3>
 				<h3>
+					<ion-badge color="secondary" class="text-1x">
+						<ion-icon name="star"></ion-icon>
+						{{ supplier.Rating }}
+					</ion-badge>
+				</h3>
+				<h3>
 					<ion-icon name="pin"></ion-icon> {{supplier.distance}} km
 				</h3>
 			</button>

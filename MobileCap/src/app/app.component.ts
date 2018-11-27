@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, ToastController, App } from 'ionic-angular';
+import { Nav, Platform, ToastController, App, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -10,6 +10,7 @@ import { AccessTokenHelperProvider } from '../providers/access-token-helper/acce
 import { CustomerServiceProvider } from '../providers/customer-service/customer-service';
 import { LocalHelperProvider } from '../providers/local-helper/local-helper';
 import { LoadingHelperProvider } from '../providers/loading-helper/loading-helper';
+import { Network } from '@ionic-native/network';
 
 export interface MenuItem {
 	title: string;
@@ -53,7 +54,7 @@ export class foodIonicApp {
 
 	lastBack = 0;
 
-	constructor(private app: App, public loadingHelperPro: LoadingHelperProvider, public localHelperPro: LocalHelperProvider, public customerServicePro: CustomerServiceProvider, public numberNotificationHelperPro: NumberNotificationHelperProvider, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private fcmPro: FcmProvider, private toastCtrl: ToastController, private notificationHelperPro: NotificationHelperProvider, private accessToken: AccessTokenHelperProvider) {
+	constructor(private alertCtrl: AlertController, private network: Network, private app: App, public loadingHelperPro: LoadingHelperProvider, public localHelperPro: LocalHelperProvider, public customerServicePro: CustomerServiceProvider, public numberNotificationHelperPro: NumberNotificationHelperProvider, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private fcmPro: FcmProvider, private toastCtrl: ToastController, private notificationHelperPro: NotificationHelperProvider, private accessToken: AccessTokenHelperProvider) {
 		this.initializeApp();
 		this.homeItem = { component: 'page-home' };
 		this.messagesItem = { component: 'page-message-list' };
@@ -81,6 +82,15 @@ export class foodIonicApp {
 			this.statusBar.overlaysWebView(false);
 			this.splashScreen.hide();
 
+			// this.network.onDisconnect().subscribe(
+			// 	(changed) => {
+			// 		this.alertCtrl.create({
+			// 			message: 'Vui lòng kết nối mạng để sử dụng ứng dụng',
+			// 			buttons: ['Xác nhận']
+			// 		}).present();
+			// 	}
+			// );
+
 			this.fcmPro.listenToNotifications().subscribe((res) => {
 				if (!res.tap) {
 					this.toastCtrl.create({
@@ -90,25 +100,27 @@ export class foodIonicApp {
 						closeButtonText: 'Đóng'
 					}).present();
 				}
-				this.notificationHelperPro.GetTestNotification.subscribe((val) => {
-					let listNewNotification = val;
-					listNewNotification.unshift({
-						'OrderId': parseInt(res.OrderId),
-						'MessageBody': res.MessageBody,
-						'tap': false,
-						'date': new Date()
+				if (res.Document !== '1') {
+					this.notificationHelperPro.GetTestNotification.subscribe((val) => {
+						let listNewNotification = val;
+						listNewNotification.unshift({
+							'OrderId': parseInt(res.OrderId),
+							'MessageBody': res.MessageBody,
+							'tap': false,
+							'date': new Date()
+						});
+						this.notificationHelperPro.SetTestNotification(listNewNotification);
 					});
-					this.notificationHelperPro.SetTestNotification(listNewNotification);
-				});
-				this.numberNotificationHelperPro.GetTestNotification.subscribe((val) => {
-					let numberNotification = val;
-					let number = numberNotification.Number++;
-					numberNotification = {
-						'Number': number,
-						'Tapped': false
-					}
-					this.numberNotificationHelperPro.SetTestNotification = numberNotification;
-				});
+					this.numberNotificationHelperPro.GetTestNotification.subscribe((val) => {
+						let numberNotification = val;
+						let number = numberNotification.Number++;
+						numberNotification = {
+							'Number': number,
+							'Tapped': false
+						}
+						this.numberNotificationHelperPro.SetTestNotification = numberNotification;
+					});
+				}
 			});
 
 			this.platform.registerBackButtonAction(
@@ -124,7 +136,7 @@ export class foodIonicApp {
 						this.platform.exitApp();
 					} else if ((Date.now() - this.lastBack) > 2000) {
 						this.toastCtrl.create({
-							message: 'Press back again to exit app',
+							message: 'Bấm Back để thoát khỏi ứng dụng',
 							position: 'bottom',
 							duration: 2000
 						}).present();
