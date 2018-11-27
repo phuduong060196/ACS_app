@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
 	AlertController,
 	IonicPage,
@@ -9,16 +9,10 @@ import {
 	ToastController
 } from 'ionic-angular';
 
-<<<<<<< HEAD
 import {LoadingHelperProvider} from '../../providers/loading-helper/loading-helper';
 import {HttpHelperProvider} from '../../providers/http-helper/http-helper';
 import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/firestore";
 import 'rxjs/add/operator/map';
-=======
-import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
-import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
-import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/firestore";
->>>>>>> 6c9e6ebadb484c7a69d261140d7de6aa256edc55
 
 interface Post {
 	CurrentStatus: any;
@@ -71,19 +65,6 @@ export class OrderDetailPage implements OnInit {
 	}
 
 	loadDocument() {
-<<<<<<< HEAD
-		if (this.message) {
-			this.loadingHelperPro.presentLoading('Đang tải...');
-			//get Order Information
-			this.postsCol = this.database.collection(this.booking_path, ref => ref.where('OrderId', '==', this.message.OrderId));
-			this.posts = this.postsCol.snapshotChanges()
-				.map(actions => {
-					return actions.map(a => {
-						const id = a.payload.doc.id;
-						this.loadingHelperPro.dismissLoading();
-						return id;
-					});
-=======
 		//get Order Information
 		this.postsCol = this.database.collection(this.booking_path, ref => ref.where('OrderId', '==', this.message.OrderId));
 		this.posts = this.postsCol.snapshotChanges()
@@ -91,10 +72,8 @@ export class OrderDetailPage implements OnInit {
 				return actions.map(a => {
 					const id = a.payload.doc.id;
 					return id;
->>>>>>> 6c9e6ebadb484c7a69d261140d7de6aa256edc55
 				});
-		}
-
+			});
 	}
 
 	cancelOrder(booking) {
@@ -139,7 +118,10 @@ export class OrderDetailPage implements OnInit {
 											this.loadingHelperPro.dismissLoading();
 											toast.present();
 											//Go to result page
-											const result = {'orderId': this.message.OrderId, 'cancelReason': data.reason};
+											const result = {
+												'orderId': this.message.OrderId,
+												'cancelReason': data.reason
+											};
 											this.navCtrl.setRoot('page-cart', {
 												'result': result
 											});
@@ -183,7 +165,7 @@ export class OrderDetailPage implements OnInit {
 	}
 
 	openCheckoutPage(param) {
-		this.navCtrl.push('page-checkout', { 'order': param });
+		this.navCtrl.push('page-checkout', {'order': param});
 	}
 
 }
