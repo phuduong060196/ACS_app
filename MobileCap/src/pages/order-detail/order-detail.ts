@@ -98,7 +98,7 @@ export class OrderDetailPage implements OnInit {
 							let objCancel = {
 								'OrderId': this.message.OrderId,
 								'Reason': data.reason,
-								'BookingId': booking.bookingId
+								'BookingId': booking
 							}
 							//Goi API de huy
 							this.httpHelperPro.post('/api/cancel-order', objCancel).subscribe(
