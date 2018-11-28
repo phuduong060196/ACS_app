@@ -42,6 +42,15 @@
 			<agm-map [latitude]="lat" [longitude]="lng" [zoom]="12">
 				<div *ngFor="let supplier of suppliersNearby">
 					<agm-marker *ngFor="let branch of supplier.Branches" [latitude]="branch.Latitude" [longitude]='branch.Longitude'>
+						<agm-info-window>
+							<!--<img src="{{supplier.Avatar}}" style="width: 250px; height: 250px;" class="mw240" tappable (click)="openSupplierDetail(supplier)">-->
+							<h3 tappable (click)="openSupplierDetail(supplier)">
+								<strong>{{branch.Name}}</strong>
+							</h3>
+							<p tappable (click)="openSupplierDetail(supplier)" ion-text color="primary" no-margin>
+								{{branch.Address}}, {{branch.District}}, {{branch.City}}
+							</p>
+						</agm-info-window>
 					</agm-marker>
 				</div>
 			</agm-map>

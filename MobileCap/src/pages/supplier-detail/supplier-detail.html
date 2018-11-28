@@ -1,40 +1,3 @@
-<!--<ion-header>-->
-<!--<ion-navbar color="primary">-->
-<!--<ion-title>-->
-<!--<div *ngIf="supplier">-->
-<!--{{supplier.Name}}-->
-<!--</div>-->
-<!--</ion-title>-->
-<!--</ion-navbar>-->
-<!--</ion-header>-->
-
-<!--<ion-content class="lightest-bg">-->
-<!--<div *ngIf="supplier">{{supplier.Name}}<br>{{supplier.PhoneNumber}}-->
-<!--<div text-center>-->
-<!--<ion-buttons class="full-width">-->
-<!--<button ion-button (click)="openBookingService({'supId': supplier.SupplierId, 'supName': supplier.Name})">-->
-<!--<ion-icon name="calendar"></ion-icon>&nbsp;&nbsp;Đặt dịch vụ-->
-<!--</button>-->
-<!--<a href="tel:{{supplier.PhoneNumber}}">-->
-<!--<button ion-button>-->
-<!--<ion-icon name="call"></ion-icon>-->
-<!--&nbsp;&nbsp;Gọi-->
-<!--</button>-->
-<!--</a>-->
-<!--<button ion-button (click)="openChatDetail({'supId': supplier.SupplierId, 'supName': supplier.Name, 'supAvatar': supplierAvatar})">-->
-<!--<ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp;Nhắn tin-->
-<!--</button>-->
-<!--<div *ngIf="feedbackFlag == false">-->
-<!--<button ion-button (click)="openFeedbackDetail({'supId': supplier.SupplierId, 'supName': supplier.Name})">-->
-<!--<ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp;Đánh giá-->
-<!--</button>-->
-<!--</div>-->
-
-<!--</ion-buttons>-->
-<!--</div>-->
-<!--</div>-->
-<!--</ion-content>-->
-
 <ion-header>
 	<ion-navbar color="primary">
 		<ion-title>
@@ -47,40 +10,20 @@
 <ion-content class="lightest-bg">
 	<ion-card *ngIf="supplier" class="full-width" no-margin>
 		<div class="card-img-wrap">
-			<!-- <span ion-text class="card-img-status fw700 text-white" [ngClass]="{'closed': restaurant.label === 'closed', 'open': restaurant.label === 'open'}">
-				Label
-			</span> -->
 			<ion-slides class="to-top primary-bg" pager>
-				<!-- <ion-slide *ngFor="let image of restaurant.images"> -->
-				<!-- <img src="{{ image }}" alt=""> -->
 				<ng-container *ngIf="supplier.Avatar">
 					<img [src]="supplier.Avatar">
 				</ng-container>
 				<ng-container *ngIf="!supplier.Avatar">
 					<img src="https://dienlanhhoanggia.com/getattachment/d5ec3649-e3f1-4c91-8c5f-e57cf512210f//trang-chu/logo/dien-may-viet-long.aspx?width=&height=">
 				</ng-container>
-				<!-- </ion-slide> -->
 			</ion-slides>
 		</div>
 		<ion-card-content>
 			<h1 ion-text color="dark" class="card-title fw700" text-center>
-				{{supplier.Name}}
 				<!-- Tên nhà cung cấp -->
+				{{supplier.Name}}
 			</h1>
-			<!--<div text-center>-->
-			<!--&lt;!&ndash; <ion-badge color="secondary">{{restaurant.tags}}</ion-badge> &ndash;&gt;-->
-			<!--<ion-badge color="secondary" class="text-11x">-->
-			<!--<ion-icon name="star"></ion-icon>-->
-			<!--5-->
-			<!--</ion-badge>-->
-			<!--<ion-buttons>-->
-			<!--<button ion-button (click)="openBookingServiceDetail(supplier)">-->
-			<!--<ion-icon name="calendar">-->
-			<!--Đặt dịch vụ-->
-			<!--</ion-icon>-->
-			<!--</button>-->
-			<!--</ion-buttons>-->
-			<!--</div>-->
 			<div text-center>
 				<ion-buttons class="full-width">
 					<a href="tel:{{supplier.PhoneNumber}}" style="text-decoration: none;">

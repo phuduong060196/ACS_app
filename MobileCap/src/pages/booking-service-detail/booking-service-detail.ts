@@ -31,9 +31,6 @@ export class BookingServiceDetailPage implements OnInit {
 	postsCol: AngularFirestoreCollection<Post>;
 	posts: any;
 	private booking_path = 'booking';
-	currentTime: any;
-	currentDay: any;
-	maxMonth: any;
 	Note: any = '';
 	TimeWork: any = '';
 	DayWork: any = '';
