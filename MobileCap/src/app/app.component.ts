@@ -136,7 +136,7 @@ export class foodIonicApp {
 						this.platform.exitApp();
 					} else if ((Date.now() - this.lastBack) > 2000) {
 						this.toastCtrl.create({
-							message: 'Bấm Back để thoát khỏi ứng dụng',
+							message: 'Nhấn lần nữa để thoát',
 							position: 'bottom',
 							duration: 2000
 						}).present();

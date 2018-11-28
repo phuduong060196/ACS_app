@@ -78,14 +78,6 @@ export class HomePage {
 		modal.present();
 	}
 
-	openNearbyPage() {
-		this.navCtrl.push('page-nearby');
-	}
-
-	openOrders() {
-		this.navCtrl.push('page-orders');
-	}
-
 	openCart() {
 		this.navCtrl.push('page-cart');
 	}
@@ -244,5 +236,12 @@ export class HomePage {
 				this.loadingHelperPro.dismissLoading();
 			}
 		);
+	}
+
+	openListType(type) {
+		console.log(type);
+		this.navCtrl.push('page-service-list', {
+			'type': type
+		});
 	}
 }
