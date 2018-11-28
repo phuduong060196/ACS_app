@@ -106,12 +106,12 @@
 										<ion-col text-left>
 											Mã: {{history.OrderId}}
 										</ion-col>
-										<ng-container *ngIf="history.OrderStatus === 'Hủy'">
+										<ng-container *ngIf="history.OrderStatusId === 3">
 											<ion-col text-right style="color: #DC3545">
 												{{history.OrderStatus}}
 											</ion-col>
 										</ng-container>
-										<ng-container *ngIf="history.OrderStatus === 'Hoàn tất'">
+										<ng-container *ngIf="history.OrderStatusId === 2">
 											<ion-col text-right style="color: #28A745">
 												{{history.OrderStatus}}
 											</ion-col>

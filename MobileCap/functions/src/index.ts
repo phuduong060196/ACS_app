@@ -46,17 +46,18 @@ exports.getChangedChat = functions.firestore.document('chat/{chatId}').onUpdate(
 	const CustomerId = document.cusId;
 	const supplierName = document.supName;
 	const seenByCus = document.seenByCus;
-	let messageBody = '';
+	let messageBodyChat = '';
+
 	if (seenByCus === false) {
-		messageBody = 'Đã gửi tin nhắn cho bạn';
-		const payload = {
+		messageBodyChat = 'Đã gửi tin nhắn cho bạn';
+		const payloadChat = {
 			notification: {
 				title: supplierName,
-				body: `${messageBody}`
+				body: `${messageBodyChat}`
 			},
 			data: {
 				'MessageBody': "Bạn có tin nhắn mới",
-				'Document': 1
+				'Document': '1'
 			}
 		};
 		const devicesRef = admin.firestore().collection('devices').where('CustomerId', '==', CustomerId);
@@ -66,8 +67,8 @@ exports.getChangedChat = functions.firestore.document('chat/{chatId}').onUpdate(
 			const token = device.data().token;
 			tokens.push(token);
 		});
-		return admin.messaging().sendToDevice(tokens, payload);
+		return admin.messaging().sendToDevice(tokens, payloadChat);
 	} else {
-		return null
+		return null;
 	}
 });

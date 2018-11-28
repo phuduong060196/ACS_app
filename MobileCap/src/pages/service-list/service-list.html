@@ -1,0 +1,52 @@
+<ion-header>
+	<ion-navbar color="primary">
+		<ion-title>Danh sách dịch vụ</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+	<ng-container *ngIf="services">
+
+		<ng-container *ngFor="let service of services">
+			<ion-card class="lightest-bg">
+				<ion-card-header text-center color="primary">
+					{{service.Name}}
+				</ion-card-header>
+				<ion-card-content style="color: black !important">
+					{{service.SupplierName}}
+				</ion-card-content>
+				<ion-grid>
+					<ng-container *ngIf="service.PromotionPercent > 0">
+						<ion-row>
+							<ion-col style="background-color: #007BFF !important" text-center>
+								<span style="text-decoration: line-through; color: white">
+									{{service.OriginalPriceDisplay}}
+								</span>
+							</ion-col>
+							<ion-col style="background-color: #DC3545 !important" text-center>
+								<span style="color: white">
+									<b>-{{service.PromotionPercent}}%</b>
+								</span>
+							</ion-col>
+						</ion-row>
+					</ng-container>
+					<ion-row>
+						<ion-col style="background-color: #28A745 !important" text-center>
+							<span style="color: white">
+								<ng-container *ngIf="service.OriginalPrice > 0">
+									<b>{{service.PriceDisplay}}</b>
+								</ng-container>
+								<ng-container *ngIf="service.OriginalPrice === 0">
+									<b>Liên hệ</b>
+								</ng-container>
+							</span>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</ion-card>
+		</ng-container>
+
+	</ng-container>
+
+</ion-content>

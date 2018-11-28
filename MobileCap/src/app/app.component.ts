@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, ToastController } from 'ionic-angular';
+import { Nav, Platform, ToastController, App, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -10,6 +10,7 @@ import { AccessTokenHelperProvider } from '../providers/access-token-helper/acce
 import { CustomerServiceProvider } from '../providers/customer-service/customer-service';
 import { LocalHelperProvider } from '../providers/local-helper/local-helper';
 import { LoadingHelperProvider } from '../providers/loading-helper/loading-helper';
+import { Network } from '@ionic-native/network';
 
 export interface MenuItem {
 	title: string;
@@ -51,7 +52,9 @@ export class foodIonicApp {
 
 	userName: any;
 
-	constructor(public loadingHelperPro: LoadingHelperProvider, public localHelperPro: LocalHelperProvider, public customerServicePro: CustomerServiceProvider, public numberNotificationHelperPro: NumberNotificationHelperProvider, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private fcmPro: FcmProvider, private toastCtrl: ToastController, private notificationHelperPro: NotificationHelperProvider, private accessToken: AccessTokenHelperProvider) {
+	lastBack = 0;
+
+	constructor(private alertCtrl: AlertController, private network: Network, private app: App, public loadingHelperPro: LoadingHelperProvider, public localHelperPro: LocalHelperProvider, public customerServicePro: CustomerServiceProvider, public numberNotificationHelperPro: NumberNotificationHelperProvider, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private fcmPro: FcmProvider, private toastCtrl: ToastController, private notificationHelperPro: NotificationHelperProvider, private accessToken: AccessTokenHelperProvider) {
 		this.initializeApp();
 		this.homeItem = { component: 'page-home' };
 		this.messagesItem = { component: 'page-message-list' };
@@ -79,6 +82,15 @@ export class foodIonicApp {
 			this.statusBar.overlaysWebView(false);
 			this.splashScreen.hide();
 
+			// this.network.onDisconnect().subscribe(
+			// 	(changed) => {
+			// 		this.alertCtrl.create({
+			// 			message: 'Vui lòng kết nối mạng để sử dụng ứng dụng',
+			// 			buttons: ['Xác nhận']
+			// 		}).present();
+			// 	}
+			// );
+
 			this.fcmPro.listenToNotifications().subscribe((res) => {
 				if (!res.tap) {
 					this.toastCtrl.create({
@@ -88,7 +100,7 @@ export class foodIonicApp {
 						closeButtonText: 'Đóng'
 					}).present();
 				}
-				if(res.Document !== '1'){
+				if (res.Document !== '1') {
 					this.notificationHelperPro.GetTestNotification.subscribe((val) => {
 						let listNewNotification = val;
 						listNewNotification.unshift({
@@ -110,6 +122,28 @@ export class foodIonicApp {
 					});
 				}
 			});
+
+			this.platform.registerBackButtonAction(
+				() => {
+					const overlay = this.app._appRoot._overlayPortal.getActive();
+					const nav = this.app.getActiveNav();
+
+					if (overlay && overlay.dismiss) {
+						overlay.dismiss();
+					} else if (nav.canGoBack()) {
+						nav.pop();
+					} else if ((Date.now() - this.lastBack) < 2000) {
+						this.platform.exitApp();
+					} else if ((Date.now() - this.lastBack) > 2000) {
+						this.toastCtrl.create({
+							message: 'Nhấn lần nữa để thoát',
+							position: 'bottom',
+							duration: 2000
+						}).present();
+					}
+					this.lastBack = Date.now();
+				}
+			);
 
 		});
 

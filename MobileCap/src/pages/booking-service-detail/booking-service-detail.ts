@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
 import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
 import moment from 'moment';
+import { AccessTokenHelperProvider } from '../../providers/access-token-helper/access-token-helper';
 
 interface Post {
 	SeenBySupplier: any;
@@ -37,7 +38,7 @@ export class BookingServiceDetailPage implements OnInit {
 	TimeWork: any = '';
 	DayWork: any = '';
 
-	constructor(private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public httpHelperPro: HttpHelperProvider, private alertCtrl: AlertController) {
+	constructor(private accessTokenHelperPro: AccessTokenHelperProvider, private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public httpHelperPro: HttpHelperProvider, private alertCtrl: AlertController) {
 
 	}
 
@@ -83,7 +84,7 @@ export class BookingServiceDetailPage implements OnInit {
 
 		if (this.customer.FullName != '' && this.customer.PhoneNumber != '' && this.customer.Address != '' && this.DayWork != '' && this.TimeWork != '') {
 			if (list.length > 0) {
-				
+
 				let dayTime: any = moment(this.DayWork + ' ' + this.TimeWork, 'YYYY-MM-DD HH:mm');
 
 				this.database.collection(this.booking_path).add({
@@ -140,12 +141,12 @@ export class BookingServiceDetailPage implements OnInit {
 			this.navCtrl.push('page-home');
 			return;
 		}
-		this.customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
-		if (this.customerId) {
-			console.log(this.customerId);
+
+		if (localStorage.getItem('token')) {
+			this.customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
 			this.getCustomer(this.customerId);
-			console.log(this.customer);
 		}
+
 		if (this.supplier) {
 			this.supplierId = this.supplier.SupplierId;
 			this.getServices(this.supplier.SupplierId);
@@ -176,8 +177,9 @@ export class BookingServiceDetailPage implements OnInit {
 		this.loadingHelperPro.presentLoading('');
 		this.httpHelperPro.get('/api/customer/get-info?customerId=' + CustomerId).subscribe(
 			(res: any) => {
+				console.log(res);
 				this.customer = res;
-				this.loadingHelperPro.presentLoading('Đang tải...');
+				this.loadingHelperPro.dismissLoading();
 			},
 			(err) => {
 				console.log(err);
