@@ -134,6 +134,13 @@
 									</ion-item>
 								</ion-list>
 							</div>
+							<ng-container *ngIf="totalFeedback === 0">
+								<ion-card class="primary-bg" margin-top>
+									<ion-card-content>
+										<p text-center class="text-white">Chưa có đánh giá nào</p>
+									</ion-card-content>
+								</ion-card>
+							</ng-container>
 							<br><br>
 
 						</div>

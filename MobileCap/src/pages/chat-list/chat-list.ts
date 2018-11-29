@@ -24,6 +24,7 @@ export class ChatListPage implements OnInit{
 	public supplierId: number;
 	public supplier: any;
 	posts: any;
+	posts1: any;
 	postsCol: AngularFirestoreCollection<Post>;
 	post: Observable<Post>;
 	flagExist: boolean;
@@ -32,7 +33,7 @@ export class ChatListPage implements OnInit{
 	}
 
 	loadDocument() {
-		// this.loadingPro.presentLoading('Đang tải...');
+		this.loadingPro.presentLoading('Đang tải...');
 		//get UserID, Name and Avatar
 		let customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
 		this.postsCol = this.database.collection('chat', ref => ref.where('cusId', '==', customerId));
@@ -42,10 +43,15 @@ export class ChatListPage implements OnInit{
 					const data = a.payload.doc.data();
 					const id = a.payload.doc.id;
 					this.flagExist = true;
-					// this.loadingPro.dismissLoading();
+					this.loadingPro.dismissLoading();
 					return {data, id};
 				});
 			});
+		this.posts1 = this.postsCol.valueChanges().subscribe(
+			(res) => {
+				this.loadingPro.dismissLoading();
+			}
+		)
 	}
 
 	openChatDetail(param) {

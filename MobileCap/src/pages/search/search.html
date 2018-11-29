@@ -8,7 +8,7 @@
 	</ion-navbar>
 
 	<ion-toolbar color="primary">
-		<ion-searchbar placeholder="Tìm kiếm dịch vụ" [(ngModel)]="searchKey" (keyup.enter)="search($event)"></ion-searchbar>
+		<ion-searchbar #searchBar placeholder="Tìm kiếm dịch vụ" [(ngModel)]="searchKey" (keyup.enter)="search($event)"></ion-searchbar>
 		<ion-buttons end>
 			<button ion-button (click)="openRestaurantFilterPage()">
 				<ion-icon name="options"></ion-icon>
@@ -45,7 +45,7 @@
 						<agm-info-window>
 							<!--<img src="{{supplier.Avatar}}" style="width: 250px; height: 250px;" class="mw240" tappable (click)="openSupplierDetail(supplier)">-->
 							<h3 tappable (click)="openSupplierDetail(supplier)">
-								<strong>{{branch.Name}}</strong>
+								<strong>{{supplier.Name}}</strong>
 							</h3>
 							<p tappable (click)="openSupplierDetail(supplier)" ion-text color="primary" no-margin>
 								{{branch.Address}}, {{branch.District}}, {{branch.City}}
@@ -67,12 +67,14 @@
 					</ng-container>
 				</ion-thumbnail>
 				<h3 ion-text color="dark" class="fw500">{{supplier.Name}}</h3>
-				<h3>
-					<ion-badge color="secondary" class="text-1x">
-						<ion-icon name="star"></ion-icon>
-						{{ supplier.Rating }}
-					</ion-badge>
-				</h3>
+				<ng-container *ngIf="supplier.Rating || supplier.Rating !== 0">
+					<h3>
+						<ion-badge color="secondary" class="text-1x">
+							<ion-icon name="star"></ion-icon>
+							{{ supplier.Rating }}
+						</ion-badge>
+					</h3>
+				</ng-container>
 				<h3>
 					<ion-icon name="pin"></ion-icon> {{supplier.distance}} km
 				</h3>
