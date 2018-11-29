@@ -1,17 +1,17 @@
-import {Component, ViewChild} from '@angular/core';
-import {Nav, Platform, ToastController, App, AlertController} from 'ionic-angular';
-import {StatusBar} from '@ionic-native/status-bar';
-import {SplashScreen} from '@ionic-native/splash-screen';
+import { Component, ViewChild } from '@angular/core';
+import { Nav, Platform, ToastController, App, AlertController } from 'ionic-angular';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
-import {FcmProvider} from '../providers/fcm/fcm';
-import {NotificationHelperProvider} from '../providers/notification-helper/notification-helper';
-import {NumberNotificationHelperProvider} from '../providers/number-notification-helper/number-notification-helper';
-import {AccessTokenHelperProvider} from '../providers/access-token-helper/access-token-helper';
-import {CustomerServiceProvider} from '../providers/customer-service/customer-service';
-import {LocalHelperProvider} from '../providers/local-helper/local-helper';
-import {LoadingHelperProvider} from '../providers/loading-helper/loading-helper';
-import {Network} from '@ionic-native/network';
-import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/firestore";
+import { FcmProvider } from '../providers/fcm/fcm';
+import { NotificationHelperProvider } from '../providers/notification-helper/notification-helper';
+import { NumberNotificationHelperProvider } from '../providers/number-notification-helper/number-notification-helper';
+import { AccessTokenHelperProvider } from '../providers/access-token-helper/access-token-helper';
+import { CustomerServiceProvider } from '../providers/customer-service/customer-service';
+import { LocalHelperProvider } from '../providers/local-helper/local-helper';
+import { LoadingHelperProvider } from '../providers/loading-helper/loading-helper';
+import { Network } from '@ionic-native/network';
+import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/firestore";
 import 'rxjs/add/operator/map';
 
 export interface MenuItem {
@@ -52,17 +52,19 @@ export class foodIonicApp {
 	posts: any;
 
 	constructor(private alertCtrl: AlertController, private network: Network, private app: App, public loadingHelperPro: LoadingHelperProvider, public localHelperPro: LocalHelperProvider, public customerServicePro: CustomerServiceProvider, public numberNotificationHelperPro: NumberNotificationHelperProvider, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private fcmPro: FcmProvider, private toastCtrl: ToastController, private notificationHelperPro: NotificationHelperProvider, private accessToken: AccessTokenHelperProvider, public database: AngularFirestore) {
+
 		this.initializeApp();
-		this.homeItem = {component: 'page-home'};
-		this.messagesItem = {component: 'page-message-list'};
-		this.cartItem = {component: 'page-cart'};
-		this.chatItem = {component: 'page-chat-list'};
 
 		this.accountMenuItems = [
-			{title: 'Đăng nhập', component: 'page-auth', icon: 'log-in'},
-			{title: 'Tài khoản', component: 'page-my-account', icon: 'contact'},
-			{title: 'Đăng xuất', component: 'page-auth', icon: 'log-out'},
+			{ title: 'Đăng nhập', component: 'page-auth', icon: 'log-in' },
+			{ title: 'Tài khoản', component: 'page-my-account', icon: 'contact' },
+			{ title: 'Đăng xuất', component: 'page-auth', icon: 'log-out' },
 		];
+
+		this.homeItem = { component: 'page-home' };
+		this.messagesItem = { component: 'page-message-list' };
+		this.cartItem = { component: 'page-cart' };
+		this.chatItem = { component: 'page-chat-list' };
 
 		this.accessToken.GetAccessToken.subscribe(
 			(res: any) => {
@@ -74,39 +76,23 @@ export class foodIonicApp {
 		);
 	}
 
-	getNotification() {
-		// 'OrderId': parseInt(res.OrderId),
-		// 	'MessageBody': res.MessageBody,
-		// 	'tap': false,
-		// 	'date': new Date()
-
-		this.database.collection('notification').add({
-			'asdsad': 1
-		});
+	loadAllNotificationFromFirebase() {
+		this.accessToken.GetAccessToken.subscribe(
+			(tokenChanged) => {
+				if (localStorage.getItem('token')) {
+					const customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
+					this.postsCol = this.database.collection('notification', ref => ref.where('CustomerId', '==', customerId).orderBy('Date', 'desc'));
+					this.posts = this.postsCol.valueChanges().subscribe(
+						(docChanged) => {
+							this.notificationHelperPro.SetTestNotification = docChanged;
+						}
+					)
+				}
+			}
+		);
 	}
 
-	loadAllNotificationFromFirebase(){
-		//Load all notification on firebase
-		this.notificationHelperPro.GetTestNotification.subscribe((val) => {
-			let listNewNotification = val;
-			//Get customer ID
-			this.accessToken.GetAccessToken.subscribe(
-				(ref) => {
-					if (localStorage.getItem('token')) {
-						const customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
-						this.postsCol = this.database.collection('notification', ref => ref.where('CustomerId', '==', customerId).orderBy('Date', 'desc'));
-						this.posts = this.postsCol.valueChanges().subscribe(
-							(res) => {
-								listNewNotification = res;
-								console.log(listNewNotification);
-							}
-						)
-					}
-				});
-		});
-	}
-
-	setNewNotificationOntoFirebase(res){
+	setNewNotificationOntoFirebase(res) {
 		if (res.Document !== '1') {
 
 			//Get customer ID
@@ -116,11 +102,11 @@ export class foodIonicApp {
 						const customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
 						//Add data to firebase
 						this.database.collection('notification').add({
-							'CustomerId': 3,
-							'Date': new Date(),
+							'CustomerId': customerId,
 							'MessageBody': res.MessageBody,
+							'OrderId': parseInt(res.OrderId),
+							'Date': new Date(),
 							'SeenByCustomer': false,
-							'OrderId': parseInt(res.OrderId)
 						});
 					}
 				}

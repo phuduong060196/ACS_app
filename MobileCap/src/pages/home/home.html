@@ -7,10 +7,10 @@
 			<span ion-text class="fw700">ACS</span><span ion-text class="fw300"> app</span>
 		</ion-title>
 		<ion-buttons end>
-			<button ion-button (click)="presentNotifications($event)">
+			<button ion-button (click)="presentNotifications($event)" id="notification-button">
 				<ion-icon name="notifications"></ion-icon>
-				<ion-badge color="dark" *ngIf="!numberNotification.Tapped">
-					{{numberNotification.Number}}
+				<ion-badge color="dark" *ngIf="numberNotification() > 0" id="notifications-badge">
+					{{numberNotification()}}
 				</ion-badge>
 			</button>
 		</ion-buttons>

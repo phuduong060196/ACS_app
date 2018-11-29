@@ -1,12 +1,12 @@
 <ion-header>
-    <ion-navbar color="primary">
-        <button ion-button menuToggle>
-            <ion-icon name="menu"></ion-icon>
-        </button>
-        <ion-title>
-        	<span ion-text>Thông báo</span>
-        </ion-title>
-    </ion-navbar>
+	<ion-navbar color="primary">
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>
+			<span ion-text>Thông báo</span>
+		</ion-title>
+	</ion-navbar>
 </ion-header>
 
 <ion-content class="lightest-bg">
@@ -28,7 +28,7 @@
 								<ion-icon name="mail-open" color="primary" *ngIf="message.tap"></ion-icon>
 								{{message.MessageBody}}
 							</h2>
-							<p>Người gửi ∙ {{message.date | date: 'dd/MM/yyyy, h:mm a'}}</p>
+							<p>Người gửi ∙ {{message.Date}}</p>
 						</button>
 						<ion-item-options>
 							<button ion-button color="danger" (click)="deleteItem(message)">Xóa</button>

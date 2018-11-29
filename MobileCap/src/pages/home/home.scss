@@ -135,4 +135,21 @@ page-home {
 
 	}
 
+	#notification-button {
+		position: relative;
+		width: 42px;
+		top: 1px;
+		right: 1px;
+		overflow: visible !important;
+	}
+
+
+	#notifications-badge {
+		background-color: #ff9e21;
+		position: absolute;
+		top: -3px;
+		right: -3px;
+		border-radius: 25%;
+	}
+
 }

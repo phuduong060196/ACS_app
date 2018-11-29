@@ -22,7 +22,7 @@ export class NotificationsPage {
   }
 
   numberNotification() {
-    return this.notifications.filter(el => el.tap === false).length
+    return this.notifications.filter(el => el.SeenByCustomer === false).length
   }
 
   close() {

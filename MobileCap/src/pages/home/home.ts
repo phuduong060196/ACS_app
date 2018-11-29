@@ -39,7 +39,6 @@ export class HomePage {
 	searchKey: string;
 	yourLocation: string;
 	notifications: any;
-	numberNotification: any;
 	listType: any;
 
 	constructor(
@@ -61,12 +60,13 @@ export class HomePage {
 		this.notificationHelperPro.GetTestNotification.subscribe((val) => {
 			this.notifications = val;
 		})
-		this.numberNotificationHelperPro.GetTestNotification.subscribe((val) => {
-			this.numberNotification = val;
-		});
 		this.listType = this.getAllType();
 		this.menuCtrl.swipeEnable(true, 'authenticated');
 		this.menuCtrl.enable(true);
+	}
+
+	numberNotification() {
+		return this.notifications.filter(el => el.SeenByCustomer === false).length
 	}
 
 	openSupplierList() {

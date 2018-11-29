@@ -2,6 +2,12 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 
 import { NotificationHelperProvider } from '../../providers/notification-helper/notification-helper';
+import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/firestore";
+import 'rxjs/add/operator/map';
+
+interface Post {
+    SeenByCustomer: any;
+}
 
 @IonicPage({
     name: 'page-message-list',
@@ -16,18 +22,35 @@ export class MessageListPage {
 
     messages: any;
 
-    constructor(private notificationHelperPro: NotificationHelperProvider, public navCtrl: NavController) {
+    postsCol: AngularFirestoreCollection<Post>;
+    docId: any;
+
+    constructor(private database: AngularFirestore, private notificationHelperPro: NotificationHelperProvider, public navCtrl: NavController) {
         this.notificationHelperPro.GetTestNotification.subscribe((val) => {
             this.messages = val;
         });
     }
 
     itemTapped(message) {
-        this.notificationHelperPro.GetTestNotification.subscribe((val) => {
-            let notifications = val;
-            notifications[notifications.indexOf(message)].tap = true;
-            this.notificationHelperPro.SetTestNotification(notifications);
-        });
+        console.log(message.OrderId);
+        this.postsCol = this.database.collection('notification', ref => ref.where('OrderId', '==', message.OrderId));
+        this.docId = this.postsCol.snapshotChanges().map(
+            (val) => {
+                return val.map(
+                    (ha) => {
+                        const id = ha.payload.doc.id;
+                        console.log(id);
+                        return id;
+                    }
+                );
+            }
+        );
+        // if (this.docId) {
+        //     this.database.doc('notification/' + this.docId).update({
+        //         'SeenByCustomer': true,
+        //     });
+        // }
+
         // chuyen trang can chinh
         this.navCtrl.push('page-order-detail', {
             'message': message
