@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {
 	IonicPage,
 	MenuController,
@@ -19,13 +19,13 @@ import { LoadingHelperProvider } from '../../providers/loading-helper/loading-he
 	templateUrl: 'search.html',
 })
 export class SearchPage {
-	restaurants: Array<any>;
 	suppliers: any;
 	suppliersNearby: any;
 	lat: number;
 	lng: number;
 	searchKey: string;
 	yourLocation: string;
+	@ViewChild('searchBar') searchView : any;
 
 	constructor(public navCtrl: NavController, public menuCtrl: MenuController, public modalCtrl: ModalController, public toastCtrl: ToastController, public httpHelperPro: HttpHelperProvider,
 		private platform: Platform, private geolocation: Geolocation, private http: HttpClient,
@@ -35,6 +35,9 @@ export class SearchPage {
 				this.lat = val.lat;
 				this.lng = val.lng;
 				this.yourLocation = val.yourLocation;
+				setTimeout(() => {
+					this.searchView.setFocus();
+				}, 500);
 			} else {
 				this.getCurentLocation();
 			}
@@ -126,7 +129,7 @@ export class SearchPage {
 	getCurentLocation() {
 		this.platform.ready().then(
 			() => {
-				this.loadingHelperPro.presentLoading('Đang tải...');
+				this.loadingHelperPro.presentLoading('Đang tải vị trí...');
 				this.geolocation.getCurrentPosition().then(
 					(ressult) => {
 						this.http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + ressult.coords.latitude + ',' + ressult.coords.longitude + '&key=AIzaSyDr5qwgemJp4LtodR8lvXg382V-cDFK3bY&sensor=false').subscribe(
@@ -137,6 +140,9 @@ export class SearchPage {
 									yourLocation: res.results[1].formatted_address
 								};
 								this.loadingHelperPro.dismissLoading();
+								setTimeout(() => {
+									this.searchView.setFocus();
+								}, 500);
 							}
 						);
 					}
@@ -155,13 +161,7 @@ export class SearchPage {
 	}
 
 	ionViewDidLoad() {
-	}
 
-	testFunction(){
-		const result = {'orderId': 119, 'cancelReason': "Tao thich"};
-		this.navCtrl.setRoot('page-cart', {
-			'result': result
-		});
 	}
 
 }

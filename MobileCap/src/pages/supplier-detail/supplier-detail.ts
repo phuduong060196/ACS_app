@@ -19,9 +19,9 @@ export class SupplierDetailPage implements OnInit {
 	posts: any;
 	public feedbackFlag: boolean;
 	public status: boolean;
-	supplierAvatar: string;
 	services: any;
 	feedbacks: any;
+	totalFeedback: number;
 	supplieropts: String = 'menu';
 
 	constructor(private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams, public http: HttpClient, public getUrlPro: GetUrlProvider, public toastCtrl: ToastController, public httpHelperPro: HttpHelperProvider, public modalCtrl: ModalController) {
@@ -73,6 +73,7 @@ export class SupplierDetailPage implements OnInit {
 		this.httpHelperPro.get('/api/supplier/feedback?supplierId=' + SupplierId).subscribe(
 			(res: any) => {
 				this.feedbacks = res.feedbacks;
+				this.totalFeedback = res.totalFeedback;
 				this.loadingHelperPro.dismissLoading();
 			},
 			(err) => {

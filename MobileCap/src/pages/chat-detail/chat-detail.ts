@@ -36,9 +36,11 @@ export class ChatDetailPage {
 	private chat_path1: 'chat1';
 	postsCol: AngularFirestoreCollection<Post>;
 	posts: any;
+	posts1: any;
 	message: string;
 	supplier: any;
 	@ViewChild(Content) content: Content;
+	@ViewChild('messageInput') messageInput: any;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public http: HttpClient, public getUrlPro: GetUrlProvider) {
 		this.paramId = this.navParams.get('id');
@@ -46,6 +48,7 @@ export class ChatDetailPage {
 
 	sendMessage() {
 		if (this.message != undefined && this.message != '') {
+			this.messageInput.setFocus();
 			//get UserID
 			let customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
 			//get SupplierID
@@ -66,9 +69,8 @@ export class ChatDetailPage {
 				'isCustomer': true,
 				'time': dateTime
 			});
-
-			this.scrollToBottom();
 			this.message = '';
+			this.scrollToBottom();
 		}
 
 	}
@@ -80,7 +82,6 @@ export class ChatDetailPage {
 		let supplierId = this.paramId.supId;
 		let dateTime = new Date();
 		this.database.collection('chat').doc(supplierId + '-' + customerId).update({
-			'seenBySup': true,
 			'seenByCus': true,
 		});
 	}
@@ -95,7 +96,11 @@ export class ChatDetailPage {
 		this.postsCol = this.database.collection('chat').doc(supplierId + '-' + customerId).collection('chat1', ref =>
 			ref.orderBy('time', 'asc'));
 		this.posts = this.postsCol.valueChanges();
-		this.scrollToBottom();
+		this.posts1 = this.postsCol.valueChanges().subscribe(
+			(res) => {
+				this.scrollToBottom();
+			}
+		);
 	}
 
 	scrollToBottom() {
