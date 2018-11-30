@@ -210,7 +210,7 @@ export class BookingServiceDetailPage implements OnInit {
 					'Order': {
 						'OrderDetails': list
 					},
-					'SeenByCustomer': false,
+					'SeenBySupplier': false,
 					'Time': new Date(),
 					'CustomerName': this.customer.FullName,
 					'PhoneNumber': this.customer.PhoneNumber,
