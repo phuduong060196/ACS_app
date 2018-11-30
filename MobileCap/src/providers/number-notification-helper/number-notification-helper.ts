@@ -3,10 +3,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 export class NumberNotificationHelperProvider {
   private NumberNotification: BehaviorSubject<any>;
   constructor() {
-    this.NumberNotification = new BehaviorSubject<any>({
-      'Number': 0,
-      'Tapped': true
-    });
+    this.NumberNotification = new BehaviorSubject<any>([]);
   }
   get GetTestNotification() {
     return this.NumberNotification.asObservable();

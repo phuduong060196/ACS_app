@@ -4,7 +4,6 @@ import {HttpClient} from "@angular/common/http";
 import {GetUrlProvider} from "../../providers/get-url/get-url";
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 import 'rxjs/add/operator/map';
-import {Observable} from 'rxjs';
 import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
 import {HttpHelperProvider} from "../../providers/http-helper/http-helper";
 
@@ -26,7 +25,6 @@ export class ChatListPage implements OnInit{
 	posts: any;
 	posts1: any;
 	postsCol: AngularFirestoreCollection<Post>;
-	post: Observable<Post>;
 	flagExist: boolean;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpClient, public getUrlPro: GetUrlProvider, public database: AngularFirestore, public loadingPro: LoadingHelperProvider, public httpHelperPro: HttpHelperProvider) {

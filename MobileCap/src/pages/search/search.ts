@@ -35,9 +35,6 @@ export class SearchPage {
 				this.lat = val.lat;
 				this.lng = val.lng;
 				this.yourLocation = val.yourLocation;
-				setTimeout(() => {
-					this.searchView.setFocus();
-				}, 500);
 			} else {
 				this.getCurentLocation();
 			}
@@ -161,7 +158,9 @@ export class SearchPage {
 	}
 
 	ionViewDidLoad() {
-
+		setTimeout(() => {
+			this.searchView.setFocus();
+		}, 500);
 	}
 
 }

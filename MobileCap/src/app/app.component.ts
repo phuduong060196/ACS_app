@@ -48,8 +48,14 @@ export class foodIonicApp {
 	userName: any;
 
 	lastBack = 0;
+
+	//for booking notification
 	postsCol: AngularFirestoreCollection<Post>;
 	posts: any;
+
+	//for chat notification
+	postsColChat: AngularFirestoreCollection<Post>;
+	postsChat: any;
 
 	constructor(private alertCtrl: AlertController, private network: Network, private app: App, public loadingHelperPro: LoadingHelperProvider, public localHelperPro: LocalHelperProvider, public customerServicePro: CustomerServiceProvider, public numberNotificationHelperPro: NumberNotificationHelperProvider, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private fcmPro: FcmProvider, private toastCtrl: ToastController, private notificationHelperPro: NotificationHelperProvider, private accessToken: AccessTokenHelperProvider, public database: AngularFirestore) {
 
@@ -92,6 +98,22 @@ export class foodIonicApp {
 		);
 	}
 
+	loadAllChatFromFirebase() {
+		this.accessToken.GetAccessToken.subscribe(
+			(tokenChanged) => {
+				if (localStorage.getItem('token')) {
+					const customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
+					this.postsColChat = this.database.collection('chat', ref => ref.where('cusId', '==', customerId).where('seenByCus', '==', false));
+					this.postsChat = this.postsColChat.valueChanges().subscribe(
+						(docChanged) => {
+							this.numberNotificationHelperPro.SetTestNotification = docChanged;
+						}
+					)
+				}
+			}
+		);
+	}
+
 	setNewNotificationOntoFirebase(res) {
 		if (res.Document !== '1') {
 
@@ -117,6 +139,7 @@ export class foodIonicApp {
 
 	initializeApp() {
 		this.loadAllNotificationFromFirebase();
+		this.loadAllChatFromFirebase();
 		this.platform.ready().then(() => {
 			this.statusBar.overlaysWebView(false);
 			this.splashScreen.hide();
@@ -136,9 +159,11 @@ export class foodIonicApp {
 						message: res.body,
 						position: 'top',
 						showCloseButton: true,
-						closeButtonText: 'Đóng'
+						closeButtonText: 'Đóng',
+						duration: 3000
 					}).present();
 				}
+
 				this.setNewNotificationOntoFirebase(res);
 				this.loadAllNotificationFromFirebase();
 			});

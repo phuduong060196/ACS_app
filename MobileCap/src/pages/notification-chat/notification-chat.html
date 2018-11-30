@@ -1,0 +1,12 @@
+<ion-list class="no-margin">
+	<ion-list-header class="no-margin">
+		<ion-icon name="chatbubbles" color="primary"></ion-icon>
+		<span ion-text color="primary" class="bold">Tin nhắn</span>
+	</ion-list-header>
+	<button ion-item class="text-11x" (click)="goToChatList()" *ngIf="setNumberNotificationChat() > 0">
+		Bạn có {{ setNumberNotificationChat() }} tin nhắn chưa đọc !!!
+	</button>
+	<button ion-item class="text-11x" (click)="goToChatList()" *ngIf="setNumberNotificationChat() === 0">
+		Bạn không có tin nhắn mới.
+	</button>
+</ion-list>

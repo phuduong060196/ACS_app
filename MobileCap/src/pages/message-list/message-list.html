@@ -21,18 +21,18 @@
 				</ion-card>
 
 				<ion-list>
-					<ion-item-sliding *ngFor="let message of messages">
-						<button ion-item (click)="itemTapped(message)" [ngClass]="{'light-bg': !message.tap}">
-							<h2 [ngClass]="{'fw700': !message.tap}">
-								<ion-icon name="mail" color="primary" *ngIf="!message.tap"></ion-icon>
-								<ion-icon name="mail-open" color="primary" *ngIf="message.tap"></ion-icon>
-								{{message.MessageBody}}
-							</h2>
-							<p>Người gửi ∙ {{message.Date}}</p>
-						</button>
-						<ion-item-options>
-							<button ion-button color="danger" (click)="deleteItem(message)">Xóa</button>
-						</ion-item-options>
+					<ion-item-sliding *ngFor="let doc of docId | async">
+							<button ion-item (click)="itemTapped({'id': doc.id, 'orderId': doc.data.OrderId})" [ngClass]="{'light-bg': !doc.data.SeenByCustomer}">
+								<h2 [ngClass]="{'fw700': !doc.data.SeenByCustomer}">
+									<ion-icon name="mail" color="primary" *ngIf="!doc.data.SeenByCustomer"></ion-icon>
+									<ion-icon name="mail-open" color="primary" *ngIf="doc.data.SeenByCustomer"></ion-icon>
+									{{doc.data.MessageBody}}
+								</h2>
+								<p>{{doc.data.Date}}</p>
+							</button>
+							<ion-item-options>
+								<button ion-button color="danger" (click)="deleteItem(message)">Xóa</button>
+							</ion-item-options>
 					</ion-item-sliding>
 				</ion-list>
 			</ion-col>

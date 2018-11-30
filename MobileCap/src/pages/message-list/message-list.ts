@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 
 import { NotificationHelperProvider } from '../../providers/notification-helper/notification-helper';
 import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/firestore";
 import 'rxjs/add/operator/map';
-
+import { AccessTokenHelperProvider } from '../../providers/access-token-helper/access-token-helper';
+import {LoadingHelperProvider} from "../../providers/loading-helper/loading-helper";
 interface Post {
     SeenByCustomer: any;
 }
@@ -18,44 +19,65 @@ interface Post {
     selector: 'page-message-list',
     templateUrl: 'message-list.html'
 })
-export class MessageListPage {
+export class MessageListPage implements OnInit{
 
     messages: any;
 
     postsCol: AngularFirestoreCollection<Post>;
     docId: any;
 
-    constructor(private database: AngularFirestore, private notificationHelperPro: NotificationHelperProvider, public navCtrl: NavController) {
+    constructor(private database: AngularFirestore, private notificationHelperPro: NotificationHelperProvider, public navCtrl: NavController, private AccessTokenHelperProvider: AccessTokenHelperProvider, public loadingPro: LoadingHelperProvider) {
         this.notificationHelperPro.GetTestNotification.subscribe((val) => {
             this.messages = val;
         });
     }
 
-    itemTapped(message) {
-        console.log(message.OrderId);
-        this.postsCol = this.database.collection('notification', ref => ref.where('OrderId', '==', message.OrderId));
-        this.docId = this.postsCol.snapshotChanges().map(
-            (val) => {
-                return val.map(
-                    (ha) => {
-                        const id = ha.payload.doc.id;
-                        console.log(id);
-                        return id;
-                    }
-                );
-            }
-        );
-        // if (this.docId) {
-        //     this.database.doc('notification/' + this.docId).update({
-        //         'SeenByCustomer': true,
-        //     });
-        // }
+    loadDocument(){
+		this.AccessTokenHelperProvider.GetAccessToken.subscribe(
+			(res) => {
+				if (localStorage.getItem('token')){
+					this.loadingPro.presentLoading('');
+					const cusId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
+					this.postsCol = this.database.collection('notification', ref => ref.where('CustomerId', '==', cusId));
+					this.docId = this.postsCol.snapshotChanges()
+						.map(actions => {
+							return actions.map(a => {
+								const data = a.payload.doc.data();
+								const id = a.payload.doc.id;
+								this.loadingPro.dismissLoading();
+								return {data, id};
+							});
+						});
+				}
+			}
+		)
+	}
 
+    itemTapped(id) {
+    	console.log(id);
+		this.AccessTokenHelperProvider.GetAccessToken.subscribe(
+			(res) => {
+				if (localStorage.getItem('token')) {
+					this.loadingPro.presentLoading('');
+					const cusId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
+					// console.log(cusId);
+					this.database.collection('notification', ref => ref.where('CustomerId', '==', cusId)).doc(id.id).update({
+						'SeenByCustomer': true
+					});
+					this.loadingPro.dismissLoading();
+				}
+			}
+		)
+		const message = {'OrderId': id.orderId};
         // chuyen trang can chinh
-        this.navCtrl.push('page-order-detail', {
-            'message': message
-        });
+         this.navCtrl.push('page-order-detail', {
+             'message': message
+         });
     }
+
+    onViewDidLoad(){
+
+	}
 
     deleteItem(message) {
         this.notificationHelperPro.GetTestNotification.subscribe((val) => {
@@ -64,5 +86,9 @@ export class MessageListPage {
             this.notificationHelperPro.SetTestNotification(notifications);
         });
     }
+
+	ngOnInit(): void {
+		this.loadDocument();
+	}
 
 }

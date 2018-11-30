@@ -7,9 +7,15 @@
 			<span ion-text class="fw700">ACS</span><span ion-text class="fw300"> app</span>
 		</ion-title>
 		<ion-buttons end>
-			<button ion-button (click)="presentNotifications($event)" id="notification-button">
+			<button ion-button (click)="presentNotificationsChat($event)" class="notification-button">
+				<ion-icon name="chatbubbles"></ion-icon>
+				<ion-badge color="dark" *ngIf="setNumberNotificationChat() > 0" class="notifications-badge">
+					{{setNumberNotificationChat()}}
+				</ion-badge>
+			</button>
+			<button ion-button (click)="presentNotifications($event)" class="notification-button">
 				<ion-icon name="notifications"></ion-icon>
-				<ion-badge color="dark" *ngIf="numberNotification() > 0" id="notifications-badge">
+				<ion-badge color="dark" *ngIf="numberNotification() > 0" class="notifications-badge">
 					{{numberNotification()}}
 				</ion-badge>
 			</button>

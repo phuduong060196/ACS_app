@@ -48,10 +48,11 @@ export class OrderDetailPage implements OnInit {
 	loadOrderDetail() {
 		if (this.message) {
 			this.loadingHelperPro.presentLoading('Đang tải...');
+			console.log(this.message);
 			this.httpHelperPro.get('/api/order/order-detail?orderId=' + this.message.OrderId).subscribe(
 				(res: any) => {
-					console.log(res);
 					this.order = res.order;
+					console.log(this.order);
 					this.services = this.order.OrderDetails;
 					this.customerInfo = res.customerInfo;
 					this.loadingHelperPro.dismissLoading();

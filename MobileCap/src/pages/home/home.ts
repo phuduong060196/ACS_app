@@ -40,6 +40,7 @@ export class HomePage {
 	yourLocation: string;
 	notifications: any;
 	listType: any;
+	numberNotificationChat: any;
 
 	constructor(
 		public loadingHelperPro: LoadingHelperProvider, public navParams: NavParams,
@@ -56,17 +57,26 @@ export class HomePage {
 			} else {
 				this.getCurentLocation();
 			}
-		})
+		});
 		this.notificationHelperPro.GetTestNotification.subscribe((val) => {
 			this.notifications = val;
-		})
+		});
+		this.numberNotificationHelperPro.GetTestNotification.subscribe(
+			(val) => {
+				this.numberNotificationChat = val;
+			}
+		);
 		this.listType = this.getAllType();
 		this.menuCtrl.swipeEnable(true, 'authenticated');
 		this.menuCtrl.enable(true);
 	}
 
 	numberNotification() {
-		return this.notifications.filter(el => el.SeenByCustomer === false).length
+		return this.notifications.filter(el => el.SeenByCustomer === false).length;
+	}
+
+	setNumberNotificationChat(){
+		return this.numberNotificationChat.length;
 	}
 
 	openSupplierList() {
@@ -153,13 +163,16 @@ export class HomePage {
 	}
 
 	presentNotifications(myEvent) {
-		let numberNotification = {
-			'Number': 0,
-			'Tapped': true
-		};
-		this.numberNotificationHelperPro.SetTestNotification = numberNotification;
 		// console.log(myEvent);
 		let popover = this.popoverCtrl.create('page-notifications');
+		popover.present({
+			ev: myEvent
+		});
+	}
+
+	presentNotificationsChat(myEvent) {
+		// console.log(myEvent);
+		let popover = this.popoverCtrl.create('page-notification-chat');
 		popover.present({
 			ev: myEvent
 		});
