@@ -88,6 +88,9 @@ export class SupplierDetailPage implements OnInit {
 			'supplier': this.supplier
 		});
 		modal.present();
+		// this.navCtrl.push('page-booking-service-detail', {
+		// 	'supplier': this.supplier
+		// })
 	}
 
 	openChatDetail(param) {

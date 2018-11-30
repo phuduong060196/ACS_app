@@ -43,11 +43,12 @@
 										</ion-item>
 										<ion-item>
 											<ion-label color="dark" stacked>*Ngày đến sửa:</ion-label>
-											<ion-datetime displayFormat="DD-MM-YYYY" [(ngModel)]="DayWork" name='DayWork'></ion-datetime>
+											<ion-datetime displayFormat="DD-MM-YYYY" [(ngModel)]="DayWork" name='DayWork' [min]="MinDayWork"></ion-datetime>
 										</ion-item>
 										<ion-item>
 											<ion-label color="dark" stacked>*Thời gian đến sửa:</ion-label>
-											<ion-datetime displayFormat="HH:mm" [(ngModel)]="TimeWork" name='TimeWork'></ion-datetime>
+											<ion-datetime displayFormat="HH:mm" [(ngModel)]="TimeWork" name='TimeWork' hourValues="8,9,10,11,12,13,14,15,16,17,18"
+											 minuteValues="0,15,30,45"></ion-datetime>
 										</ion-item>
 										<ion-item>
 											<ion-label color="dark" stacked>Ghi chú:</ion-label>
@@ -94,9 +95,9 @@
 			</ng-container>
 		</ng-container>
 
-		<br/>
-		<button ion-button block color="primary" (click)="sendBookingRequest()">Xác nhận</button>
-		<br/>
+		<br />
+		<button ion-button block color="primary" (click)="goToReViewBooking()">Tiếp tục</button>
+		<br />
 
 	</form>
 

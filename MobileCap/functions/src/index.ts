@@ -7,10 +7,11 @@ exports.getChangedBooking = functions.firestore.document('booking/{bookingId}').
 	const CustomerId = document.CustomerId;
 	const contentWasChangedName = document.CurrentStatus.Name;
 	const contentWasChangedByCustomer = document.CurrentStatus.CreatedByCustomer;
+	const seenFalse = document.SeenByCustomer;
 	let messageBody = '';
 	let orderId = 0;
 
-	if ((contentWasChangedName === 'Created order' && contentWasChangedByCustomer === false) || (contentWasChangedName === 'Cancel' && contentWasChangedByCustomer === false)) {
+	if ((contentWasChangedName === 'Created order' && contentWasChangedByCustomer === false && !seenFalse) || (contentWasChangedName === 'Cancel' && contentWasChangedByCustomer === false && !seenFalse)) {
 		if (contentWasChangedName === 'Created order' && contentWasChangedByCustomer === false) {
 			messageBody = 'Yêu cầu được chấp nhận';
 			orderId = document.OrderId;
