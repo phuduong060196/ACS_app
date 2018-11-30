@@ -6,8 +6,10 @@ import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/fire
 import 'rxjs/add/operator/map';
 import { AccessTokenHelperProvider } from '../../providers/access-token-helper/access-token-helper';
 import {LoadingHelperProvider} from "../../providers/loading-helper/loading-helper";
+
 interface Post {
     SeenByCustomer: any;
+	CurrentStatus: any;
 }
 
 @IonicPage({
@@ -38,12 +40,13 @@ export class MessageListPage implements OnInit{
 				if (localStorage.getItem('token')){
 					this.loadingPro.presentLoading('');
 					const cusId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
-					this.postsCol = this.database.collection('notification', ref => ref.where('CustomerId', '==', cusId));
+					this.postsCol = this.database.collection('booking', ref => ref.where('CustomerId', '==', cusId).orderBy('CurrentStatus.UpdatedDate', 'desc'));
 					this.docId = this.postsCol.snapshotChanges()
 						.map(actions => {
 							return actions.map(a => {
 								const data = a.payload.doc.data();
 								const id = a.payload.doc.id;
+								// console.log(data.CurrentStatus.Name);
 								this.loadingPro.dismissLoading();
 								return {data, id};
 							});
@@ -61,7 +64,7 @@ export class MessageListPage implements OnInit{
 					this.loadingPro.presentLoading('');
 					const cusId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
 					// console.log(cusId);
-					this.database.collection('notification', ref => ref.where('CustomerId', '==', cusId)).doc(id.id).update({
+					this.database.collection('booking', ref => ref.where('CustomerId', '==', cusId)).doc(id.id).update({
 						'SeenByCustomer': true
 					});
 					this.loadingPro.dismissLoading();

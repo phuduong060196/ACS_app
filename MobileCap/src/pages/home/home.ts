@@ -163,7 +163,6 @@ export class HomePage {
 	}
 
 	presentNotifications(myEvent) {
-		// console.log(myEvent);
 		let popover = this.popoverCtrl.create('page-notifications');
 		popover.present({
 			ev: myEvent
@@ -241,7 +240,7 @@ export class HomePage {
 					element.Avatar = 'http://web-capstone.azurewebsites.net' + oldUrl;
 				});
 				this.listType = res;
-				console.log(this.listType);
+				// console.log(this.listType);
 				this.loadingHelperPro.dismissLoading();
 			},
 			(err) => {

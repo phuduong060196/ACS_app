@@ -61,7 +61,7 @@ export class CheckoutPage implements OnInit {
 			"receiver=" + this.order.SupplierInfo.PaymentEmail +
 			"&product_name=" + this.order.OrderId +
 			"&price=" + this.order.PaymentPrice +
-			"&comments=test ionic" +
+			"&comments=" + this.order.Description +
 			"&return_url=http://web-capstone.azurewebsites.net/api/notify-finish-payment?orderId=" + this.order.OrderId +
 			"," + bookingId;
 		const browserOpt: InAppBrowserOptions = {
