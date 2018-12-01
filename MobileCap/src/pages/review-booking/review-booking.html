@@ -1,18 +1,147 @@
-<!--
-  Generated template for the ReviewBookingPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>review-booking</ion-title>
-  </ion-navbar>
-
+	<ion-navbar color="primary">
+		<ion-buttons start>
+			<button ion-button round (click)="closeModal()">
+				<ion-icon name="close"></ion-icon>
+			</button>
+		</ion-buttons>
+		<ion-title>
+			<span ion-text>Đặt dịch vụ</span>
+		</ion-title>
+	</ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+
+	<ng-container *ngIf="inforBooking && listService">
+		<ion-card>
+			<ion-card-header color="primary" style="text-align: center; background-color: #ebebe0">
+				<strong>
+					Thông tin khách hàng
+				</strong>
+			</ion-card-header>
+			<ion-card-content>
+				<ion-grid>
+					<ion-row>
+						<ion-col col-6>
+							<h3 ion-text color="primary" class="fw500"><b>Họ tên:</b></h3>
+						</ion-col>
+						<ion-col col-6>
+							<p ion-text>
+								{{inforBooking.CustomerName}}
+							</p>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col col-6>
+							<h3 ion-text color="primary" class="fw500"><b>Số điện thoại:</b></h3>
+						</ion-col>
+						<ion-col col-6>
+							<p ion-text>
+								{{inforBooking.PhoneNumber}}
+							</p>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col col-6>
+							<h3 ion-text color="primary" class="fw500"><b>Địa chỉ:</b></h3>
+						</ion-col>
+						<ion-col col-6>
+							<p ion-text>
+								{{inforBooking.Address}}
+							</p>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col col-6>
+							<h3 ion-text color="primary" class="fw500"><b>Thời gian đến:</b></h3>
+						</ion-col>
+						<ion-col col-6>
+							<p ion-text>
+								{{inforBooking.DayWork | date: 'dd-MM-yyyy HH:mm'}}
+							</p>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col col-6>
+							<h3 ion-text color="primary" class="fw500"><b>Ghi chú:</b></h3>
+						</ion-col>
+						<ion-col col-6>
+							<p ion-text>
+								{{inforBooking.Note}}
+							</p>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</ion-card-content>
+		</ion-card>
+
+		<ion-card>
+			<ion-card-header color="primary" style="text-align: center; background-color: #ebebe0">
+				<strong>
+					Chi tiết dịch vụ
+				</strong>
+			</ion-card-header>
+			<ion-card-content style="color: black">
+				<ion-grid>
+					<ion-row>
+						<ion-col style="text-align: center; font-size: 16px">
+							<b>
+								Dịch vụ
+							</b>
+						</ion-col>
+						<ion-col style="text-align: center; font-size: 16px">
+							<b>
+								Số lượng
+							</b>
+						</ion-col>
+						<ion-col style="text-align: center; font-size: 16px">
+							<b>
+								Giá
+							</b>
+						</ion-col>
+					</ion-row>
+					<ng-container *ngFor="let service of listService">
+						<ion-row>
+							<ion-col style="text-align: left;">
+								{{service.Name}}
+							</ion-col>
+							<ion-col style="text-align: center;">
+								{{service.Quantity}}
+							</ion-col>
+							<ion-col style="text-align: right">
+								<ng-container *ngIf="service.Price > 0">
+									{{service.Price | currency:'VND':symbol-narrow:'1.0-0'}}
+								</ng-container>
+								<ng-container *ngIf="service.Price === 0">
+									Liên hệ nhà cung cấp
+								</ng-container>
+							</ion-col>
+						</ion-row>
+					</ng-container>
+					<ion-row>
+						<ion-col style="text-align: left;">
+							<b>
+								Tổng
+							</b>
+						</ion-col>
+						<ion-col style="text-align: right">
+							<ng-container *ngIf="total">
+								<b>
+									{{total | currency:'VND':symbol-narrow:'1.0-0'}}
+								</b>
+							</ng-container>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</ion-card-content>
+		</ion-card>
+
+		<br />
+		<button ion-button block color="primary" (click)="sendBookingRequest()">Tiếp tục</button>
+		<br />
+
+	</ng-container>
 
 </ion-content>

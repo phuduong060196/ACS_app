@@ -136,6 +136,7 @@ export class BookingServiceDetailPage implements OnInit {
 				this.services = res.data.map(element1 => {
 					element1.Services.map(element2 => {
 						element2.checked = false;
+						element2.Quantity = 1
 					});
 					return element1;
 				});
@@ -188,7 +189,7 @@ export class BookingServiceDetailPage implements OnInit {
 						Price: element2.Price,
 						PriceDisplay: element2.PriceDisplay,
 						Name: element2.Name,
-						Quantity: 0
+						Quantity: 1
 					});
 				}
 			});
@@ -239,6 +240,13 @@ export class BookingServiceDetailPage implements OnInit {
 			});
 			alert.present();
 		}
+	}
+
+	plusQuantity(el) {
+		el.Quantity++;
+	}
+	minusQuantity(el) {
+		el.Quantity--;
 	}
 }
 
