@@ -20,7 +20,23 @@
 						</ion-col>
 					</ion-row>
 				</ion-grid>
+				<ion-grid>
+					<ion-row>
+						<ion-col>
+							Trạng thái: <strong>{{order.OrderStatus}}</strong>
+						</ion-col>
+						<ion-col *ngIf="order.IsPaid">
+							Thanh toán: <strong>Đã thanh toán</strong><ion-icon color="green" name="checkmark-circle"></ion-icon>
+						</ion-col>
+						<ion-col *ngIf="!order.IsPaid">
+							Thanh toán: <strong>Chưa thanh toán</strong>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+
 			</div>
+		</ion-card>
+		<ion-card>
 			<ion-card-header color="primary" style="text-align: center; background-color: #ebebe0">
 				<strong>
 					Thông tin khách hàng
@@ -74,8 +90,52 @@
 						</ion-col>
 						<ion-col col-6>
 							<p ion-text>
-								{{order.Description}}
+								{{order.Description }}
 							</p>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</ion-card-content>
+			<ion-card-header color="primary" style="text-align: center; background-color: #ebebe0">
+				<strong>
+					Thông tin nhà cung cấp
+				</strong>
+			</ion-card-header>
+			<ion-card-content>
+				<ion-grid>
+					<ion-row>
+						<ion-col col-6>
+							<h3 ion-text color="primary" class="fw500"><b>Tên:</b></h3>
+						</ion-col>
+						<ion-col col-6>
+							<p ion-text>
+								{{supplierInfo.Name}}
+							</p>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col col-6>
+							<h3 ion-text color="primary" class="fw500"><b>Số điện thoại:</b></h3>
+						</ion-col>
+						<ion-col col-6>
+							<p ion-text>
+								{{supplierInfo.PhoneNumber}}
+							</p>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col col-6>
+							<h3 ion-text color="primary" class="fw500"><b>Email:</b></h3>
+						</ion-col>
+						<ion-col col-6>
+							<p ion-text>
+								{{supplierInfo.Email}}
+							</p>
+						</ion-col>
+					</ion-row>
+					<ion-row text-center>
+						<ion-col>
+							<button ion-button (click)="openSupplierDetail()">Chi tiết</button>
 						</ion-col>
 					</ion-row>
 				</ion-grid>

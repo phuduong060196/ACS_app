@@ -23,7 +23,9 @@
 								<p text-center class="text-white">Bạn không có thông báo nào !!!</p>
 							</ion-card-content>
 						</ion-card>
-						<button *ngIf="doc.data.CurrentStatus.Name !== 'Waiting for review'" ion-item
+
+						<!--Button vao trang Order-detail-->
+						<button *ngIf="doc.data.CurrentStatus.Name !== 'Waiting for review' && !doc.data.CurrentStatus.SupplierNote" ion-item
 								(click)="itemTapped({'id': doc.id, 'orderId': doc.data.OrderId})"
 								[ngClass]="{'light-bg': !doc.data.SeenByCustomer}">
 							<h2 [ngClass]="{'fw700': !doc.data.SeenByCustomer}">
@@ -32,14 +34,29 @@
 								<ng-container *ngIf="doc.data.CurrentStatus.Name === 'Created order'">Yêu cầu được chấp
 									nhận
 								</ng-container>
-								<ng-container *ngIf="doc.data.CurrentStatus.Name === 'Cancel'">Yêu cầu không được chấp
-									nhận
+								<ng-container *ngIf="doc.data.CurrentStatus.Name === 'Cancel'">Đơn hàng đã bị huỷ
 								</ng-container>
 								<ng-container *ngIf="doc.data.CurrentStatus.Name === 'Customer paid'">Đã thanh toán
 								</ng-container>
 							</h2>
+							<p>{{doc.data.CurrentStatus.UpdatedDate.toDate() | date:'dd/MM/yyyy hh:mm'}}</p>
+
+						</button>
+
+						<!--Button vao trang thong bao huy request-->
+						<button *ngIf="doc.data.CurrentStatus.Name !== 'Waiting for review' && doc.data.CurrentStatus.Name === 'Cancel' && doc.data.CurrentStatus.SupplierNote" ion-item
+								(click)="itemTapped({'id': doc.id, 'supplierNote': doc.data.CurrentStatus.SupplierNote})"
+								[ngClass]="{'light-bg': !doc.data.SeenByCustomer}">
+							<h2 [ngClass]="{'fw700': !doc.data.SeenByCustomer}">
+								<ion-icon name="mail" color="primary" *ngIf="!doc.data.SeenByCustomer"></ion-icon>
+								<ion-icon name="mail-open" color="primary" *ngIf="doc.data.SeenByCustomer"></ion-icon>
+								<ng-container *ngIf="doc.data.CurrentStatus.Name === 'Cancel'">Yêu cầu không được chấp
+									nhận
+								</ng-container>
+							</h2>
 							<p>{{doc.data.CurrentStatus.UpdatedDate}}</p>
 						</button>
+
 						<ion-item-options>
 							<button ion-button color="danger" (click)="deleteItem(message)">Xóa</button>
 						</ion-item-options>

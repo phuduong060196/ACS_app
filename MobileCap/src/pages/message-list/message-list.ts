@@ -1,43 +1,43 @@
 import {Component, OnInit} from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import {AlertController, IonicPage, NavController} from 'ionic-angular';
 
-import { NotificationHelperProvider } from '../../providers/notification-helper/notification-helper';
-import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/firestore";
+import {NotificationHelperProvider} from '../../providers/notification-helper/notification-helper';
+import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/firestore";
 import 'rxjs/add/operator/map';
-import { AccessTokenHelperProvider } from '../../providers/access-token-helper/access-token-helper';
+import {AccessTokenHelperProvider} from '../../providers/access-token-helper/access-token-helper';
 import {LoadingHelperProvider} from "../../providers/loading-helper/loading-helper";
 
 interface Post {
-    SeenByCustomer: any;
+	SeenByCustomer: any;
 	CurrentStatus: any;
 }
 
 @IonicPage({
-    name: 'page-message-list',
-    segment: 'message-list'
+	name: 'page-message-list',
+	segment: 'message-list'
 })
 
 @Component({
-    selector: 'page-message-list',
-    templateUrl: 'message-list.html'
+	selector: 'page-message-list',
+	templateUrl: 'message-list.html'
 })
-export class MessageListPage implements OnInit{
+export class MessageListPage implements OnInit {
 
-    messages: any;
+	messages: any;
 
-    postsCol: AngularFirestoreCollection<Post>;
-    docId: any;
+	postsCol: AngularFirestoreCollection<Post>;
+	docId: any;
 
-    constructor(private database: AngularFirestore, private notificationHelperPro: NotificationHelperProvider, public navCtrl: NavController, private AccessTokenHelperProvider: AccessTokenHelperProvider, public loadingPro: LoadingHelperProvider) {
-        this.notificationHelperPro.GetTestNotification.subscribe((val) => {
-            this.messages = val;
-        });
-    }
+	constructor(private database: AngularFirestore, private notificationHelperPro: NotificationHelperProvider, public navCtrl: NavController, private AccessTokenHelperProvider: AccessTokenHelperProvider, public loadingPro: LoadingHelperProvider, public alertCtrl: AlertController ) {
+		this.notificationHelperPro.GetTestNotification.subscribe((val) => {
+			this.messages = val;
+		});
+	}
 
-    loadDocument(){
+	loadDocument() {
 		this.AccessTokenHelperProvider.GetAccessToken.subscribe(
 			(res) => {
-				if (localStorage.getItem('token')){
+				if (localStorage.getItem('token')) {
 					this.loadingPro.presentLoading('');
 					const cusId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
 					this.postsCol = this.database.collection('booking', ref => ref.where('CustomerId', '==', cusId).orderBy('CurrentStatus.UpdatedDate', 'desc'));
@@ -46,7 +46,6 @@ export class MessageListPage implements OnInit{
 							return actions.map(a => {
 								const data = a.payload.doc.data();
 								const id = a.payload.doc.id;
-								// console.log(data.CurrentStatus.Name);
 								this.loadingPro.dismissLoading();
 								return {data, id};
 							});
@@ -56,8 +55,7 @@ export class MessageListPage implements OnInit{
 		)
 	}
 
-    itemTapped(id) {
-    	console.log(id);
+	itemTapped(id) {
 		this.AccessTokenHelperProvider.GetAccessToken.subscribe(
 			(res) => {
 				if (localStorage.getItem('token')) {
@@ -71,24 +69,35 @@ export class MessageListPage implements OnInit{
 				}
 			}
 		)
-		const message = {'OrderId': id.orderId};
-        // chuyen trang can chinh
-         this.navCtrl.push('page-order-detail', {
-             'message': message
-         });
-    }
-
-    onViewDidLoad(){
+		if (id.orderId) {
+			const message = {'OrderId': id.orderId};
+			// chuyen trang can chinh
+			this.navCtrl.push('page-order-detail', {
+				'message': message
+			});
+		}
+		if(!id.orderId){
+			let alert = this.alertCtrl.create({
+				title: 'Yêu cầu bị huỷ',
+				message: 'Lý do: ' + id.supplierNote,
+				buttons: ['OK']
+			});
+			alert.present();
+		}
 
 	}
 
-    deleteItem(message) {
-        this.notificationHelperPro.GetTestNotification.subscribe((val) => {
-            let notifications = val;
-            notifications.splice(notifications.indexOf(message), 1);
-            this.notificationHelperPro.SetTestNotification(notifications);
-        });
-    }
+	onViewDidLoad() {
+
+	}
+
+	deleteItem(message) {
+		this.notificationHelperPro.GetTestNotification.subscribe((val) => {
+			let notifications = val;
+			notifications.splice(notifications.indexOf(message), 1);
+			this.notificationHelperPro.SetTestNotification(notifications);
+		});
+	}
 
 	ngOnInit(): void {
 		this.loadDocument();
