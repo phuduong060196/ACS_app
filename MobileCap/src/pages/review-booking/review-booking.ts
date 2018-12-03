@@ -1,12 +1,8 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the ReviewBookingPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Component, OnInit } from '@angular/core';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import 'rxjs/add/operator/map';
 
 @IonicPage({
   name: 'page-review-booking',
@@ -16,13 +12,44 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   selector: 'page-review-booking',
   templateUrl: 'review-booking.html',
 })
-export class ReviewBookingPage {
+export class ReviewBookingPage implements OnInit {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  inforBooking: any;
+  listService: any;
+  total: any
+
+  constructor(private alertCtrl: AlertController, private database: AngularFirestore, public navCtrl: NavController, public navParams: NavParams) {
+    this.inforBooking = this.navParams.get('inforBooking');
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ReviewBookingPage');
+  ngOnInit() {
+    if (this.inforBooking) {
+      this.total = 0;
+      this.listService = this.inforBooking.Order.OrderDetails;
+      console.log(this.listService);
+      this.listService.forEach(element => {
+        this.total = this.total + (element.Price * element.Quantity);
+      });
+    }
   }
 
+  sendBookingRequest() {
+    if (this.inforBooking) {
+      this.database.collection('booking').add(this.inforBooking);
+      this.alertCtrl.create({
+        title: 'Thông báo',
+        message: 'Đặt dịch vụ thành công!',
+        buttons: [{
+          text: 'Xác nhận',
+          handler: () => {
+            this.closeModal();
+          }
+        }]
+      }).present();
+    }
+  }
+
+  closeModal() {
+    this.navCtrl.pop();
+  }
 }

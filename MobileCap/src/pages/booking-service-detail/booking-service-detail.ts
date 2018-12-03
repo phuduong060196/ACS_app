@@ -40,77 +40,6 @@ export class BookingServiceDetailPage implements OnInit {
 
 	}
 
-	// sendBookingRequest() {
-
-	// 	let list: any = [];
-
-	// 	this.services.forEach(element1 => {
-	// 		element1.Services.forEach(element2 => {
-	// 			if (element2.checked == true) {
-	// 				list.push({
-	// 					ServiceId: element2.ServiceId,
-	// 					Price: element2.Price,
-	// 					PriceDisplay: element2.PriceDisplay,
-	// 					Name: element2.Name,
-	// 					Quantity: 0
-	// 				});
-	// 			}
-	// 		});
-	// 	});
-
-	// 	if (this.customer.FullName != '' && this.customer.PhoneNumber != '' && this.customer.Address != '' && this.DayWork != '' && this.TimeWork != '') {
-	// 		if (list.length > 0) {
-
-	// 			let dayTime: any = moment(this.DayWork + ' ' + this.TimeWork, 'YYYY-MM-DD HH:mm');
-
-	// 			this.database.collection(this.booking_path).add({
-	// 				'CurrentStatus': {
-	// 					'CreatedByCustomer': true,
-	// 					'Name': "Waiting for review",
-	// 					'UpdatedDate': new Date()
-	// 				},
-	// 				'CustomerId': this.customerId,
-	// 				'SupplierId': this.supplierId,
-	// 				'Order': {
-	// 					'OrderDetails': list
-	// 				},
-	// 				'SeenByCustomer': false,
-	// 				'Time': new Date(),
-	// 				'CustomerName': this.customer.FullName,
-	// 				'PhoneNumber': this.customer.PhoneNumber,
-	// 				'Address': this.customer.Address,
-	// 				'DayWork': dayTime._d,
-	// 				'Note': this.Note
-	// 			});
-	// 			let alert = this.alertCtrl.create({
-	// 				title: 'Thông báo',
-	// 				message: 'Đặt dịch vụ thành công!',
-	// 				buttons: [{
-	// 					text: 'Xác nhận',
-	// 					handler: () => {
-	// 						this.closeModal();
-	// 					}
-	// 				}]
-	// 			});
-	// 			alert.present();
-	// 		} else {
-	// 			let alert = this.alertCtrl.create({
-	// 				title: 'Thông báo',
-	// 				message: 'Vui lòng chọn dịch vụ để đặt lịch!',
-	// 				buttons: ['Xác nhận']
-	// 			});
-	// 			alert.present();
-	// 		}
-	// 	} else {
-	// 		let alert = this.alertCtrl.create({
-	// 			title: 'Thông báo',
-	// 			message: 'Vui lòng nhập đầy đủ thông tin mục có *!',
-	// 			buttons: ['Xác nhận']
-	// 		});
-	// 		alert.present();
-	// 	}
-	// }
-
 	ngOnInit() {
 		this.supplier = this.navParams.get('supplier');
 		if (!this.supplier) {
@@ -136,10 +65,13 @@ export class BookingServiceDetailPage implements OnInit {
 				this.services = res.data.map(element1 => {
 					element1.Services.map(element2 => {
 						element2.checked = false;
+						element2.Quantity = 1
 					});
 					return element1;
 				});
+				console.log('services: ');
 				console.log(this.services);
+				console.log('-----0-----0-----')
 				this.loadingHelperPro.dismissLoading();
 			},
 			(err) => {
@@ -188,7 +120,7 @@ export class BookingServiceDetailPage implements OnInit {
 						Price: element2.Price,
 						PriceDisplay: element2.PriceDisplay,
 						Name: element2.Name,
-						Quantity: 0
+						Quantity: element2.Quantity
 					});
 				}
 			});
@@ -239,6 +171,14 @@ export class BookingServiceDetailPage implements OnInit {
 			});
 			alert.present();
 		}
+	}
+
+	plusQuantity(el) {
+		el.Quantity++;
+	}
+
+	minusQuantity(el) {
+		el.Quantity--;
 	}
 }
 

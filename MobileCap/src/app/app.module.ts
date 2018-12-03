@@ -1,9 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, NgModule, LOCALE_ID } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { AgmCoreModule } from '@agm/core';
+import { registerLocaleData } from '@angular/common'
+import localeVi from '@angular/common/locales/vi';
 
 
 import { NativeGeocoder } from '@ionic-native/native-geocoder';
@@ -31,6 +33,8 @@ import { FcmProvider } from '../providers/fcm/fcm';
 import { NotificationHelperProvider } from '../providers/notification-helper/notification-helper';
 import { NumberNotificationHelperProvider } from '../providers/number-notification-helper/number-notification-helper';
 import { Network } from '@ionic-native/network';
+
+registerLocaleData(localeVi);
 
 var config = {
 	apiKey: "AIzaSyCxm0jQrorq3-dCoiwwTchjaIe_H6OX2H0",
@@ -88,7 +92,8 @@ var config = {
 		NotificationHelperProvider,
 		NumberNotificationHelperProvider,
 		InAppBrowser,
-		Network
+		Network,
+		{ provide: LOCALE_ID, useValue: 'vi_VN' }
 	]
 })
 export class AppModule {

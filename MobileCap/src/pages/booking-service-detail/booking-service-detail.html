@@ -83,6 +83,27 @@
 													<ion-label> {{el.Name}} </ion-label>
 													<ion-checkbox name="services" [(ngModel)]="el.checked"></ion-checkbox>
 												</ion-item>
+												<ng-container *ngIf="el.checked">
+													<ion-row>
+														<ion-col text-right col-5>
+															<p>
+																Số lượng:
+															</p>
+														</ion-col>
+														<ion-col text-center col-2>
+															<ion-icon name="remove-circle" class="text-22x" tappable (click)="minusQuantity(el)" [hidden]="el.Quantity < 2"
+															 color="secondary"></ion-icon>
+														</ion-col>
+														<ion-col text-center col-3>
+															<h2 ion-text color="primary" class="text-18x">
+																<span>{{el.Quantity}}</span>
+															</h2>
+														</ion-col>
+														<ion-col text-center col-2>
+															<ion-icon name="add-circle" class="text-22x" tappable (click)="plusQuantity(el)" color="secondary"></ion-icon>
+														</ion-col>
+													</ion-row>
+												</ng-container>
 
 											</ion-list>
 										</div>
