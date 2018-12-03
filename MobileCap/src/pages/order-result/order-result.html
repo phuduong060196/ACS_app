@@ -28,12 +28,12 @@
 				</span>
 		</ion-card-header>
 
-		<ion-card-header color="primary" style="text-align: center; background-color: #ebebe0">
-			<strong>
+		<ion-card-header color="primary" style="text-align: center;">
+			<strong style="color: black">
 				Thông tin khách hàng
 			</strong>
 		</ion-card-header>
-		<ion-card-content>
+		<ion-card-content *ngIf="customerInfo">
 			<ion-grid>
 				<ion-row>
 					<ion-col col-6>

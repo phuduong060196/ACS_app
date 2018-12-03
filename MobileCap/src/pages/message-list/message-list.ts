@@ -46,8 +46,6 @@ export class MessageListPage implements OnInit {
 							return actions.map(a => {
 								const data = a.payload.doc.data();
 								const id = a.payload.doc.id;
-								// const date = new Date(data.CurrentStatus.UpdatedDate).getDate();
-								// console.log(date);
 								this.loadingPro.dismissLoading();
 								return {data, id};
 							});

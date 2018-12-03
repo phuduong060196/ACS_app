@@ -43,7 +43,7 @@
         "@types/googlemaps": "^3.30.16",
         "angularfire2": "^5.1.0",
         "build": "0.1.4",
-        "cordova-android": "7.1.2",
+        "cordova-android": "7.1.4",
         "cordova-plugin-console": "^1.1.0",
         "cordova-plugin-device": "^1.1.7",
         "cordova-plugin-firebase": "2.0.5",

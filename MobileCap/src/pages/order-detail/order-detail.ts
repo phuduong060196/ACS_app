@@ -35,6 +35,8 @@ export class OrderDetailPage implements OnInit {
 	posts: any;
 	postsCol: AngularFirestoreCollection<Post>;
 	private booking_path = 'booking';
+	supplierInfo: any;
+	supplier: any;
 
 	constructor(private httpHelperPro: HttpHelperProvider, private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public alertCtrl: AlertController, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public database: AngularFirestore) {
 		this.message = this.navParams.get('message');
@@ -48,13 +50,13 @@ export class OrderDetailPage implements OnInit {
 	loadOrderDetail() {
 		if (this.message) {
 			this.loadingHelperPro.presentLoading('Đang tải...');
-			console.log(this.message);
 			this.httpHelperPro.get('/api/order/order-detail?orderId=' + this.message.OrderId).subscribe(
 				(res: any) => {
 					this.order = res.order;
-					console.log(this.order);
 					this.services = this.order.OrderDetails;
 					this.customerInfo = res.customerInfo;
+					this.supplierInfo = this.order.SupplierInfo;
+					this.loadSupplier();
 					this.loadingHelperPro.dismissLoading();
 				},
 				(err) => {
@@ -62,6 +64,24 @@ export class OrderDetailPage implements OnInit {
 					this.loadingHelperPro.dismissLoading();
 				}
 			);
+		}
+	}
+
+	loadSupplier() {
+		if (this.supplierInfo) {
+			this.loadingHelperPro.presentLoading('Đang tải...');
+			this.httpHelperPro.get('/api/supplier/get-by-id?id=' + this.supplierInfo.SupplierId)
+				.subscribe((res: any) => {
+					let oldUrl = res.data.Avatar;
+					if (res.data.Avatar) {
+						res.data.Avatar = 'http://web-capstone.azurewebsites.net' + oldUrl;
+					}
+					this.supplier = res.data;
+					this.loadingHelperPro.dismissLoading();
+				}, (err) => {
+					this.loadingHelperPro.dismissLoading();
+					console.log(err);
+				});
 		}
 	}
 
@@ -167,6 +187,13 @@ export class OrderDetailPage implements OnInit {
 
 	openCheckoutPage(param) {
 		this.navCtrl.push('page-checkout', {'order': param});
+	}
+
+	openSupplierDetail() {
+		if (this.supplier) {
+			this.navCtrl.push('page-supplier-detail',
+				{'supplier': this.supplier});
+		}
 	}
 
 }

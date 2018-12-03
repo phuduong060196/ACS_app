@@ -46,11 +46,13 @@
 
 <ion-footer no-border style="padding: 0px !important;">
 	<ion-toolbar>
-		<ion-buttons left>
-			<button style="color: #aaaaaa" (click)="sendMessage()" ion-button icon-only>
-				<ion-icon slot="icon-only" name="image"></ion-icon>
-			</button>
-		</ion-buttons>
+
+		<!--<ion-buttons left>-->
+			<!--<button style="color: #aaaaaa" (click)="sendMessage()" ion-button icon-only>-->
+				<!--<ion-icon slot="icon-only" name="image"></ion-icon>-->
+			<!--</button>-->
+		<!--</ion-buttons>-->
+		
 		<ion-textarea [(ngModel)]="message" class="message-input" placeholder="Nhấn vào đây" rows="1"
 					  autocapitalize="off" maxlength="500"
 					  #messageInput></ion-textarea>

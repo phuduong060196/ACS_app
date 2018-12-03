@@ -39,7 +39,8 @@
 								<ng-container *ngIf="doc.data.CurrentStatus.Name === 'Customer paid'">Đã thanh toán
 								</ng-container>
 							</h2>
-							<p>{{doc.data.CurrentStatus.UpdatedDate}}</p>
+							<p>{{doc.data.CurrentStatus.UpdatedDate.toDate() | date:'dd/MM/yyyy hh:mm'}}</p>
+
 						</button>
 
 						<!--Button vao trang thong bao huy request-->

@@ -57,32 +57,34 @@ export class CheckoutPage implements OnInit {
 	}
 
 	openNganluong(bookingId) {
-		let url = "https://www.nganluong.vn/button_payment.php?" +
-			"receiver=" + this.order.SupplierInfo.PaymentEmail +
-			"&product_name=" + this.order.OrderId +
-			"&price=" + this.order.PaymentPrice +
-			"&comments=" + this.order.Description +
-			"&return_url=http://web-capstone.azurewebsites.net/api/notify-finish-payment?orderId=" + this.order.OrderId +
-			"," + bookingId;
-		const browserOpt: InAppBrowserOptions = {
-			hideurlbar: 'yes'
-		};
-		const browser = this.inAppBrowser.create(url, '_self', browserOpt);
-		this.postsCol = this.database.collection(this.booking_path, ref => ref.where('OrderId', '==', this.order.OrderId));
-		this.posts = this.postsCol.snapshotChanges()
-			.map(actions => {
-				return actions.map(a => {
-					const data = a.payload.doc.data();
-					if (data.CurrentStatus.Name === 'Customer paid') {
-						browser.close();
-						//Set flag to define order status
-						const result = {'orderId': this.order.OrderId};
-						this.navCtrl.setRoot('page-cart', {
-							'result': result
-						});
-					}
+		if (this.order) {
+			let url = "https://www.nganluong.vn/button_payment.php?" +
+				"receiver=" + this.order.SupplierInfo.PaymentEmail +
+				"&product_name=" + this.order.OrderId +
+				"&price=" + this.order.PaymentPrice +
+				"&comments=" + this.order.Description +
+				"&return_url=http://web-capstone.azurewebsites.net/api/notify-finish-payment?orderId=" + this.order.OrderId +
+				"," + bookingId;
+			const browserOpt: InAppBrowserOptions = {
+				hideurlbar: 'yes'
+			};
+			const browser = this.inAppBrowser.create(url, '_self', browserOpt);
+			this.postsCol = this.database.collection(this.booking_path, ref => ref.where('OrderId', '==', this.order.OrderId));
+			this.posts = this.postsCol.snapshotChanges()
+				.map(actions => {
+					return actions.map(a => {
+						const data = a.payload.doc.data();
+						if (data.CurrentStatus.Name === 'Customer paid') {
+							browser.close();
+							//Set flag to define order status
+							const result = {'orderId': this.order.OrderId};
+							this.navCtrl.setRoot('page-cart', {
+								'result': result
+							});
+						}
+					});
 				});
-			});
+		}
 	}
 
 	openOrderResult(id) {

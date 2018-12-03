@@ -35,7 +35,6 @@ export class OrderResultPage implements OnInit{
 				(res: any) => {
 					this.order = res.order;
 					this.customerInfo = res.customerInfo;
-					console.log(this.order);
 					this.loadingHelperPro.dismissLoading();
 				},
 				(err) => {
