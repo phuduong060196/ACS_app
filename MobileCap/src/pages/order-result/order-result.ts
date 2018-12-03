@@ -21,6 +21,7 @@ import {LoadingHelperProvider} from "../../providers/loading-helper/loading-help
 export class OrderResultPage implements OnInit{
 	private result: any;
 	order: any;
+	customerInfo: any;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, private httpHelperPro: HttpHelperProvider, private loadingHelperPro: LoadingHelperProvider) {
 		this.result = this.navParams.get('result');
@@ -33,6 +34,7 @@ export class OrderResultPage implements OnInit{
 			this.httpHelperPro.get('/api/order/order-detail?orderId='+this.result.orderId).subscribe(
 				(res: any) => {
 					this.order = res.order;
+					this.customerInfo = res.customerInfo;
 					console.log(this.order);
 					this.loadingHelperPro.dismissLoading();
 				},
