@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
+import { CloseModalProvider } from '../../providers/close-modal/close-modal';
+
 
 @IonicPage({
   name: 'page-review-booking',
@@ -18,7 +20,7 @@ export class ReviewBookingPage implements OnInit {
   listService: any;
   total: any
 
-  constructor(private alertCtrl: AlertController, private database: AngularFirestore, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private closeModalPro: CloseModalProvider, private alertCtrl: AlertController, private database: AngularFirestore, public navCtrl: NavController, public navParams: NavParams) {
     this.inforBooking = this.navParams.get('inforBooking');
   }
 
@@ -42,6 +44,7 @@ export class ReviewBookingPage implements OnInit {
         buttons: [{
           text: 'Xác nhận',
           handler: () => {
+            this.closeModalPro.SetIsCloseModal = true;
             this.closeModal();
           }
         }]
