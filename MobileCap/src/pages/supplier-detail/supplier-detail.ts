@@ -27,7 +27,6 @@ export class SupplierDetailPage implements OnInit {
 	constructor(private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams, public http: HttpClient, public getUrlPro: GetUrlProvider, public toastCtrl: ToastController, public httpHelperPro: HttpHelperProvider, public modalCtrl: ModalController) {
 		this.param = this.navParams.get('supplier');
 		this.supplier = this.param;
-
 	}
 
 	// loadAllSuppliesById() {
@@ -52,6 +51,24 @@ export class SupplierDetailPage implements OnInit {
 				console.log(err);
 			});
 
+	}
+
+	getSupplierInfo(SupplierId) {
+		this.loadingHelperPro.presentLoading('Đang tải...');
+		this.httpHelperPro.get('/api/supplier/get-by-id?id=' + SupplierId).subscribe(
+			(res: any) => {
+				if (res.data.Avatar) {
+					let oldUrl = res.data.Avatar;
+					res.data.Avatar = 'http://web-capstone.azurewebsites.net' + oldUrl;
+				}
+				this.supplier = res.data;
+				this.loadingHelperPro.dismissLoading();
+			},
+			(err) => {
+				console.log(err);
+				this.loadingHelperPro.dismissLoading();
+			}
+		);
 	}
 
 	getServices(SupplierId) {
@@ -103,14 +120,11 @@ export class SupplierDetailPage implements OnInit {
 		// this.navCtrl.push('page-feedback-detail', {'id': param});
 	}
 
-	ngOnInit(): void {
-		if (!this.supplier) {
-			this.navCtrl.push('page-home');
-			return;
-		}
-		if (this.supplier) {
-			this.getServices(this.supplier.SupplierId);
-			this.getFeedback(this.supplier.SupplierId);
+	ngOnInit() {
+		if (this.param) {
+			this.getSupplierInfo(this.param.SupplierId);
+			this.getServices(this.param.SupplierId);
+			this.getFeedback(this.param.SupplierId);
 			this.checkTransactionHistory();
 		}
 	}

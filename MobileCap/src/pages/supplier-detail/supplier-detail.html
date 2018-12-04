@@ -14,9 +14,9 @@
 				<ng-container *ngIf="supplier.Avatar">
 					<img [src]="supplier.Avatar">
 				</ng-container>
-				<ng-container *ngIf="!supplier.Avatar">
+				<!-- <ng-container *ngIf="!supplier.Avatar">
 					<img src="https://dienlanhhoanggia.com/getattachment/d5ec3649-e3f1-4c91-8c5f-e57cf512210f//trang-chu/logo/dien-may-viet-long.aspx?width=&height=">
-				</ng-container>
+				</ng-container> -->
 			</ion-slides>
 		</div>
 		<ion-card-content>
@@ -85,7 +85,7 @@
 											</button>
 										</ng-container>
 										<ng-container *ngIf="subService.PromotionPercent > 0 && subService.Price > 0">
-											<button ion-button clear class="green-bg text-white" style="text-decoration: line-through" item-end>
+											<button ion-button clear class="blue-bg text-white" style="text-decoration: line-through" item-end>
 												{{subService.OriginalPriceDisplay}}
 											</button>
 											<button ion-button clear class="dark-bg text-white" item-end>

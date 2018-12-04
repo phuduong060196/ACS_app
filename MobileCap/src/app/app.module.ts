@@ -33,6 +33,7 @@ import { FcmProvider } from '../providers/fcm/fcm';
 import { NotificationHelperProvider } from '../providers/notification-helper/notification-helper';
 import { NumberNotificationHelperProvider } from '../providers/number-notification-helper/number-notification-helper';
 import { Network } from '@ionic-native/network';
+import { CloseModalProvider } from '../providers/close-modal/close-modal';
 
 registerLocaleData(localeVi);
 
@@ -93,7 +94,8 @@ var config = {
 		NumberNotificationHelperProvider,
 		InAppBrowser,
 		Network,
-		{ provide: LOCALE_ID, useValue: 'vi_VN' }
+		{ provide: LOCALE_ID, useValue: 'vi_VN' },
+    CloseModalProvider
 	]
 })
 export class AppModule {

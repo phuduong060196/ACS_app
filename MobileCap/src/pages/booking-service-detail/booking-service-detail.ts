@@ -8,6 +8,7 @@ import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
 import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
 import moment from 'moment';
 import { AccessTokenHelperProvider } from '../../providers/access-token-helper/access-token-helper';
+import { CloseModalProvider } from '../../providers/close-modal/close-modal';
 
 interface Post {
 	SeenBySupplier: any;
@@ -35,12 +36,24 @@ export class BookingServiceDetailPage implements OnInit {
 	TimeWork: any = '';
 	DayWork: any = '';
 	MinDayWork = new Date().toISOString();
+	isCloseModal: boolean = false;
 
-	constructor(private modalCtrl: ModalController, private accessTokenHelperPro: AccessTokenHelperProvider, private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public httpHelperPro: HttpHelperProvider, private alertCtrl: AlertController) {
+	constructor(private closeModalPro: CloseModalProvider, private modalCtrl: ModalController, private accessTokenHelperPro: AccessTokenHelperProvider, private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public httpHelperPro: HttpHelperProvider, private alertCtrl: AlertController) {
 
 	}
 
 	ngOnInit() {
+		// this.closeModalPro.GetIsCloseModal.subscribe(
+		// 	(val) => {
+		// 		if (val) {
+		// 			this.isCloseModal = val;
+		// 		}
+		// 		if (this.isCloseModal) {
+		// 			this.closeModalPro.SetIsCloseModal = false;
+		// 			this.closeModal();
+		// 		}
+		// 	}
+		// );
 		this.supplier = this.navParams.get('supplier');
 		if (!this.supplier) {
 			this.navCtrl.push('page-home');
@@ -69,9 +82,6 @@ export class BookingServiceDetailPage implements OnInit {
 					});
 					return element1;
 				});
-				console.log('services: ');
-				console.log(this.services);
-				console.log('-----0-----0-----')
 				this.loadingHelperPro.dismissLoading();
 			},
 			(err) => {
