@@ -54,6 +54,7 @@ export class OrderDetailPage implements OnInit {
 				(res: any) => {
 					this.order = res.order;
 					this.services = this.order.OrderDetails;
+					console.log(this.services);
 					this.customerInfo = res.customerInfo;
 					this.supplierInfo = this.order.SupplierInfo;
 					this.loadSupplier();

@@ -9,7 +9,7 @@
 	<ng-container *ngIf="services">
 
 		<ng-container *ngFor="let service of services">
-			<ion-card class="lightest-bg">
+			<ion-card class="lightest-bg" (click)="openSupplierDetail(service)">
 				<ion-card-header text-center color="primary">
 					{{service.Name}}
 				</ion-card-header>

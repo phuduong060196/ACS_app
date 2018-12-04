@@ -42,4 +42,10 @@ export class ServiceListPage implements OnInit {
     }
   }
 
+  openSupplierDetail(service) {
+    this.navCtrl.push('page-supplier-detail', {
+      'supplier': service
+    });
+  }
+
 }

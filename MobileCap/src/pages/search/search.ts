@@ -131,10 +131,11 @@ export class SearchPage {
 					(ressult) => {
 						this.http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + ressult.coords.latitude + ',' + ressult.coords.longitude + '&key=AIzaSyDr5qwgemJp4LtodR8lvXg382V-cDFK3bY&sensor=false').subscribe(
 							(res: any) => {
+								console.log(res);
 								this.localPro.SetLocation = {
 									lat: ressult.coords.latitude,
 									lng: ressult.coords.longitude,
-									yourLocation: res.results[1].formatted_address
+									yourLocation: res.results[0].formatted_address
 								};
 								this.loadingHelperPro.dismissLoading();
 								setTimeout(() => {
