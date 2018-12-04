@@ -74,9 +74,9 @@ export class CheckoutPage implements OnInit {
 				.map(actions => {
 					return actions.map(a => {
 						const data = a.payload.doc.data();
+						//Check firebase if customer paid
 						if (data.CurrentStatus.Name === 'Customer paid') {
 							browser.close();
-							//Set flag to define order status
 							const result = {'orderId': this.order.OrderId};
 							this.navCtrl.setRoot('page-cart', {
 								'result': result

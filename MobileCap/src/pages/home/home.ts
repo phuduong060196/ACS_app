@@ -251,7 +251,7 @@ export class HomePage {
 	}
 
 	openListType(type) {
-		console.log(type);
+		// console.log(type);
 		this.navCtrl.push('page-service-list', {
 			'type': type
 		});

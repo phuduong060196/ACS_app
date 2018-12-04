@@ -26,8 +26,8 @@
 							Trạng thái: <strong>{{order.OrderStatus}}</strong>
 						</ion-col>
 						<ion-col *ngIf="order.IsPaid">
-							Thanh toán: <strong>Đã thanh toán</strong>
-							<ion-icon color="green" name="checkmark-circle"></ion-icon>
+							Thanh toán: <strong>Đã thanh toán</strong>&nbsp;<ion-icon color="green"
+																					  name="checkmark-circle"></ion-icon>
 						</ion-col>
 						<ion-col *ngIf="!order.IsPaid">
 							Thanh toán: <strong>Chưa thanh toán</strong>
@@ -205,7 +205,8 @@
 		<ng-container *ngIf="order.OrderStatusId !== 3">
 			<div text-center *ngFor="let post of posts | async">
 				<ng-container *ngIf="!order.IsPaid">
-					<button ion-button color="secondary" margin-top icon-right full tappable (click)="openCheckoutPage(order)">
+					<button ion-button color="secondary" margin-top icon-right full tappable
+							(click)="openCheckoutPage(order)">
 						Tiếp tục
 						<ion-icon name="cash"></ion-icon>
 					</button>
@@ -217,7 +218,7 @@
 				</ng-container>
 			</div>
 		</ng-container>
-		<br />
+		<br/>
 	</ng-container>
 
 </ion-content>
