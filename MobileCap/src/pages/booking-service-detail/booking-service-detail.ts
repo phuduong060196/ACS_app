@@ -43,17 +43,19 @@ export class BookingServiceDetailPage implements OnInit {
 	}
 
 	ngOnInit() {
-		// this.closeModalPro.GetIsCloseModal.subscribe(
-		// 	(val) => {
-		// 		if (val) {
-		// 			this.isCloseModal = val;
-		// 		}
-		// 		if (this.isCloseModal) {
-		// 			this.closeModalPro.SetIsCloseModal = false;
-		// 			this.closeModal();
-		// 		}
-		// 	}
-		// );
+
+		this.closeModalPro.GetIsCloseModal.subscribe(
+			(val) => {
+				if (val) {
+					this.isCloseModal = val;
+				}
+
+				if (this.isCloseModal) {
+					this.closeModal();
+				}
+			}
+		);
+
 		this.supplier = this.navParams.get('supplier');
 		if (!this.supplier) {
 			this.navCtrl.push('page-home');

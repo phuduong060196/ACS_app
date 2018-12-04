@@ -45,7 +45,7 @@ export class ReviewBookingPage implements OnInit {
           text: 'Xác nhận',
           handler: () => {
             this.closeModal();
-            // this.closeModalPro.SetIsCloseModal = true;
+            this.closeModalPro.SetIsCloseModal = true;
           }
         }]
       }).present();
