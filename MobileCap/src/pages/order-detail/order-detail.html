@@ -198,6 +198,18 @@
 							</b>
 						</ion-col>
 					</ion-row>
+					<ng-container *ngIf="order.SupplierNote">
+						<ion-row>
+							<ion-col col-5>
+								<h3 ion-text color="primary" class="fw500"><b><i>Ghi chú:</i></b></h3>
+							</ion-col>
+							<ion-col col-7>
+								<p ion-text>
+									<i>{{order.SupplierNote}}</i>
+								</p>
+							</ion-col>
+						</ion-row>
+					</ng-container>
 				</ion-grid>
 			</ion-card-content>
 		</ion-card>

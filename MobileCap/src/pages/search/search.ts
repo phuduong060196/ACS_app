@@ -35,6 +35,7 @@ export class SearchPage {
 				this.lat = val.lat;
 				this.lng = val.lng;
 				this.yourLocation = val.yourLocation;
+				this.forcusOnSearchBar();
 			} else {
 				this.getCurentLocation();
 			}
@@ -138,9 +139,7 @@ export class SearchPage {
 									yourLocation: res.results[0].formatted_address
 								};
 								this.loadingHelperPro.dismissLoading();
-								setTimeout(() => {
-									this.searchView.setFocus();
-								}, 500);
+								this.forcusOnSearchBar();
 							}
 						);
 					}
@@ -159,6 +158,10 @@ export class SearchPage {
 	}
 
 	ionViewDidLoad() {
+		this.forcusOnSearchBar();
+	}
+
+	forcusOnSearchBar(){
 		setTimeout(() => {
 			this.searchView.setFocus();
 		}, 500);
