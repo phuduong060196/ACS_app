@@ -36,25 +36,27 @@ export class BookingServiceDetailPage implements OnInit {
 	TimeWork: any = '';
 	DayWork: any = '';
 	MinDayWork = new Date().toISOString();
-	isCloseModal: boolean = false;
+	isCloseModal: any;
 
 	constructor(private closeModalPro: CloseModalProvider, private modalCtrl: ModalController, private accessTokenHelperPro: AccessTokenHelperProvider, private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public httpHelperPro: HttpHelperProvider, private alertCtrl: AlertController) {
 
 	}
 
-	ngOnInit() {
-
+	ionViewDidLoad() {
 		this.closeModalPro.GetIsCloseModal.subscribe(
 			(val) => {
-				if (val) {
-					this.isCloseModal = val;
-				}
-
+				this.isCloseModal = val;
 				if (this.isCloseModal) {
 					this.closeModal();
 				}
 			}
 		);
+	}
+
+	ngOnInit() {
+
+		this.closeModalPro.SetIsCloseModal = false;
+		this.isCloseModal = false;
 
 		this.supplier = this.navParams.get('supplier');
 		if (!this.supplier) {
