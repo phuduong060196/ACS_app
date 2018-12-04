@@ -27,6 +27,8 @@ export class MessageListPage implements OnInit {
 
 	postsCol: AngularFirestoreCollection<Post>;
 	docId: any;
+	posts1: any;
+	flagExist: boolean;
 
 	constructor(private database: AngularFirestore, private notificationHelperPro: NotificationHelperProvider, public navCtrl: NavController, private AccessTokenHelperProvider: AccessTokenHelperProvider, public loadingPro: LoadingHelperProvider, public alertCtrl: AlertController ) {
 		this.notificationHelperPro.GetTestNotification.subscribe((val) => {
@@ -38,7 +40,7 @@ export class MessageListPage implements OnInit {
 		this.AccessTokenHelperProvider.GetAccessToken.subscribe(
 			(res) => {
 				if (localStorage.getItem('token')) {
-					this.loadingPro.presentLoading('');
+					this.loadingPro.presentLoading('Đang tải...');
 					const cusId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
 					this.postsCol = this.database.collection('booking', ref => ref.where('CustomerId', '==', cusId).orderBy('CurrentStatus.UpdatedDate', 'desc'));
 					this.docId = this.postsCol.snapshotChanges()
@@ -46,10 +48,18 @@ export class MessageListPage implements OnInit {
 							return actions.map(a => {
 								const data = a.payload.doc.data();
 								const id = a.payload.doc.id;
+								this.flagExist = true;
 								this.loadingPro.dismissLoading();
 								return {data, id};
 							});
 						});
+					//Show screen when it's empty
+					this.posts1 = this.postsCol.valueChanges().subscribe(
+						(res) => {
+							this.flagExist = false;
+							this.loadingPro.dismissLoading();
+						}
+					)
 				}
 			}
 		)

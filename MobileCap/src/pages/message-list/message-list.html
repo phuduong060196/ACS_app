@@ -17,15 +17,16 @@
 
 				<ion-list>
 
+					<ion-card *ngIf="!flagExist" class="primary-bg" margin-top>
+						<ion-card-content>
+							<p text-center class="text-white">Bạn chưa có thông báo nào</p>
+						</ion-card-content>
+					</ion-card>
 					<ion-item-sliding *ngFor="let doc of docId | async">
-						<ion-card *ngIf="!doc.length" class="primary-bg" margin-top>
-							<ion-card-content>
-								<p text-center class="text-white">Bạn không có thông báo nào !!!</p>
-							</ion-card-content>
-						</ion-card>
 
 						<!--Button vao trang Order-detail-->
-						<button *ngIf="doc.data.CurrentStatus.Name !== 'Waiting for review' && !doc.data.CurrentStatus.SupplierNote" ion-item
+						<button *ngIf="doc.data.CurrentStatus.Name !== 'Waiting for review' && !doc.data.CurrentStatus.SupplierNote"
+								ion-item
 								(click)="itemTapped({'id': doc.id, 'orderId': doc.data.OrderId})"
 								[ngClass]="{'light-bg': !doc.data.SeenByCustomer}">
 							<h2 [ngClass]="{'fw700': !doc.data.SeenByCustomer}">
@@ -44,7 +45,8 @@
 						</button>
 
 						<!--Button vao trang thong bao huy request-->
-						<button *ngIf="doc.data.CurrentStatus.Name !== 'Waiting for review' && doc.data.CurrentStatus.Name === 'Cancel' && doc.data.CurrentStatus.SupplierNote" ion-item
+						<button *ngIf="doc.data.CurrentStatus.Name !== 'Waiting for review' && doc.data.CurrentStatus.Name === 'Cancel' && doc.data.CurrentStatus.SupplierNote"
+								ion-item
 								(click)="itemTapped({'id': doc.id, 'supplierNote': doc.data.CurrentStatus.SupplierNote})"
 								[ngClass]="{'light-bg': !doc.data.SeenByCustomer}">
 							<h2 [ngClass]="{'fw700': !doc.data.SeenByCustomer}">
@@ -54,7 +56,7 @@
 									nhận
 								</ng-container>
 							</h2>
-							<p>{{doc.data.CurrentStatus.UpdatedDate}}</p>
+							<p>{{doc.data.CurrentStatus.UpdatedDate.toDate() | date:'dd/MM/yyyy hh:mm'}}</p>
 						</button>
 
 						<ion-item-options>

@@ -23,6 +23,7 @@ import {LoadingHelperProvider} from "../../providers/loading-helper/loading-help
 interface Post {
 	CurrentStatus: any;
 }
+
 @IonicPage({
 	name: 'page-feedback-detail',
 	segment: 'feedback-detail'
@@ -55,56 +56,46 @@ export class FeedbackDetailPage implements OnInit {
 			'FeedbackContent': form.feedbackContent
 
 		};
-		//Send data to web API
-		this.httpHelperPro.post('/api/customer/feedback', objectContent).subscribe(
-			(res: any) => {
-				this.loadingHelperPro.dismissLoading();
-				let resData = JSON.parse(res);
-				if(this.starRating == undefined || this.starRating == 0){
-					let alert = this.alertCtrl.create({
-						title: 'Thông báo',
-						subTitle: 'Hãy chọn số sao để đánh giá.',
-						buttons: ['OK']
-					});
-					alert.present();
-					return;
-				}
-				if(form.feedbackContent.length < 10){
-					let alert = this.alertCtrl.create({
-						title: 'Thông báo',
-						subTitle: 'Nội dung tối thiểu 10 ký tự.',
-						buttons: ['OK']
-					});
-					alert.present();
-					return;
-				}
-				if (!resData.result) {
-					this.authMessage(resData.message);
-				} else {
-					// send feedback info
-					let loader = this.loadingCtrl.create({
-						content: "Vui lòng đợi..."
-					});
-					// show message
-					let toast = this.toastCtrl.create({
-						showCloseButton: true,
-						cssClass: 'profiles-bg',
-						message: 'Đánh giá thành công!',
-						duration: 2000,
-						position: 'bottom'
-					});
+		if (this.starRating == undefined || this.starRating == 0) {
+			let message = 'Hãy chọn số sao để đánh giá.';
+			this.authMessage(message);
+			return;
+		} else {
+			//Send data to web API
+			this.httpHelperPro.post('/api/customer/feedback', objectContent).subscribe(
+				(res: any) => {
+					this.loadingHelperPro.dismissLoading();
+					let resData = JSON.parse(res);
+					if (!resData.result) {
+						this.authMessage(resData.message);
+					} else {
+						// send feedback info
+						let loader = this.loadingCtrl.create({
+							content: "Vui lòng đợi..."
+						});
+						// show message
+						let toast = this.toastCtrl.create({
+							showCloseButton: true,
+							cssClass: 'profiles-bg',
+							message: 'Đánh giá thành công!',
+							duration: 2000,
+							position: 'bottom',
+							closeButtonText: 'Xác nhận'
+						});
 
-					loader.present();
+						loader.present();
 
-					setTimeout(() => {
-						loader.dismiss();
-						toast.present();
-						// back to home page
-						this.closeModal();
-					}, 2000)
+						setTimeout(() => {
+							loader.dismiss();
+							toast.present();
+							// back to home page
+							this.closeModal();
+						}, 2000)
+					}
 				}
-			}
-		);
+			);
+		}
+
 
 	}
 
@@ -119,9 +110,7 @@ export class FeedbackDetailPage implements OnInit {
 			title: 'Thông báo',
 			message: textMess,
 			buttons: [{
-				text: 'Xác nhận',
-				handler: data => {
-				}
+				text: 'Xác nhận'
 			}],
 		});
 		registerAlert.present();

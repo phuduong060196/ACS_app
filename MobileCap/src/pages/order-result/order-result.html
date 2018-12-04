@@ -51,7 +51,7 @@
 					</ion-col>
 					<ion-col col-6>
 						<p ion-text>
-							{{customerInfo.PhoneNumber}}
+							{{order.PhoneNumber}}
 						</p>
 					</ion-col>
 				</ion-row>
@@ -61,7 +61,7 @@
 					</ion-col>
 					<ion-col col-6>
 						<p ion-text>
-							{{customerInfo.Address}}
+							{{order.Address}}
 						</p>
 					</ion-col>
 				</ion-row>
@@ -187,7 +187,7 @@
 			</div>
 
 			<!--Da huy, da thanh toan-->
-			<div *ngIf="order.OrderStatusId == 4 && order.IsPaid == true">
+			<div *ngIf="order.OrderStatusId == 3 && order.IsPaid == true">
 				<ion-card-content text-center padding>
 					<ion-grid no-padding fixed>
 						<ion-row text-center no-padding>
