@@ -161,17 +161,15 @@ export class foodIonicApp {
 		this.platform.ready().then(() => {
 			this.statusBar.overlaysWebView(false);
 			this.splashScreen.hide();
-
+			this.network.onDisconnect().subscribe(
+				(changed) => {
+					this.alertCtrl.create({
+						message: 'Vui lòng kết nối mạng để sử dụng ứng dụng',
+						buttons: ['Xác nhận']
+					}).present();
+				}
+			);
 			this.filterSupport.SetFilterSearch = 'D';
-
-			// this.network.onDisconnect().subscribe(
-			// 	(changed) => {
-			// 		this.alertCtrl.create({
-			// 			message: 'Vui lòng kết nối mạng để sử dụng ứng dụng',
-			// 			buttons: ['Xác nhận']
-			// 		}).present();
-			// 	}
-			// );
 
 			this.fcmPro.listenToNotifications().subscribe((res) => {
 				if (!res.tap) {

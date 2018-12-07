@@ -4,6 +4,8 @@ import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firest
 import 'rxjs/add/operator/map';
 import {HttpClient} from "@angular/common/http";
 import {GetUrlProvider} from "../../providers/get-url/get-url";
+import {AngularFireStorage, AngularFireUploadTask} from 'angularfire2/storage';
+import {Camera, CameraOptions} from '@ionic-native/camera';
 
 /**
  * Generated class for the ChatDetailPage page.
@@ -42,7 +44,11 @@ export class ChatDetailPage {
 	@ViewChild(Content) content: Content;
 	@ViewChild('messageInput') messageInput: any;
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public http: HttpClient, public getUrlPro: GetUrlProvider) {
+	task: AngularFireUploadTask;
+	progressSto: any;  // Observable 0 to 100
+	imageSto: string; // base64
+
+	constructor(public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public http: HttpClient, public getUrlPro: GetUrlProvider, public storage: AngularFireStorage, private camera: Camera) {
 		this.paramId = this.navParams.get('id');
 	}
 
@@ -134,6 +140,33 @@ export class ChatDetailPage {
 		this.setSeenMessage();
 		this.loadMessage();
 		this.loadSupplier();
+	}
+
+	async captureImage() {
+		const options: CameraOptions = {
+			quality: 100,
+			destinationType: this.camera.DestinationType.DATA_URL,
+			encodingType: this.camera.EncodingType.JPEG,
+			mediaType: this.camera.MediaType.PICTURE,
+			sourceType: this.camera.PictureSourceType.CAMERA
+		}
+
+		return await this.camera.getPicture(options)
+	}
+
+	createUploadTask(file: string): void {
+
+		const filePath = `images_${ new Date().getTime() }.jpg`;
+
+		this.imageSto = 'data:image/jpg;base64,' + file;
+		this.task = this.storage.ref(filePath).putString(this.imageSto, 'data_url');
+
+		this.progressSto = this.task.percentageChanges();
+	}
+
+	async uploadHandler() {
+		const base64 = await this.captureImage();
+		this.createUploadTask(base64);
 	}
 
 }
