@@ -34,6 +34,7 @@ import { NotificationHelperProvider } from '../providers/notification-helper/not
 import { NumberNotificationHelperProvider } from '../providers/number-notification-helper/number-notification-helper';
 import { Network } from '@ionic-native/network';
 import { CloseModalProvider } from '../providers/close-modal/close-modal';
+import { FilterSupportProvider } from '../providers/filter-support/filter-support';
 
 registerLocaleData(localeVi);
 
@@ -95,7 +96,8 @@ var config = {
 		InAppBrowser,
 		Network,
 		{ provide: LOCALE_ID, useValue: 'vi_VN' },
-    CloseModalProvider
+    CloseModalProvider,
+    FilterSupportProvider
 	]
 })
 export class AppModule {
