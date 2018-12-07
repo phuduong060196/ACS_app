@@ -27,6 +27,7 @@
         "@angular/http": "5.2.7",
         "@angular/platform-browser": "5.2.7",
         "@angular/platform-browser-dynamic": "5.2.7",
+        "@ionic-native/camera": "^4.18.0",
         "@ionic-native/core": "4.15.0",
         "@ionic-native/device": "4.15.0",
         "@ionic-native/firebase": "^4.17.0",
@@ -44,6 +45,7 @@
         "angularfire2": "^5.1.0",
         "build": "0.1.4",
         "cordova-android": "7.1.4",
+        "cordova-plugin-camera": "4.0.3",
         "cordova-plugin-console": "^1.1.0",
         "cordova-plugin-device": "^1.1.7",
         "cordova-plugin-firebase": "2.0.5",
@@ -87,7 +89,8 @@
             "cordova-plugin-nativegeocoder": {},
             "cordova-plugin-geolocation": {},
             "cordova-plugin-inappbrowser": {},
-            "cordova-plugin-network-information": {}
+            "cordova-plugin-network-information": {},
+            "cordova-plugin-camera": {}
         },
         "platforms": [
             "android"

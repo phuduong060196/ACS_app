@@ -18,6 +18,7 @@ import { PipesModule } from '../pipes/pipes.module';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { Firebase } from '@ionic-native/firebase';
+import { AngularFireStorageModule } from "@angular/fire/storage";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -34,6 +35,7 @@ import { NotificationHelperProvider } from '../providers/notification-helper/not
 import { NumberNotificationHelperProvider } from '../providers/number-notification-helper/number-notification-helper';
 import { Network } from '@ionic-native/network';
 import { CloseModalProvider } from '../providers/close-modal/close-modal';
+import { Camera } from '@ionic-native/camera';
 
 registerLocaleData(localeVi);
 
@@ -68,7 +70,8 @@ var config = {
 		}),
 		PipesModule,
 		AngularFireModule.initializeApp(config),
-		AngularFirestoreModule
+		AngularFirestoreModule,
+		AngularFireStorageModule
 	],
 	bootstrap: [IonicApp],
 	entryComponents: [
@@ -94,6 +97,7 @@ var config = {
 		NumberNotificationHelperProvider,
 		InAppBrowser,
 		Network,
+		Camera,
 		{ provide: LOCALE_ID, useValue: 'vi_VN' },
     CloseModalProvider
 	]
