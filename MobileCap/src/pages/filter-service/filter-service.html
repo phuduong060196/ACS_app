@@ -1,0 +1,28 @@
+<ion-header>
+	<ion-navbar color="primary">
+		<ion-buttons start>
+			<button ion-button round (click)="closeModal()">
+				<ion-icon name="close"></ion-icon>
+			</button>
+		</ion-buttons>
+		<ion-title>
+			<span ion-text>Lọc</span>
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+	<ion-item>
+		<ion-label>Lọc theo: </ion-label>
+		<ion-select okText="Xác nhận" cancelText="Hủy" [(ngModel)]="filterValue">
+			<ion-option value="D">Khoảng cách</ion-option>
+			<ion-option value="R">Đánh giá</ion-option>
+			<ion-option value="P">Giá</ion-option>
+		</ion-select>
+	</ion-item>
+
+	<div style="margin-top: 50px">
+		<button ion-button block color="primary" (click)="confirmAction()">Xác nhận</button>
+	</div>
+</ion-content>

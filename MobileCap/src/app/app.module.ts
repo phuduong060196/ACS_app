@@ -36,6 +36,7 @@ import { NumberNotificationHelperProvider } from '../providers/number-notificati
 import { Network } from '@ionic-native/network';
 import { CloseModalProvider } from '../providers/close-modal/close-modal';
 import { Camera } from '@ionic-native/camera';
+import { FilterSupportProvider } from '../providers/filter-support/filter-support';
 
 registerLocaleData(localeVi);
 
@@ -99,7 +100,8 @@ var config = {
 		Network,
 		Camera,
 		{ provide: LOCALE_ID, useValue: 'vi_VN' },
-    CloseModalProvider
+    CloseModalProvider,
+    FilterSupportProvider
 	]
 })
 export class AppModule {
