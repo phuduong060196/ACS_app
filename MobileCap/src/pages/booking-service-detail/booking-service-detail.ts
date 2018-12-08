@@ -36,6 +36,8 @@ export class BookingServiceDetailPage implements OnInit {
 	TimeWork: any = '';
 	DayWork: any = '';
 	MinDayWork = new Date().toISOString();
+	currentDateMoment = moment(new Date()).utc().format();
+	MaxDayWork = moment(this.currentDateMoment).add(14, 'd').toISOString();
 	isCloseModal: any;
 
 	constructor(private closeModalPro: CloseModalProvider, private modalCtrl: ModalController, private accessTokenHelperPro: AccessTokenHelperProvider, private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public httpHelperPro: HttpHelperProvider, private alertCtrl: AlertController) {
