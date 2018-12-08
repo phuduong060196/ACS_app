@@ -69,9 +69,16 @@
 										<ion-col text-left>
 											Tổng tiền:
 										</ion-col>
-										<ion-col text-left>
-											{{history.Total}}
-										</ion-col>
+										<ng-container *ngIf="!history.PaymentPrice">
+											<ion-col text-left>
+												Liên hệ nhà cung cấp
+											</ion-col>
+										</ng-container>
+										<ng-container *ngIf="history.PaymentPrice > 0">
+											<ion-col text-left>
+												{{history.Total}}
+											</ion-col>
+										</ng-container>
 									</ion-row>
 								</ion-grid>
 								<ng-container *ngIf="!history.IsPaid">
@@ -143,9 +150,16 @@
 									<ion-col text-left>
 										Tổng tiền:
 									</ion-col>
-									<ion-col text-left>
-										{{history.Total}}
-									</ion-col>
+									<ng-container *ngIf="!history.PaymentPrice">
+										<ion-col text-left>
+											Liên hệ nhà cung cấp
+										</ion-col>
+									</ng-container>
+									<ng-container *ngIf="history.PaymentPrice > 0">
+										<ion-col text-left>
+											{{history.Total}}
+										</ion-col>
+									</ng-container>
 								</ion-row>
 							</ion-grid>
 							<ng-container *ngIf="!history.IsPaid">

@@ -33,9 +33,9 @@
 				<button menuClose ion-item (click)="openPage(messagesItem)">
 					<ion-icon item-left name="notifications"></ion-icon>
 					Thông báo
-					<!-- <ion-badge color="dark">
-						2
-					</ion-badge> -->
+					<ion-badge color="dark" *ngIf="numberNotification() > 0">
+						{{numberNotification()}}
+					</ion-badge>
 				</button>
 				<button menuClose ion-item (click)="openPage(chatItem)">
 					<ion-icon item-left name="chatboxes"></ion-icon>
