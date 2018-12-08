@@ -7,52 +7,65 @@ import { CloseModalProvider } from '../../providers/close-modal/close-modal';
 
 
 @IonicPage({
-  name: 'page-review-booking',
-  segment: 'review-booking'
+    name: 'page-review-booking',
+    segment: 'review-booking'
 })
 @Component({
-  selector: 'page-review-booking',
-  templateUrl: 'review-booking.html',
+    selector: 'page-review-booking',
+    templateUrl: 'review-booking.html',
 })
 export class ReviewBookingPage implements OnInit {
 
-  inforBooking: any;
-  listService: any;
-  total: any
+    inforBooking: any;
+    listService: any;
+    total: any
 
-  constructor(private closeModalPro: CloseModalProvider, private alertCtrl: AlertController, private database: AngularFirestore, public navCtrl: NavController, public navParams: NavParams) {
-    this.inforBooking = this.navParams.get('inforBooking');
-  }
-
-  ngOnInit() {
-    if (this.inforBooking) {
-      this.total = 0;
-      this.listService = this.inforBooking.Order.OrderDetails;
-      console.log(this.listService);
-      this.listService.forEach(element => {
-        this.total = this.total + (element.Price * element.Quantity);
-      });
+    constructor(private closeModalPro: CloseModalProvider, private alertCtrl: AlertController, private database: AngularFirestore, public navCtrl: NavController, public navParams: NavParams) {
+        this.inforBooking = this.navParams.get('inforBooking');
     }
-  }
 
-  sendBookingRequest() {
-    if (this.inforBooking) {
-      this.database.collection('booking').add(this.inforBooking);
-      this.alertCtrl.create({
-        title: 'Thông báo',
-        message: 'Đặt dịch vụ thành công!',
-        buttons: [{
-          text: 'Xác nhận',
-          handler: () => {
-            this.closeModal();
-            this.closeModalPro.SetIsCloseModal = true;
-          }
-        }]
-      }).present();
+    ngOnInit() {
+        if (this.inforBooking) {
+            this.total = 0;
+            this.listService = this.inforBooking.Order.OrderDetails;
+            console.log(this.listService);
+            this.listService.forEach(element => {
+                this.total = this.total + (element.Price * element.Quantity);
+            });
+        }
     }
-  }
 
-  closeModal() {
-    this.navCtrl.pop();
-  }
+    sendBookingRequest() {
+        if (this.inforBooking) {
+            this.database.collection('booking').add(this.inforBooking)
+                .then(
+                    (res: any) => {
+                        this.alertCtrl.create({
+                            title: 'Thông báo',
+                            message: 'Đặt dịch vụ thành công!',
+                            buttons: [{
+                                text: 'Xác nhận',
+                                handler: () => {
+                                    this.closeModal();
+                                    this.closeModalPro.SetIsCloseModal = true;
+                                }
+                            }]
+                        }).present();
+                    }
+                )
+                .catch(
+                    (err) => {
+                        this.alertCtrl.create({
+                            title: 'Thông báo',
+                            message: 'Đặt dịch vụ không thành công vui lòng thử lại!',
+                            buttons: ['Xác nhận']
+                        }).present();
+                    }
+                );
+        }
+    }
+
+    closeModal() {
+        this.navCtrl.pop();
+    }
 }

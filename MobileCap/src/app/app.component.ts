@@ -220,7 +220,6 @@ export class foodIonicApp {
 		if (page.title === 'Đăng xuất') {
 			this.loadingHelperPro.presentLoading('');
 			this.customerServicePro.logout();
-			this.localHelperPro.SetLocation = null;
 			this.loadingHelperPro.dismissLoading();
 			this.nav.setRoot(page.component);
 		} else {
