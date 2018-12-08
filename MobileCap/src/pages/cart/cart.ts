@@ -39,6 +39,7 @@ export class CartPage implements OnInit {
 						this.listPending = this.history
 							.filter(el => el.OrderStatusId === 1)
 							.map(el => { return el; });
+							console.log(this.listPending);
 						this.listFinished = this.history
 							.filter(el => (el.OrderStatusId === 2 || el.OrderStatusId === 3))
 							.map(el => { return el; });

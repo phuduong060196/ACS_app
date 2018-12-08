@@ -50,6 +50,8 @@ export class foodIonicApp {
 
 	lastBack = 0;
 
+	notifications: any;
+
 	//for booking notification
 	postsCol: AngularFirestoreCollection<Post>;
 	posts: any;
@@ -61,6 +63,10 @@ export class foodIonicApp {
 	constructor(private filterSupport: FilterSupportProvider, private alertCtrl: AlertController, private network: Network, private app: App, public loadingHelperPro: LoadingHelperProvider, public localHelperPro: LocalHelperProvider, public customerServicePro: CustomerServiceProvider, public numberNotificationHelperPro: NumberNotificationHelperProvider, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private fcmPro: FcmProvider, private toastCtrl: ToastController, private notificationHelperPro: NotificationHelperProvider, private accessToken: AccessTokenHelperProvider, public database: AngularFirestore) {
 
 		this.initializeApp();
+
+		this.notificationHelperPro.GetTestNotification.subscribe((val) => {
+			this.notifications = val;
+		});
 
 		this.accountMenuItems = [
 			{ title: 'Đăng nhập', component: 'page-auth', icon: 'log-in' },
@@ -224,6 +230,12 @@ export class foodIonicApp {
 			this.nav.setRoot(page.component);
 		} else {
 			this.nav.setRoot(page.component);
+		}
+	}
+
+	numberNotification() {
+		if (this.notifications) {
+			return this.notifications.filter(el => el.SeenByCustomer === false).length;
 		}
 	}
 }
