@@ -15,18 +15,9 @@
 <ion-content padding id="messagesContent">
 
 	<div class="message-wrap">
-
-		<ng-container *ngIf="imageSto">
-			<img style="direction: inherit" *ngIf="imageSto" [src]="imageSto">
-		</ng-container>
-		<ng-container *ngIf="progress | async as percent">
-
-			<progress [value]="percent" max="100"></progress>
-
-		</ng-container>
 		<div *ngFor="let post of posts | async">
 
-			<div class="sender" *ngIf="post.isCustomer != true">
+			<div class="sender" *ngIf="post.isCustomer !== true">
 				<ion-grid>
 					<ion-row>
 						<ion-col col-2 text-left *ngIf="paramId">
@@ -41,10 +32,20 @@
 				</ion-grid>
 			</div>
 
-			<div class="me" style="text-align: right !important;" *ngIf="post.isCustomer == true">
+			<div class="me" style="text-align: right !important;" *ngIf="post.isCustomer === true">
 				<ion-grid>
 					<ion-col col-12>
-						<p>{{post.message}}</p>
+						<ng-container *ngIf="!post.isImage">
+							<p>{{post.message}}</p>
+						</ng-container>
+						<ng-container *ngIf="post.isImage">
+							<img src="{{post.message}}">
+						</ng-container>
+						<!--Progress bar-->
+						<ng-container *ngIf="flagDoneImage !== true">
+							<progress *ngIf="progressSto | async as percentSto" class="progress is-info" [value]="percentSto" max="100"></progress>
+						</ng-container>
+						
 					</ion-col>
 				</ion-grid>
 			</div>
@@ -56,11 +57,16 @@
 	<ion-toolbar>
 
 		<!--Gui hinh anh-->
-		<!--<ion-buttons left>-->
-			<!--<button style="color: #aaaaaa" (tap)="uploadHandler()" ion-button icon-only>-->
-				<!--<ion-icon slot="icon-only" name="camera"></ion-icon>-->
-			<!--</button>-->
-		<!--</ion-buttons>-->
+		<ion-buttons left>
+			<button style="color: #aaaaaa" (tap)="uploadCameraHandler()" ion-button icon-only>
+				<ion-icon slot="icon-only" name="camera"></ion-icon>
+			</button>
+		</ion-buttons>
+		<ion-buttons left>
+			<button style="color: #aaaaaa" (tap)="uploadLibraryHandler()" ion-button icon-only>
+				<ion-icon slot="icon-only" name="images"></ion-icon>
+			</button>
+		</ion-buttons>
 
 		<ion-textarea [(ngModel)]="message" class="message-input" placeholder="Nhấn vào đây" rows="1"
 					  autocapitalize="off" maxlength="500"

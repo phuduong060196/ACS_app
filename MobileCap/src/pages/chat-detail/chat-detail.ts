@@ -1,11 +1,13 @@
 import {Component, ViewChild} from '@angular/core';
 import {Content, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
+import {tap, finalize} from "rxjs/operators";
 import 'rxjs/add/operator/map';
 import {HttpClient} from "@angular/common/http";
 import {GetUrlProvider} from "../../providers/get-url/get-url";
 import {AngularFireStorage, AngularFireUploadTask} from 'angularfire2/storage';
 import {Camera, CameraOptions} from '@ionic-native/camera';
+import {Observable} from 'rxjs/Observable';
 
 /**
  * Generated class for the ChatDetailPage page.
@@ -45,8 +47,9 @@ export class ChatDetailPage {
 	@ViewChild('messageInput') messageInput: any;
 
 	task: AngularFireUploadTask;
-	progressSto: any;  // Observable 0 to 100
-	imageSto: string; // base64
+	progressSto: Observable<number>;
+	flagDoneImage: boolean;
+
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public database: AngularFirestore, public http: HttpClient, public getUrlPro: GetUrlProvider, public storage: AngularFireStorage, private camera: Camera) {
 		this.paramId = this.navParams.get('id');
@@ -56,10 +59,10 @@ export class ChatDetailPage {
 		if (this.message != undefined && this.message != '') {
 			this.messageInput.setFocus();
 			//get UserID
-			let customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
+			const customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
 			//get SupplierID
-			let supplierId = this.paramId.supId;
-			let dateTime = new Date();
+			const supplierId = this.paramId.supId;
+			const dateTime = new Date();
 			this.database.collection(this.chat_path).doc(supplierId + '-' + customerId).set({
 				'supId': supplierId,
 				'cusId': customerId,
@@ -83,9 +86,9 @@ export class ChatDetailPage {
 
 	setSeenMessage() {
 		//get UserID
-		let customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
+		const customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
 		//get SupplierID
-		let supplierId = this.paramId.supId;
+		const supplierId = this.paramId.supId;
 		this.database.collection(this.chat_path).doc(supplierId + '-' + customerId).update({
 			'seenByCus': true,
 		});
@@ -93,9 +96,9 @@ export class ChatDetailPage {
 
 	loadMessage() {
 		//get UserID
-		let customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
+		const customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
 		//get SupplierID
-		let supplierId = this.paramId.supId;
+		const supplierId = this.paramId.supId;
 		//load from firestore
 
 		this.postsCol = this.database.collection(this.chat_path).doc(supplierId + '-' + customerId).collection(this.chat_path1, ref =>
@@ -146,25 +149,79 @@ export class ChatDetailPage {
 			quality: 100,
 			destinationType: this.camera.DestinationType.DATA_URL,
 			encodingType: this.camera.EncodingType.JPEG,
+			sourceType: this.camera.PictureSourceType.CAMERA,
 			mediaType: this.camera.MediaType.PICTURE,
-			sourceType: this.camera.PictureSourceType.CAMERA
-		}
+			allowEdit: true
+		};
+		return await this.camera.getPicture(options);
+	}
 
-		return await this.camera.getPicture(options)
+	async chooseImage() {
+		const options: CameraOptions = {
+			quality: 100,
+			destinationType: this.camera.DestinationType.DATA_URL,
+			sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+			mediaType: this.camera.MediaType.PICTURE,
+			saveToPhotoAlbum: false
+		};
+		return await this.camera.getPicture(options);
 	}
 
 	createUploadTask(file: string): void {
-
+		//get UserID
+		const customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
+		//get SupplierID
+		const supplierId = this.paramId.supId;
+		const dateTime = new Date();
 		const filePath = `images_${ new Date().getTime() }.jpg`;
-
-		this.imageSto = 'data:image/jpg;base64,' + file;
-		this.task = this.storage.ref(filePath).putString(this.imageSto, 'data_url');
-
+		const image = 'data:image/jpeg;base64,' + file;
+		const fileRef = this.storage.ref(filePath);
+		this.task = fileRef.putString(image, 'data_url');
 		this.progressSto = this.task.percentageChanges();
+
+		//Hide progress bar
+		this.task.snapshotChanges().subscribe(
+			(res) => {
+				if (res.bytesTransferred == res.totalBytes) {
+					this.flagDoneImage = true;
+				}
+			}
+		);
+
+		//Get Download URL
+		this.task.snapshotChanges().pipe(
+			finalize(() => {
+					fileRef.getDownloadURL().subscribe((url) => {
+						//Set download url into firestore
+						this.database.collection(this.chat_path).doc(supplierId + '-' + customerId).set({
+							'supId': supplierId,
+							'cusId': customerId,
+							'lastTime': dateTime,
+							'isCustomer': true,
+							'supName': this.paramId.supName,
+							'supAvatar': this.paramId.supAvatar,
+							'seenBySup': false,
+							'seenByCus': true,
+						});
+						this.database.collection(this.chat_path).doc(supplierId + '-' + customerId).collection(this.chat_path1).add({
+							'message': url,
+							'isCustomer': true,
+							'time': dateTime,
+							'isImage': true
+						});
+					});
+				}
+			)
+		).subscribe();
 	}
 
-	async uploadHandler() {
+	async uploadCameraHandler() {
 		const base64 = await this.captureImage();
+		this.createUploadTask(base64);
+	}
+
+	async uploadLibraryHandler() {
+		const base64 = await this.chooseImage();
 		this.createUploadTask(base64);
 	}
 
