@@ -34,8 +34,8 @@ export interface Item {
 })
 export class ChatDetailPage {
 	paramId: any;
-	private chat_path: 'chat';
-	private chat_path1: 'chat1';
+	private chat_path = 'chat';
+	private chat_path1 = 'chat1';
 	postsCol: AngularFirestoreCollection<Post>;
 	posts: any;
 	posts1: any;
@@ -60,7 +60,7 @@ export class ChatDetailPage {
 			//get SupplierID
 			let supplierId = this.paramId.supId;
 			let dateTime = new Date();
-			this.database.collection('chat').doc(supplierId + '-' + customerId).set({
+			this.database.collection(this.chat_path).doc(supplierId + '-' + customerId).set({
 				'supId': supplierId,
 				'cusId': customerId,
 				'lastTime': dateTime,
@@ -70,7 +70,7 @@ export class ChatDetailPage {
 				'seenBySup': false,
 				'seenByCus': true,
 			});
-			this.database.collection('chat').doc(supplierId + '-' + customerId).collection('chat1').add({
+			this.database.collection(this.chat_path).doc(supplierId + '-' + customerId).collection(this.chat_path1).add({
 				'message': this.message,
 				'isCustomer': true,
 				'time': dateTime
@@ -86,8 +86,7 @@ export class ChatDetailPage {
 		let customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
 		//get SupplierID
 		let supplierId = this.paramId.supId;
-		let dateTime = new Date();
-		this.database.collection('chat').doc(supplierId + '-' + customerId).update({
+		this.database.collection(this.chat_path).doc(supplierId + '-' + customerId).update({
 			'seenByCus': true,
 		});
 	}
@@ -99,7 +98,7 @@ export class ChatDetailPage {
 		let supplierId = this.paramId.supId;
 		//load from firestore
 
-		this.postsCol = this.database.collection('chat').doc(supplierId + '-' + customerId).collection('chat1', ref =>
+		this.postsCol = this.database.collection(this.chat_path).doc(supplierId + '-' + customerId).collection(this.chat_path1, ref =>
 			ref.orderBy('time', 'asc'));
 		this.posts = this.postsCol.valueChanges();
 		this.posts1 = this.postsCol.valueChanges().subscribe(

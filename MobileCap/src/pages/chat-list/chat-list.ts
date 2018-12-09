@@ -23,6 +23,7 @@ interface Post {
 export class ChatListPage implements OnInit{
 	public supplierId: number;
 	public supplier: any;
+	private chat_path = 'chat';
 	posts: any;
 	posts1: any;
 	postsCol: AngularFirestoreCollection<Post>;
@@ -38,7 +39,7 @@ export class ChatListPage implements OnInit{
 			(tokenChanged) => {
 				if (localStorage.getItem('token')) {
 					const customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
-					this.postsCol = this.database.collection('chat', ref => ref.where('cusId', '==', customerId));
+					this.postsCol = this.database.collection(this.chat_path, ref => ref.where('cusId', '==', customerId).orderBy('lastTime', 'desc'));
 					this.posts = this.postsCol.snapshotChanges()
 						.map(actions => {
 							return actions.map(a => {
@@ -57,23 +58,6 @@ export class ChatListPage implements OnInit{
 				}
 			}
 		);
-		// let customerId = parseInt(JSON.parse(localStorage.getItem('token')).CustomerId);
-		// this.postsCol = this.database.collection('chat', ref => ref.where('cusId', '==', customerId));
-		// this.posts = this.postsCol.snapshotChanges()
-		// 	.map(actions => {
-		// 		return actions.map(a => {
-		// 			const data = a.payload.doc.data();
-		// 			const id = a.payload.doc.id;
-		// 			this.flagExist = true;
-		// 			this.loadingPro.dismissLoading();
-		// 			return {data, id};
-		// 		});
-		// 	});
-		// this.posts1 = this.postsCol.valueChanges().subscribe(
-		// 	(res) => {
-		// 		this.loadingPro.dismissLoading();
-		// 	}
-		// )
 	}
 
 	openChatDetail(param) {
