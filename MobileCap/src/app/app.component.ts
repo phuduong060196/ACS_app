@@ -59,6 +59,7 @@ export class foodIonicApp {
 	//for chat notification
 	postsColChat: AngularFirestoreCollection<Post>;
 	postsChat: any;
+	numberNotificationChat: any;
 
 	constructor(private filterSupport: FilterSupportProvider, private alertCtrl: AlertController, private network: Network, private app: App, public loadingHelperPro: LoadingHelperProvider, public localHelperPro: LocalHelperProvider, public customerServicePro: CustomerServiceProvider, public numberNotificationHelperPro: NumberNotificationHelperProvider, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private fcmPro: FcmProvider, private toastCtrl: ToastController, private notificationHelperPro: NotificationHelperProvider, private accessToken: AccessTokenHelperProvider, public database: AngularFirestore) {
 
@@ -67,6 +68,11 @@ export class foodIonicApp {
 		this.notificationHelperPro.GetTestNotification.subscribe((val) => {
 			this.notifications = val;
 		});
+		this.numberNotificationHelperPro.GetTestNotification.subscribe(
+			(val) => {
+				this.numberNotificationChat = val;
+			}
+		);
 
 		this.accountMenuItems = [
 			{ title: 'Đăng nhập', component: 'page-auth', icon: 'log-in' },
@@ -237,5 +243,9 @@ export class foodIonicApp {
 		if (this.notifications) {
 			return this.notifications.filter(el => el.SeenByCustomer === false).length;
 		}
+	}
+
+	setNumberNotificationChat(){
+		return this.numberNotificationChat.length;
 	}
 }

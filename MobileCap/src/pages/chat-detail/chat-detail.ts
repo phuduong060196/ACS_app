@@ -146,7 +146,7 @@ export class ChatDetailPage {
 
 	async captureImage() {
 		const options: CameraOptions = {
-			quality: 100,
+			quality: 70,
 			destinationType: this.camera.DestinationType.DATA_URL,
 			encodingType: this.camera.EncodingType.JPEG,
 			sourceType: this.camera.PictureSourceType.CAMERA,
@@ -218,11 +218,13 @@ export class ChatDetailPage {
 	async uploadCameraHandler() {
 		const base64 = await this.captureImage();
 		this.createUploadTask(base64);
+		this.scrollToBottom();
 	}
 
 	async uploadLibraryHandler() {
 		const base64 = await this.chooseImage();
 		this.createUploadTask(base64);
+		this.scrollToBottom();
 	}
 
 }
