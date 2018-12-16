@@ -74,7 +74,6 @@ export class ChangeLocationPage {
     }
 
     confirmAction() {
-        console.log(this.latC + ' ' + this.lngC + ' ' + this.yourLocationC);
         if (this.latC && this.lngC && this.yourLocationC) {
             this.localPro.SetLocation = {
                 lat: this.latC,

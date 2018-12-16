@@ -15,6 +15,7 @@ import { SupplierServiceProvider } from '../../providers/supplier-service/suppli
 import { NotificationHelperProvider } from '../../providers/notification-helper/notification-helper';
 import { NumberNotificationHelperProvider } from '../../providers/number-notification-helper/number-notification-helper';
 import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
+import { GetUrlProvider } from '../../providers/get-url/get-url';
 
 @IonicPage({
 	name: 'page-home',
@@ -40,12 +41,13 @@ export class HomePage {
 	numberNotificationChat: any;
 
 	constructor(
+		public getUrlPro: GetUrlProvider,
 		public loadingHelperPro: LoadingHelperProvider, public navParams: NavParams,
 		public navCtrl: NavController, public menuCtrl: MenuController, public popoverCtrl: PopoverController,
 		public locationCtrl: AlertController, public modalCtrl: ModalController, public toastCtrl: ToastController,
 		public httpHelperPro: HttpHelperProvider, public supplierServicePro: SupplierServiceProvider,
 		private notificationHelperPro: NotificationHelperProvider, public numberNotificationHelperPro: NumberNotificationHelperProvider) {
-		
+
 		this.notificationHelperPro.GetTestNotification.subscribe((val) => {
 			this.notifications = val;
 		});
@@ -63,7 +65,7 @@ export class HomePage {
 		return this.notifications.filter(el => el.SeenByCustomer === false).length;
 	}
 
-	setNumberNotificationChat(){
+	setNumberNotificationChat() {
 		return this.numberNotificationChat.length;
 	}
 
@@ -116,7 +118,6 @@ export class HomePage {
 	}
 
 	presentNotificationsChat(myEvent) {
-		// console.log(myEvent);
 		let popover = this.popoverCtrl.create('page-notification-chat');
 		popover.present({
 			ev: myEvent
@@ -133,10 +134,9 @@ export class HomePage {
 			(res: any) => {
 				res.forEach(element => {
 					let oldUrl = element.Avatar;
-					element.Avatar = 'http://web-capstone.azurewebsites.net' + oldUrl;
+					element.Avatar = this.getUrlPro.getUrl + oldUrl;
 				});
 				this.listType = res;
-				// console.log(this.listType);
 				this.loadingHelperPro.dismissLoading();
 			},
 			(err) => {
@@ -147,7 +147,6 @@ export class HomePage {
 	}
 
 	openListType(type) {
-		// console.log(type);
 		this.navCtrl.push('page-service-list', {
 			'type': type
 		});

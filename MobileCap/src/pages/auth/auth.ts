@@ -84,7 +84,6 @@ export class AuthPage implements OnInit {
         this.navCtrl.setRoot('page-home');
       },
       (err) => {
-        // console.log(err.);
         this.loadingHelperPro.dismissLoading();
         this.authMessage(err.error.error_description);
       }

@@ -57,6 +57,8 @@ export class BookingServiceDetailPage implements OnInit {
 
 	ngOnInit() {
 
+		console.log(new Date().toISOString());
+
 		this.closeModalPro.SetIsCloseModal = false;
 		this.isCloseModal = false;
 

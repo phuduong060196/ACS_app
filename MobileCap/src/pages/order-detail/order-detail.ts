@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
 	AlertController,
 	IonicPage,
@@ -9,10 +9,11 @@ import {
 	ToastController
 } from 'ionic-angular';
 
-import {LoadingHelperProvider} from '../../providers/loading-helper/loading-helper';
-import {HttpHelperProvider} from '../../providers/http-helper/http-helper';
-import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/firestore";
+import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
+import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
+import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/firestore";
 import 'rxjs/add/operator/map';
+import { GetUrlProvider } from '../../providers/get-url/get-url';
 
 interface Post {
 	CurrentStatus: any;
@@ -38,7 +39,7 @@ export class OrderDetailPage implements OnInit {
 	supplierInfo: any;
 	supplier: any;
 
-	constructor(private httpHelperPro: HttpHelperProvider, private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public alertCtrl: AlertController, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public database: AngularFirestore) {
+	constructor(public getUrlPro: GetUrlProvider, private httpHelperPro: HttpHelperProvider, private loadingHelperPro: LoadingHelperProvider, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public alertCtrl: AlertController, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public database: AngularFirestore) {
 		this.message = this.navParams.get('message');
 	}
 
@@ -53,8 +54,8 @@ export class OrderDetailPage implements OnInit {
 			this.httpHelperPro.get('/api/order/order-detail?orderId=' + this.message.OrderId).subscribe(
 				(res: any) => {
 					this.order = res.order;
+					console.log(this.order);
 					this.services = this.order.OrderDetails;
-					console.log(this.services);
 					this.customerInfo = res.customerInfo;
 					this.supplierInfo = this.order.SupplierInfo;
 					this.loadSupplier();
@@ -75,7 +76,7 @@ export class OrderDetailPage implements OnInit {
 				.subscribe((res: any) => {
 					let oldUrl = res.data.Avatar;
 					if (res.data.Avatar) {
-						res.data.Avatar = 'http://web-capstone.azurewebsites.net' + oldUrl;
+						res.data.Avatar = this.getUrlPro.getUrl + oldUrl;
 					}
 					this.supplier = res.data;
 					this.loadingHelperPro.dismissLoading();
@@ -187,13 +188,13 @@ export class OrderDetailPage implements OnInit {
 	}
 
 	openCheckoutPage(param) {
-		this.navCtrl.push('page-checkout', {'order': param});
+		this.navCtrl.push('page-checkout', { 'order': param });
 	}
 
 	openSupplierDetail() {
 		if (this.supplier) {
 			this.navCtrl.push('page-supplier-detail',
-				{'supplier': this.supplier});
+				{ 'supplier': this.supplier });
 		}
 	}
 

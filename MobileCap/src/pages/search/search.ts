@@ -11,6 +11,7 @@ import { HttpClient } from "@angular/common/http";
 import { LocalHelperProvider } from "../../providers/local-helper/local-helper";
 import { LoadingHelperProvider } from '../../providers/loading-helper/loading-helper';
 import { FilterSupportProvider } from '../../providers/filter-support/filter-support';
+import { GetUrlProvider } from '../../providers/get-url/get-url';
 
 @IonicPage({
 	name: 'page-search',
@@ -30,7 +31,7 @@ export class SearchPage {
 	filterValue: any;
 	@ViewChild('searchBar') searchView: any;
 
-	constructor(private filterSupport: FilterSupportProvider, public navCtrl: NavController, public menuCtrl: MenuController, public modalCtrl: ModalController, public toastCtrl: ToastController, public httpHelperPro: HttpHelperProvider,
+	constructor(public getUrlPro: GetUrlProvider, private filterSupport: FilterSupportProvider, public navCtrl: NavController, public menuCtrl: MenuController, public modalCtrl: ModalController, public toastCtrl: ToastController, public httpHelperPro: HttpHelperProvider,
 		private platform: Platform, private geolocation: Geolocation, private http: HttpClient,
 		private localPro: LocalHelperProvider, private loadingHelperPro: LoadingHelperProvider) {
 		this.localPro.GetLocation.subscribe(val => {
@@ -90,7 +91,7 @@ export class SearchPage {
 				res.forEach(element => {
 					let oldUrl = element.Avatar;
 					if (element.Avatar) {
-						element.Avatar = 'http://web-capstone.azurewebsites.net' + oldUrl;
+						element.Avatar = this.getUrlPro.getUrl + oldUrl;
 					}
 				});
 				this.suppliersNearby = res;
