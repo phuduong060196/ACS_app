@@ -16,7 +16,9 @@
 				<ion-grid no-padding fixed>
 					<ion-row no-padding>
 						<ion-col>
-							<img src="http://web-capstone.azurewebsites.net/avatar/customer/default.png">
+							<ng-container *ngIf="urlAvatar" >
+								<img [src]="urlAvatar">
+							</ng-container>
 							<h2 class="fw500">
 								{{userName}}
 							</h2>

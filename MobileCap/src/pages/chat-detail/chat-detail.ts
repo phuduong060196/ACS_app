@@ -1,13 +1,13 @@
-import {Component, ViewChild} from '@angular/core';
-import {Content, IonicPage, NavController, NavParams} from 'ionic-angular';
-import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
-import {tap, finalize} from "rxjs/operators";
+import { Component, ViewChild } from '@angular/core';
+import { Content, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { tap, finalize } from "rxjs/operators";
 import 'rxjs/add/operator/map';
-import {HttpClient} from "@angular/common/http";
-import {GetUrlProvider} from "../../providers/get-url/get-url";
-import {AngularFireStorage, AngularFireUploadTask} from 'angularfire2/storage';
-import {Camera, CameraOptions} from '@ionic-native/camera';
-import {Observable} from 'rxjs/Observable';
+import { HttpClient } from "@angular/common/http";
+import { GetUrlProvider } from "../../providers/get-url/get-url";
+import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
+import { Camera, CameraOptions } from '@ionic-native/camera';
+import { Observable } from 'rxjs/Observable';
 
 /**
  * Generated class for the ChatDetailPage page.
@@ -122,7 +122,7 @@ export class ChatDetailPage {
 			.subscribe((res: any) => {
 				let oldUrl = res.data.Avatar;
 				if (res.data.Avatar) {
-					res.data.Avatar = 'http://web-capstone.azurewebsites.net' + oldUrl;
+					res.data.Avatar = this.getUrlPro.getUrl + oldUrl;
 				}
 				this.supplier = res.data;
 			}, (err) => {
@@ -132,7 +132,7 @@ export class ChatDetailPage {
 
 	openSupplierDetail() {
 		this.navCtrl.push('page-supplier-detail',
-			{'supplier': this.supplier});
+			{ 'supplier': this.supplier });
 	}
 
 	ionViewDidLoad() {
@@ -173,7 +173,7 @@ export class ChatDetailPage {
 		//get SupplierID
 		const supplierId = this.paramId.supId;
 		const dateTime = new Date();
-		const filePath = `images_${ new Date().getTime() }.jpg`;
+		const filePath = `images_${new Date().getTime()}.jpg`;
 		const image = 'data:image/jpeg;base64,' + file;
 		const fileRef = this.storage.ref(filePath);
 		this.task = fileRef.putString(image, 'data_url');
@@ -191,26 +191,26 @@ export class ChatDetailPage {
 		//Get Download URL
 		this.task.snapshotChanges().pipe(
 			finalize(() => {
-					fileRef.getDownloadURL().subscribe((url) => {
-						//Set download url into firestore
-						this.database.collection(this.chat_path).doc(supplierId + '-' + customerId).set({
-							'supId': supplierId,
-							'cusId': customerId,
-							'lastTime': dateTime,
-							'isCustomer': true,
-							'supName': this.paramId.supName,
-							'supAvatar': this.paramId.supAvatar,
-							'seenBySup': false,
-							'seenByCus': true,
-						});
-						this.database.collection(this.chat_path).doc(supplierId + '-' + customerId).collection(this.chat_path1).add({
-							'message': url,
-							'isCustomer': true,
-							'time': dateTime,
-							'isImage': true
-						});
+				fileRef.getDownloadURL().subscribe((url) => {
+					//Set download url into firestore
+					this.database.collection(this.chat_path).doc(supplierId + '-' + customerId).set({
+						'supId': supplierId,
+						'cusId': customerId,
+						'lastTime': dateTime,
+						'isCustomer': true,
+						'supName': this.paramId.supName,
+						'supAvatar': this.paramId.supAvatar,
+						'seenBySup': false,
+						'seenByCus': true,
 					});
-				}
+					this.database.collection(this.chat_path).doc(supplierId + '-' + customerId).collection(this.chat_path1).add({
+						'message': url,
+						'isCustomer': true,
+						'time': dateTime,
+						'isImage': true
+					});
+				});
+			}
 			)
 		).subscribe();
 	}

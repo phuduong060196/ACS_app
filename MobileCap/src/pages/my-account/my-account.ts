@@ -6,6 +6,7 @@ import { HttpHelperProvider } from '../../providers/http-helper/http-helper';
 import { AccessTokenHelperProvider } from '../../providers/access-token-helper/access-token-helper';
 import { User } from '../../modal/user';
 import { ValidationService } from '../../providers/validation.service';
+import { GetUrlProvider } from '../../providers/get-url/get-url';
 
 @IonicPage({
   name: 'page-my-account',
@@ -21,12 +22,16 @@ export class MyAccountPage implements OnInit {
   onUpdateForm: FormGroup;
   userInfor: any;
   userName: any;
+  urlAvatar: any;
 
-  constructor(private accessToken: AccessTokenHelperProvider, public navCtrl: NavController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, private fb: FormBuilder, private loadingHelperPro: LoadingHelperProvider, private httpHelperPro: HttpHelperProvider, private alertCtrl: AlertController) {
+  constructor(public getUrlPro: GetUrlProvider, private accessToken: AccessTokenHelperProvider, public navCtrl: NavController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, private fb: FormBuilder, private loadingHelperPro: LoadingHelperProvider, private httpHelperPro: HttpHelperProvider, private alertCtrl: AlertController) {
 
   }
 
   ngOnInit() {
+    if (this.getUrlPro.getUrl) {
+      this.urlAvatar = this.getUrlPro.getUrl + '/avatar/customer/default.png';
+    }
     this.loadingHelperPro.presentLoading('');
     this.accessToken.GetAccessToken.subscribe(
       (res: any) => {

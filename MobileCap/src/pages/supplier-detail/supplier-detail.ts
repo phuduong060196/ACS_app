@@ -59,7 +59,7 @@ export class SupplierDetailPage implements OnInit {
 			(res: any) => {
 				if (res.data.Avatar) {
 					let oldUrl = res.data.Avatar;
-					res.data.Avatar = 'http://web-capstone.azurewebsites.net' + oldUrl;
+					res.data.Avatar = this.getUrlPro.getUrl + oldUrl;
 				}
 				this.supplier = res.data;
 				this.loadingHelperPro.dismissLoading();

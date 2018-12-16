@@ -56,32 +56,37 @@
 			</agm-map>
 		</div>
 
-		<ion-list ion-row padding-horizontal>
-			<button ion-item ion-col *ngFor="let supplier of suppliersNearby" col-12 col-md-6 (click)="openSupplierDetail(supplier)">
-				<ion-thumbnail item-start>
-					<ng-container *ngIf="supplier.Avatar">
-						<img [src]="supplier.Avatar">
+		<ng-container *ngIf="suppliersNearby">
+			<div style="margin-top: 5px">
+				Kết quả tìm kiếm: {{suppliersNearby.length}}
+			</div>
+		</ng-container>
+
+		<ng-container *ngIf="suppliersNearby">
+			<ion-list ion-row padding-horizontal>
+				<button ion-item ion-col *ngFor="let supplier of suppliersNearby" col-12 col-md-6 (click)="openSupplierDetail(supplier)">
+					<ion-thumbnail item-start>
+						<ng-container *ngIf="supplier.Avatar">
+							<img [src]="supplier.Avatar">
+						</ng-container>
+						<ng-container *ngIf="!supplier.Avatar">
+							<img src="https://dienlanhhoanggia.com/getattachment/d5ec3649-e3f1-4c91-8c5f-e57cf512210f//trang-chu/logo/dien-may-viet-long.aspx?width=&height=">
+						</ng-container>
+					</ion-thumbnail>
+					<h3 ion-text color="dark" class="fw500">{{supplier.Name}}</h3>
+					<ng-container *ngIf="supplier.Rating || supplier.Rating !== 0">
+						<h3>
+							<ion-badge color="secondary" class="text-1x">
+								<ion-icon name="star"></ion-icon>
+								{{ supplier.Rating }}
+							</ion-badge>
+						</h3>
 					</ng-container>
-					<ng-container *ngIf="!supplier.Avatar">
-						<img src="https://dienlanhhoanggia.com/getattachment/d5ec3649-e3f1-4c91-8c5f-e57cf512210f//trang-chu/logo/dien-may-viet-long.aspx?width=&height=">
-					</ng-container>
-				</ion-thumbnail>
-				<h3 ion-text color="dark" class="fw500">{{supplier.Name}}</h3>
-				<ng-container *ngIf="supplier.Rating || supplier.Rating !== 0">
 					<h3>
-						<ion-badge color="secondary" class="text-1x">
-							<ion-icon name="star"></ion-icon>
-							{{ supplier.Rating }}
-						</ion-badge>
+						<ion-icon name="pin"></ion-icon> {{supplier.Distance}} km
 					</h3>
-				</ng-container>
-				<h3>
-					<ion-icon name="pin"></ion-icon> {{supplier.Distance}} km
-				</h3>
-				<!-- <h3>
-					<ion-icon name="pricetag"></ion-icon> {{supplier.Services[0].PriceDisplay}}
-				</h3> -->
-			</button>
-		</ion-list>
+				</button>
+			</ion-list>
+		</ng-container>
 	</ion-grid>
 </ion-content>
