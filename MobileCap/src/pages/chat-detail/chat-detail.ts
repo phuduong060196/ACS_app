@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {Content, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
-import {tap, finalize} from "rxjs/operators";
+import {finalize} from "rxjs/operators";
 import 'rxjs/add/operator/map';
 import {HttpClient} from "@angular/common/http";
 import {GetUrlProvider} from "../../providers/get-url/get-url";
@@ -104,6 +104,9 @@ export class ChatDetailPage {
 		this.postsCol = this.database.collection(this.chat_path).doc(supplierId + '-' + customerId).collection(this.chat_path1, ref =>
 			ref.orderBy('time', 'asc'));
 		this.posts = this.postsCol.valueChanges();
+		// if (this.postsCol.snapshotChanges()){
+		// 	this.scrollToBottom();
+		// }
 		this.posts1 = this.postsCol.valueChanges().subscribe(
 			(res) => {
 				this.scrollToBottom();

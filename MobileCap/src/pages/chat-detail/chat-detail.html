@@ -40,6 +40,7 @@
 						</ng-container>
 						<ng-container *ngIf="post.isImage">
 							<img src="{{post.message}}">
+							<p style="display: none">{{post.message}}</p>
 						</ng-container>
 					</ion-col>
 				</ion-grid>
@@ -49,11 +50,11 @@
 </ion-content>
 
 <ion-footer no-border style="padding: 0px !important;">
-	<!--Progress bar-->
-	<ng-container *ngIf="flagDoneImage !== true">
-		<progress *ngIf="progressSto | async as percentSto" class="progress is-info" [value]="percentSto" max="100"></progress>
-	</ng-container>
 	<ion-toolbar>
+		<!--Progress bar-->
+		<ng-container *ngIf="flagDoneImage !== true">
+			<progress *ngIf="progressSto | async as percentSto" class="progress is-info" [value]="percentSto" max="100"></progress>
+		</ng-container>
 		<!--Gui hinh anh-->
 		<ion-buttons left>
 			<button style="color: #aaaaaa" (tap)="uploadCameraHandler()" ion-button icon-only>
