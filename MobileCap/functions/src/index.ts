@@ -50,7 +50,7 @@ exports.getChangedChat = functions.firestore.document('chat/{chatId}').onUpdate(
 	let messageBodyChat = '';
 
 	if (seenByCus === false) {
-		messageBodyChat = 'Đã gửi tin nhắn cho bạn';
+		messageBodyChat = 'Bạn có tin nhắn mới';
 		const payloadChat = {
 			notification: {
 				title: supplierName,
