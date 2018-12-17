@@ -35,7 +35,7 @@
 										</ion-item>
 										<ion-item>
 											<ion-label color="dark" stacked>*Số điện thoại:</ion-label>
-											<ion-input type="text" [(ngModel)]="customer.PhoneNumber" name='PhoneNumber'></ion-input>
+											<ion-input type="number" [(ngModel)]="customer.PhoneNumber" name='PhoneNumber' pattern="[0-9]"></ion-input>
 										</ion-item>
 										<ion-item>
 											<ion-label color="dark" stacked>*Địa chỉ:</ion-label>
@@ -48,7 +48,7 @@
 										<ion-item>
 											<ion-label color="dark" stacked>*Thời gian đến sửa:</ion-label>
 											<ion-datetime displayFormat="HH:mm" [(ngModel)]="TimeWork" name='TimeWork' hourValues="8,9,10,11,12,13,14,15,16,17,18"
-											 minuteValues="0,15,30,45" [min]="MinDayWork"></ion-datetime>
+											 minuteValues="0,15,30,45"></ion-datetime>
 										</ion-item>
 										<ion-item>
 											<ion-label color="dark" stacked>Ghi chú:</ion-label>

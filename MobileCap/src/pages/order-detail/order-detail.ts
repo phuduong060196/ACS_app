@@ -54,7 +54,7 @@ export class OrderDetailPage implements OnInit {
 			this.httpHelperPro.get('/api/order/order-detail?orderId=' + this.message.OrderId).subscribe(
 				(res: any) => {
 					this.order = res.order;
-					console.log(this.order);
+					console.log(res);
 					this.services = this.order.OrderDetails;
 					this.customerInfo = res.customerInfo;
 					this.supplierInfo = this.order.SupplierInfo;
@@ -116,7 +116,7 @@ export class OrderDetailPage implements OnInit {
 					text: 'Đồng ý',
 					handler: data => {
 						if (data.reason != null && data.reason != '') {
-							this.loadingHelperPro.presentLoading('Đang tải...');
+							this.loadingHelperPro.presentLoading('Đang huỷ...');
 							//Khoi tao object dua vao API
 							let objCancel = {
 								'OrderId': this.message.OrderId,

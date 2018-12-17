@@ -52,7 +52,7 @@ export class BookingServiceDetailPage implements OnInit {
 					this.closeModal();
 				}
 			}
-		);c
+		);
 	}
 
 	ngOnInit() {
