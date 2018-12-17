@@ -90,6 +90,9 @@ export class BookingServiceDetailPage implements OnInit {
 					});
 					return element1;
 				});
+				console.log("Day la service: ");
+				console.log(this.services);
+				console.log("-------------------------");
 				this.loadingHelperPro.dismissLoading();
 			},
 			(err) => {

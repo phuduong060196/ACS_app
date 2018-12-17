@@ -80,7 +80,19 @@
 											<ion-list *ngFor="let el of service.Services">
 
 												<ion-item>
-													<ion-label> {{el.Name}} </ion-label>
+													<ion-label>
+														<b>
+															{{el.Name}}
+														</b>
+														<div>
+															<ng-container *ngIf="el.Price > 0">
+																Giá: {{ el.PriceDisplay }}
+															</ng-container>
+															<ng-container *ngIf="el.Price === 0">
+																Giá: Liên hệ
+															</ng-container>
+														</div>
+													</ion-label>
 													<ion-checkbox name="services" [(ngModel)]="el.checked"></ion-checkbox>
 												</ion-item>
 												<ng-container *ngIf="el.checked">
